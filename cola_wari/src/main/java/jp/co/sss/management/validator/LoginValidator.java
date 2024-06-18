@@ -1,18 +1,16 @@
 package jp.co.sss.management.validator;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
-
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import jp.co.sss.management.annotation.LoginCheck;
 import jp.co.sss.management.bean.UserBean;
 import jp.co.sss.management.entity.User;
 import jp.co.sss.management.repository.UserRepository;
-import jp.co.sss.management.util.Constant;
 
 /**
  * ログインチェックの独自検証クラス
@@ -42,7 +40,7 @@ public class LoginValidator implements ConstraintValidator<LoginCheck, Object> {
 		String emailProp = (String) beanWrapper.getPropertyValue(this.email);
 		String passwordProp = (String) beanWrapper.getPropertyValue(this.password);
 
-		User user = userRepository.findByEmailAndStatus(emailProp, Constant.NOT_DELETED);
+		User user = userRepository.findByEmailAndStatus(emailProp, 0);
 
 		if (user != null && passwordProp.equals(user.getPassword())) {
 			UserBean userBean = new UserBean();
