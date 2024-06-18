@@ -1,10 +1,9 @@
 package jp.co.sss.management.bean;
 
-import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -20,7 +19,7 @@ public class UserBean {
 	/**
 	 * ユーザーID
 	 */
-	private String userId;
+	private Integer userId;
 	
 	/**
 	 * ユーザー名
