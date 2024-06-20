@@ -48,8 +48,8 @@
                 <span>スケジュール管理</span></a>
         </li>
         
-        <!-- Nav Item - admin(管理者権限があるときのみ表示)-->
-        <li class="nav-item" th:if="${session.auth eq 1}">
+        <!-- Nav Item - admin(管理者権限があるときのみ表示) -->
+        <li class="nav-item" th:if="${session.user.auth eq 1}">
             <a class="nav-link" th:href="@{/admin}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>管理者機能</span></a>
