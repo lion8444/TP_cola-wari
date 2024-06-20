@@ -24,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "com_categories")
-public class ComCagetory {
+public class ComCategory {
 
 	/**
 	 * カテゴリID
