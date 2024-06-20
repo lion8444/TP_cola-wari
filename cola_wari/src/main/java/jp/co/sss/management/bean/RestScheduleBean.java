@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ScheduleBean {
+public class RestScheduleBean {
 
 	/**
 	 * ミーティングID
@@ -32,29 +32,16 @@ public class ScheduleBean {
 	private String description;
 
 	/**
-	 * ミーティング状態
-	 * 0：予定、1：完了
-	 */
-	private int status;
-
-	/**
-	 * ミーティング場所
-	 */
-	private String addr;
-
-	/**
 	 * スケジュール開始日付(YYYY/MM/DD HH:mm)
 	 */
-	private Date startDate;
+	private Date start;
 
 	/**
 	 * スケジュール終了日付(YYYY/MM/DD HH:mm)
 	 */
-	private Date endDate;
+	private Date end;
 
-	/**
-	 * ミーティングの案件
-	 */
-	private AgendaBean agendaBean;
+	private String className;
+
 
 }

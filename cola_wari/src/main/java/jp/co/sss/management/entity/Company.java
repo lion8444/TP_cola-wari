@@ -78,7 +78,7 @@ public class Company {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "cate_id", referencedColumnName = "cateId")
-	private ComCagetory comCagetory;
+	private ComCategory comCagetory;
 
 	/**
 	 * 企業の案件の担当社リスト

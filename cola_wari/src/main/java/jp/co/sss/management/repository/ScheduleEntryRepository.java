@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import jp.co.sss.management.entity.Schedule;
 import jp.co.sss.management.entity.ScheduleEntry;
+import jp.co.sss.management.entity.User;
 
 
 /**
@@ -15,6 +16,7 @@ import jp.co.sss.management.entity.ScheduleEntry;
  * @author System Shared
  */
 @Repository
-public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
+public interface ScheduleEntryRepository extends JpaRepository<ScheduleEntry, Integer> {
 
+    List<User> findBySchedule_ScheduleId(Integer scheduleId);
 }
