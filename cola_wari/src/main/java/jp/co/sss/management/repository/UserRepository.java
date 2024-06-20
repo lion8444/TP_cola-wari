@@ -1,5 +1,7 @@
 package jp.co.sss.management.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +31,25 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	 */
 	User findByUserIdAndStatus(Integer userId, int status);
 
-    User findByEmail(String email);
+	/**
+	 * 削除フラグを条件に検索
+	 * @param status
+	 * @return 会員エンティティ
+	 */
+	List<User> findByStatus(int status);
+
+	/**
+	 * 
+	 * @param email
+	 * @return 会員エンティティ
+	 */
+	User findByEmail(String email);
+
+	/**
+	 * ユーザIDを条件に検索
+	 * @param userId
+	 * @return 会員エンティティ
+	 */
+	User findByUserId(Integer userId);
 
 }
