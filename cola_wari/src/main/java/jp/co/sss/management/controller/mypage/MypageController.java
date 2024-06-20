@@ -48,7 +48,7 @@ public class MypageController {
 	/**
 	 * パスワード変更画面表示
 	 */
-	@RequestMapping(path = "mypage/password/update", method = RequestMethod.GET)
+	@RequestMapping(path = "/mypage/password/update", method = RequestMethod.GET)
 	public String showUpdatePassword(Model model) {
 		//ログインされていない場合ログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
@@ -64,7 +64,7 @@ public class MypageController {
 	 * パスワード変更（データベース更新）
 	 * @return
 	 */
-	@RequestMapping(path = "mypage/password/update/complete_r", method = RequestMethod.POST)
+	@RequestMapping(path = "/mypage/password/update/complete_r", method = RequestMethod.POST)
 	public String updatePassword(@Valid @ModelAttribute PasswordForm passwordForm, BindingResult result) {
 		// 入力値にエラーがあった場合、入力画面に戻る
 		if (result.hasErrors()) {
@@ -109,7 +109,7 @@ public class MypageController {
 	/**
 	 * パスワード変更完了画面表示(リダイレクト後)
 	 */
-	@RequestMapping(path = "mypage/employee/update/complete", method = RequestMethod.GET)
+	@RequestMapping(path = "/mypage/employee/update/complete", method = RequestMethod.GET)
 	public String showCompletePassword() {
 		return "mypage/user/update_complete";
 	}

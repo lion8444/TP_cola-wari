@@ -20,7 +20,7 @@ public class UserBean {
 	/**
 	 * ユーザーID
 	 */
-	private String userId;
+	private int userId;
 	
 	/**
 	 * ユーザー名
