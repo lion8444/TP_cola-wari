@@ -43,26 +43,17 @@ public class LoginValidator implements ConstraintValidator<LoginCheck, Object> {
 		User user = userRepository.findByEmailAndStatus(emailProp, 0);
 
 		if (user != null && passwordProp.equals(user.getPassword())) {
-			//アカウントが消されているか否か
-			if (user.getStatus() == 0) {
-				UserBean userBean = new UserBean();
+			UserBean userBean = new UserBean();
 
-				userBean.setUserId(user.getUserId());
-				userBean.setUserName(user.getUserName());
-				userBean.setPassword(user.getPassword());
-				userBean.setTeam(user.getTeam());
-				userBean.setTel(user.getTel());
-				userBean.setEmail(user.getEmail());
-				userBean.setAuth(user.getAuth());
+			userBean.setEmail(user.getEmail());
+			userBean.setUserName(user.getUserName());
+			userBean.setAuth(user.getAuth());
+			userBean.setUserId(user.getUserId());
 
-				// セッションスコープにログインしたユーザの情報を登録
-				session.setAttribute("user", userBean);
-				isValidFlg = true;
-			} else {
-				//アカウントが消されている場合ユーザ認証に失敗
-				isValidFlg = false;
-			}
 
+			// セッションスコープにログインしたユーザの情報を登録
+			session.setAttribute("user", userBean);
+			isValidFlg = true;
 		} else {
 			//ユーザ認証に失敗
 			isValidFlg = false;

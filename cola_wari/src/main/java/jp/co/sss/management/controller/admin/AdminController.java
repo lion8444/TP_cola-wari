@@ -1,12 +1,20 @@
 package jp.co.sss.management.controller.admin;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import jakarta.servlet.http.HttpSession;
+import jp.co.sss.management.bean.UserBean;
+import jp.co.sss.management.entity.User;
+import jp.co.sss.management.repository.UserRepository;
 
 @Controller
 public class AdminController {
-<<<<<<< main
-    
-=======
 
 	/**
 	 * セッション情報
@@ -33,16 +41,12 @@ public class AdminController {
 			return "redirect:/";
 		}
 
-		//セッション情報の削除
-		session.removeAttribute("userForm");
-
 		//全てのユーザ情報をDBから取得
-		List<User> userList = userRepository.findByStatusOrderByUserIdAsc(0);
+		List<User> userList = userRepository.findAll();
 		//userをスコープに保存
 		model.addAttribute("userAll", userList);
 
 		return "mypage/menu_admin";
 	}
 
->>>>>>> local
 }

@@ -1,18 +1,14 @@
 package jp.co.sss.management.controller.admin;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-<<<<<<< main
-
-@Controller
-public class AdminUserResistController {
-    
-=======
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -39,39 +35,21 @@ public class AdminUserResistController {
 	 * 登録画面表示コントローラ
 	 */
 	@RequestMapping(path = "/mypage/employee/input", method = { RequestMethod.GET, RequestMethod.POST })
-	public String showUserResist(Model model) {
+	public String showUserResist(@RequestParam(value = "selectedUser", required = false) String selectedUserId) {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
-		if (userBean == null || userBean.getAuth() != 1) {
+		if (userBean == null || userBean.getAuth() == 0) {
 			// 対象が無い場合、ログイン画面へ
 			return "redirect:/";
 		}
 
-		// セッションからエラー情報を取得
-		BindingResult result = (BindingResult) session.getAttribute("result");
-		if (result != null) {
-			// エラー情報をモデルに追加し、セッションから削除
-			model.addAttribute("org.springframework.validation.BindingResult.userForm", result);
-			session.removeAttribute("result");
+		if (selectedUserId == null) {
+			// selectedUserId が null の場合、/adminへ遷移
+			return "redirect:/admin";
 		}
 
-		// セッションからユーザー登録情報を取得
-		UserForm userForm = (UserForm) session.getAttribute("userForm");
-		if (userForm == null) {
-			userForm = new UserForm();
-			//初期パスワード追加
-			userForm.setPassword("Passw0rd");
-			// 入力フォーム情報を画面表示設定
-			model.addAttribute("userForm", userForm);
-
-			// セッションにユーザー登録情報を設定
-			session.setAttribute("userForm", userForm);
-
-			return "mypage/admin/resist_input";
-		}
-
-		// 入力フォーム情報を画面表示設定
-		model.addAttribute("userForm", userForm);
+		//部員登録・変更・削除用のセッションスコープを初期化
+		session.removeAttribute("userForm");
 
 		return "mypage/admin/resist_input";
 	}
@@ -89,6 +67,10 @@ public class AdminUserResistController {
 		if (result.hasErrors()) {
 
 			session.setAttribute("result", result);
+
+			System.out.println(userForm.getUserName());
+			System.out.println(userForm.getPassword());
+			System.out.println("エラーがあります: " + result.getAllErrors());
 
 			//変更入力画面　表示処理
 			return "redirect:/mypage/employee/input";
@@ -113,7 +95,7 @@ public class AdminUserResistController {
 	public String inputResistUser() {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
-		if (userBean == null || userBean.getAuth() != 1) {
+		if (userBean == null || userBean.getAuth() == 0) {
 			// 対象が無い場合、ログイン画面へ
 			return "redirect:/";
 		}
@@ -130,13 +112,13 @@ public class AdminUserResistController {
 	@RequestMapping(path = "/mypage/employee/input/complete_r", method = { RequestMethod.GET, RequestMethod.POST })
 	public String inputResistUserCheck_r() {
 		//セッションスコープの内容を取り出す。
-		UserBean userBean = (UserBean) session.getAttribute("userBean");
+		UserForm userForm = (UserForm) session.getAttribute("userBean");
 
 		//エンティティのオブジェクト作成
 		User user = new User();
 
 		//id以外をエンティティにコピー
-		BeanUtils.copyProperties(userBean, user, "userId");
+		BeanUtils.copyProperties(userForm, user, "userId");
 
 		//データベース更新
 		userRepository.save(user);
@@ -152,7 +134,7 @@ public class AdminUserResistController {
 	public String inputResistUserComplete() {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
-		if (userBean == null || userBean.getAuth() != 1) {
+		if (userBean == null || userBean.getAuth() == 0) {
 			// 対象が無い場合、ログイン画面へ
 			return "redirect:/";
 		}
@@ -168,5 +150,4 @@ public class AdminUserResistController {
 	public UserForm getUserForm() {
 		return new UserForm();
 	}
->>>>>>> local
 }

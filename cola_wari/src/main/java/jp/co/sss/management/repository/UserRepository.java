@@ -31,12 +31,25 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	 */
 	User findByUserIdAndStatus(Integer userId, int status);
 
+	/**
+	 * 削除フラグを条件に検索
+	 * @param status
+	 * @return 会員エンティティ
+	 */
+	List<User> findByStatus(int status);
+
+	/**
+	 * 
+	 * @param email
+	 * @return 会員エンティティ
+	 */
 	User findByEmail(String email);
 
 	/**
-	 * statusが0のデータを取得し、主キー昇順で返す
-	 * @return statusが0のUserエンティティのリスト
+	 * ユーザIDを条件に検索
+	 * @param userId
+	 * @return 会員エンティティ
 	 */
-	List<User> findByStatusOrderByUserIdAsc(int status);
+	User findByUserId(Integer userId);
 
 }

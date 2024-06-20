@@ -39,14 +39,29 @@
 
             <div class="col-lg-6">
 
-                <!-- My to-do list -->
+                <!-- 進行中の案件 -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">My to-doリスト</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">進行中の案件</h6>
                     </div>
                     <div class="card-body">
-                        <p>Use Font Awesome Icons (included with this theme package) along with the circle
-                            buttons as shown in the examples below!</p>
+						<ul>
+							<!-- リストアイテムとして各AgendaBeanを表示(5件まで) -->
+        					<li th:each="agendaBean,iterStat : ${nowAgendas}" th:if="${iterStat.index < 5}">
+            					<!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{案件ID}も入れる　-->
+            					<a th:href="@{/agenda/detail}" th:text="${agendaBean.title}"></a>
+        					</li>
+    					</ul>
+    					
+    					<li th:unless="${not #lists.isEmpty(nowAgendas)}">
+        					<span>表示できる案件情報がありません。</span>
+    					</li>
+
+    					
+    					<!-- リンクの最後に{user_id}も入れる -->
+    					<form th:action="@{/agenda/list/{userId}(userId=${userId})}" method="get">
+							<input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
+						</form>
 
                     </div>
                 </div>
@@ -56,18 +71,29 @@
 
             <div class="col-lg-6">
 
-                <!-- チームto-doリスト -->
+                <!-- 現在のタスク -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">チームto-doリスト</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">現在のタスク</h6>
                     </div>
                     <div class="card-body">
-                        <p>Works with any button colors, just use the <code>.btn-icon-split</code> class and
-                            the markup in the examples below. The examples below also use the
-                            <code>.text-white-50</code> helper class on the icons for additional styling,
-                            but it is not required.
-                        </p>
-
+						
+						<ul>
+							<!-- リストアイテムとして各scheduleBeanを表示(5件まで) -->
+        					<li th:each="scheduleBean,iterStat : ${nowTasks}" th:if="${iterStat.index < 5}">
+            					<!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{スケジュールID}も入れる　-->
+            					<a th:href="@{/schedule/detail}" th:text="${scheduleBean.title}"></a>
+        					</li>
+    					</ul>
+    					
+    					<li th:unless="${not #lists.isEmpty(nowTasks)}">
+        					<span>表示できるタスク情報がありません。</span>
+    					</li>
+    					
+    					<!-- リンクの最後に{user_id}も入れる -->
+    					<form th:action="@{/schedule/list}" method="get">
+							<input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
+						</form>
 
                     </div>
                 </div>
