@@ -41,7 +41,10 @@ public class LoginController {
 	 */
 	@RequestMapping(path = "/login", method = { RequestMethod.GET, RequestMethod.POST })
 	public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult result) {
+<<<<<<< main
 
+=======
+>>>>>>> local
 		String returnStr = "login";
 
 		//入力値に誤りがあった場合
