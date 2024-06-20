@@ -48,6 +48,8 @@ public class LoginValidator implements ConstraintValidator<LoginCheck, Object> {
 			userBean.setEmail(user.getEmail());
 			userBean.setUserName(user.getUserName());
 			userBean.setAuth(user.getAuth());
+			userBean.setUserId(user.getUserId());
+
 
 			// セッションスコープにログインしたユーザの情報を登録
 			session.setAttribute("user", userBean);
