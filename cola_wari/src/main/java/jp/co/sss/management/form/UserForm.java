@@ -1,7 +1,5 @@
 package jp.co.sss.management.form;
 
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 
 import jakarta.validation.constraints.Email;
@@ -10,6 +8,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jp.co.sss.management.annotation.EmailCheck;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -26,7 +25,7 @@ public class UserForm implements Serializable {
 	/**
 	 * ユーザーID
 	 */
-	private String userId;
+	private Integer userId;
 	
 	/**
 	 * ユーザー名

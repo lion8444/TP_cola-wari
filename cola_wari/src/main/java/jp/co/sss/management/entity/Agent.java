@@ -74,6 +74,7 @@ public class Agent {
 	@Column
 	private String email;
 
+	
 	/**
 	 * 担当者と顧客企業情報
 	 */
