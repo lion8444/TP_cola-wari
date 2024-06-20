@@ -54,4 +54,14 @@ public class AgendaForm implements Serializable {
 	 */
 	private int sales;
 
+	/**
+	 * 案件の開始日付(YYYY/MM/DD HH:mm)
+	 */
+	private String startDate;
+
+	/**
+	 * 案件の終了日付(YYYY/MM/DD HH:mm)
+	 */
+	private String endDate;
+
 }
