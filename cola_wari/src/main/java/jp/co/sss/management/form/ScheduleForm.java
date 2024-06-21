@@ -1,6 +1,7 @@
 package jp.co.sss.management.form;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -59,6 +60,8 @@ public class ScheduleForm implements Serializable {
 	 * スケジュール終了日付(YYYY/MM/DD HH:mm)
 	 */
 	private String endDate;
+
+	private List<Integer> userIdList;
 
 	/**
 	 * ミーティングの案件ID

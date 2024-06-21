@@ -63,9 +63,4 @@ public class AgendaBean {
 	 */
 	private String comName;
 
-	/**
-	 * 案件に関するスケジュールリスト
-	 */
-	private List<ScheduleBean> scheduleBeans;
-
 }

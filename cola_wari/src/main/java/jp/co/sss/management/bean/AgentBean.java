@@ -51,4 +51,6 @@ public class AgentBean {
 	 */
 	private String email;
 
+	private String comName;
+
 }

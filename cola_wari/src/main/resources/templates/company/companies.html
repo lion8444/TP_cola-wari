@@ -3,23 +3,59 @@
 
 <head>
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title></title>
 
 </head>
 
 <body id="page-top">
 
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
+	<!-- Begin Page Content -->
+	<div class="container-fluid">
 
-        <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">企業一覧</h1>
+		<!-- Page Heading -->
+		<h1 class="h3 mb-4 text-gray-800">企業一覧</h1>
 
-       
-    </div>
-    <!-- /.container-fluid -->
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+			<div class="d-grid gap-2 d-md-block my-3">
+				<button class="btn btn-primary" type="button"
+					onclick="location.href='/cola_wari/company/regist/input'">登録</button>
+			</div>
+
+
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">No</th>
+					<th scope="col">企業名</th>
+					<th scope="col">業種</th>
+					<th scope="col">担当者</th>
+					<th scope="col">最終更新日</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="company:${companies}">
+					<td th:text="${company.comId}">
+					</td>
+					<td>
+						<a th:href="@{/company/detail/{id}(id=${company.comId})}" th:text="${company.comName}"></a>
+					</td>
+					<td th:text="${company.cateName}">
+					</td>
+
+					<td>
+						<span th:each="agent:${company.agentBeans}" th:text="${agent.agentName}"></span>
+					</td>
+					<td th:text="${company.updateDate}">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+	<!-- /.container-fluid -->
 
 </body>
 
