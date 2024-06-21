@@ -1,4 +1,4 @@
-<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}"></html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
 
 <head>
 
@@ -9,49 +9,43 @@
 </head>
 
 <body id="page-top">
-  <div class="container-fluid">
+    <div class="container-fluid">
     
-    <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">部員登録確認</h1>
-    <form method="post" th:object="${userForm}">
-        <div>
-            <label for="name">名前:</label>
-            <input type="text" placeholder="名前" th:field="*{userName}">
-        </div>
-        <div>
-            <label for="email">初期パスワード(Passw0rd推奨)：</label>
-            <input type="text" placeholder="Passw0rd" th:field="*{password}">
-        </div>
-        <div>
-            <label for="team">チーム：</label>
-            <input type="text" placeholder="チーム名" th:field="*{team}">
-        </div>
-        <div>
-            <label for="position">役職：</label>
-            <input type="text" placeholder="役職名" th:field="*{position}">
-        </div>
-        <div>
-            <label for="tel">電話番号：</label>
-            <input type="text" placeholder="電話番号" th:field="*{tel}">
-        </div>
-        <div>
-            <label for="email">メールアドレス：</label>
-            <input type="text" placeholder="電話番号" th:field="*{email}">
-        </div>
-        <div>
-            <label for="auth">認証：</label>
-            <input type="checkbox" th:field="*{auth}" th:value= 1 />
-            <input type="hidden" th:field="*{auth}" th:value= 0 />
-        </div>
-
-        <!-- パスワードの初期値を設定。 -->
-        <!-- <input type="hidden" th:field="*{password}" th:value="${Passw0rd}" /> -->
-
-        <button type="submit" th:formaction="@{/mypage/employee/input/check_r}" class="btn btn-primary">確認</button>
-        <button type="submit" th:formaction="@{/admin}" class="btn btn-secondary">戻る</button>
-        <hr>
-    </form>
-</div>
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">部員登録確認</h1>
+        <form method="get">
+            <table class="table" th:each="user:${session.userForm}">
+                <tbody>
+                    <tr>
+                        <th scope="col">名前</th>
+                        <th scope="col" th:text="${user.userName}"></th>
+                    </tr>
+                    <tr>
+                        <th scope="col">チーム</th>
+                        <th scope="col" th:text="${user.team}"></th>
+                    </tr> 
+                    <tr>
+                        <th scope="col">役職</th>
+                        <th scope="col" th:text="${user.position}"></th>
+                    </tr>
+                    <tr>
+                        <th scope="col">電話番号</th>
+                        <th scope="col" th:text="${user.tel}"></th>
+                    </tr>
+                    <tr>
+                        <th scope="col">メールアドレス</th>
+                        <th scope="col" th:text="${user.email}"></th>
+                    </tr>
+                    <tr>
+                        <th scope="col">認証</th>
+                        <th scope="col" th:text="${user.auth}"></th>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" th:formaction="@{/mypage/employee/update/complete_r}" class="btn btn-primary">変更</button>
+            <button type="submit" th:formaction="@{/mypage/employee/update}" class="btn btn-secondary">戻る</button>
+        </form>
+    </div>
 
 </body>
 

@@ -103,13 +103,13 @@ public class MypageController {
 		}
 
 		//変更完了画面　表示処理
-		return "redirect:/mypage/employee/update/complete";
+		return "redirect:/mypage/password/update/complete";
 	}
 
 	/**
 	 * パスワード変更完了画面表示(リダイレクト後)
 	 */
-	@RequestMapping(path = "/mypage/employee/update/complete", method = RequestMethod.GET)
+	@RequestMapping(path = "/mypage/password/update/complete", method = RequestMethod.GET)
 	public String showCompletePassword() {
 		return "mypage/user/update_complete";
 	}
