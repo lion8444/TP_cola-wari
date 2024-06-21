@@ -1,25 +1,63 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/schedule_layout :: layout(~{::body/content()})}">
 
 <head>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
-
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    
 </head>
 
 <body id="page-top">
 
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
-
-        <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">スケジュール管理</h1>
-
-       
+    <div class="pre-loader">
+        <div class="pre-loader-box">
+            <div class="loader-logo">
+                <!-- <img src="vendors/images/deskapp-logo.svg" alt="" /> -->
+            </div>
+            <div class="loader-progress" id="progress_div">
+                <div class="bar" id="bar1"></div>
+            </div>
+            <div class="percent" id="percent1">0%</div>
+            <div class="loading-text">Loading...</div>
+        </div>
     </div>
-    <!-- /.container-fluid -->
+
+
+    <div class="main-container">
+        <div class="pd-ltr-20 xs-pd-20-10">
+            <div class="min-height-200px">
+                <div class="pd-20 card-box mb-30">
+                    <div class="calendar-wrap">
+                        <div id="calendar"></div>
+                    </div>
+                    <!-- calendar modal -->
+                    <div id="modal-view-event" class="modal modal-top fade calendar-modal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h4 class="h4">
+                                        <span class="event-icon weight-400 mr-3"></span><span
+                                            class="event-title"></span>
+                                    </h4>
+                                    <div class="event-body"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <a class="eventUrl" href="">詳細</a>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 

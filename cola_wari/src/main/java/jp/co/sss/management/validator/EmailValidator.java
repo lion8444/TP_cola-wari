@@ -1,13 +1,12 @@
 package jp.co.sss.management.validator;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
-
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import jp.co.sss.management.annotation.EmailCheck;
 import jp.co.sss.management.entity.User;
 import jp.co.sss.management.repository.UserRepository;

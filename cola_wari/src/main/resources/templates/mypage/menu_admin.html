@@ -1,0 +1,45 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
+
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+
+</head>
+
+<body id="page-top">
+  <div class="container-fluid">
+    
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">管理者限定機能</h1>
+    <form method="post">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th scope="col">社員ID</th>
+                  <th scope="col">名前</th>
+                  <th scope="col">役職</th>
+                  <th scope="col">選択</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr th:each="user:${userAll}">
+                  <th scope="row" th:text="${user.userId}"></th>
+                  <td th:text="${user.userName}"></td>
+                  <td th:text="${user.team}"></td>
+                  <td>
+                    <input type="radio" name="selectedUser" th:value="${user.userId}">
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <button type="submit" th:formaction="@{/mypage/employee/input}" class="btn btn-primary">登録</button>
+      <button type="submit" th:formaction="@{/mypage/employee/update_r}" class="btn btn-secondary">変更</button>
+      <button type="submit" th:formaction="@{/mypage/employee/delete/check}" class="btn btn-dark">削除</button>
+    </form>
+  </div>
+
+</body>
+
+</html>

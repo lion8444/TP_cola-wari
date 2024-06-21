@@ -1,5 +1,6 @@
 package jp.co.sss.management.entity;
 
+import java.sql.Date;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -67,13 +68,13 @@ public class Schedule {
 	 * スケジュール開始日付(YYYY/MM/DD HH:mm)
 	 */
 	@Column
-	private String startDate;
+	private Date startDate;
 
 	/**
 	 * スケジュール終了日付(YYYY/MM/DD HH:mm)
 	 */
 	@Column
-	private String endDate;
+	private Date endDate;
 
 	/**
 	 * ミーティングの案件

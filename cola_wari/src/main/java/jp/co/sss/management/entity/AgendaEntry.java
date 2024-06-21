@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "agneda_entry")
+@Table(name = "agenda_entry")
 public class AgendaEntry {
 
 	/**
@@ -37,6 +37,7 @@ public class AgendaEntry {
 	@ManyToOne
 	@JoinColumn(name = "agenda_id", referencedColumnName = "agendaId")
 	private Agenda agenda;
+
 
 	/**
 	 * 案件の担当者情報(営業社員)

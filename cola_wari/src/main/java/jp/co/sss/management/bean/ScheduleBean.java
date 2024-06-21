@@ -1,5 +1,7 @@
 package jp.co.sss.management.bean;
 
+import java.sql.Date;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,12 +45,12 @@ public class ScheduleBean {
 	/**
 	 * スケジュール開始日付(YYYY/MM/DD HH:mm)
 	 */
-	private String startDate;
+	private Date startDate;
 
 	/**
 	 * スケジュール終了日付(YYYY/MM/DD HH:mm)
 	 */
-	private String endDate;
+	private Date endDate;
 
 	/**
 	 * ミーティングの案件
