@@ -54,9 +54,9 @@
     					</ul>
     					
     					<li th:unless="${not #lists.isEmpty(nowAgendas)}">
-        					<span>表示できる案件情報がありません。</span>
+							<p th:text="#{msg.top.agenda.none}"></p>
     					</li>
-
+    					
     					
     					<!-- リンクの最後に{user_id}も入れる -->
     					<form th:action="@{/agenda/list/{userId}(userId=${userId})}" method="get">
@@ -87,7 +87,7 @@
     					</ul>
     					
     					<li th:unless="${not #lists.isEmpty(nowTasks)}">
-        					<span>表示できるタスク情報がありません。</span>
+							<p th:text="#{msg.top.scheduleTask.none}"></p>
     					</li>
     					
     					<!-- リンクの最後に{user_id}も入れる -->
