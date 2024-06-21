@@ -41,8 +41,11 @@ public class AdminController {
 			return "redirect:/";
 		}
 
+		//セッション情報の削除
+		session.removeAttribute("userForm");
+
 		//全てのユーザ情報をDBから取得
-		List<User> userList = userRepository.findAll();
+		List<User> userList = userRepository.findByStatusOrderByUserIdAsc(0);
 		//userをスコープに保存
 		model.addAttribute("userAll", userList);
 

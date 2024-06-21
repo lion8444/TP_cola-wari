@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
+
+<head>
+
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title></title>
+
+</head>
+
+<body id="page-top">
+	<!-- Begin Page Content -->
+	<div class="container-fluid">
+
+		<!-- Page Heading -->
+		<h1 class="h3 mb-4 text-gray-800">企業登録確認</h1>
+		<p>以下の内容で登録します。</p>
+
+		<table class="table" th:object="${companyForm}">
+
+			<tr>
+				<th scope="col">企業名</th>
+				<td scope="col" th:text="*{comName}"></td>
+			</tr>
+			<tr>
+				<th scope="row">業種</th>
+				<td th:text="*{cateName}"></td>
+			</tr>
+			<tr>
+				<th scope="row">住所</th>
+				<td th:text="*{comAddr}"></td>
+			</tr>
+			<tr>
+				<th scope="row">企業URL</th>
+				<td th:text="*{comUrl}"></td>
+			</tr>
+			<tr>
+				<th scope="row">説明</th>
+				<td th:text="*{description}"></td>
+			</tr>
+			<tr>
+				<th scope="row">企業担当者</th>
+				<td th:text="*{comName}"></td>
+			</tr>
+			
+
+		</table>
+
+
+		<div class="d-grid gap-2 d-md-block my-3">
+			<button class="btn btn-primary" type="button" onclick="location.href='/cola_wari/company/resist/complete'">登録</button>
+			<button class="btn btn-primary" type="button" onclick="location.href='/cola_wari/company/regist/input'">戻る</button>
+		</div>
+
+
+	</div>
+	<!-- /.container-fluid -->
+
+	</div>
+	<!-- End of Main Content -->
+</body>
+
+</html>

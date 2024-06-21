@@ -1,10 +1,52 @@
-<!DOCTYPE html>
-<html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+
 </head>
-<body>
+
+<body id="page-top">
+    <div class="container-fluid">
+    
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">部員削除確認</h1>
+        <form method="get">
+            <table class="table" th:each="user:${session.userForm}">
+                <tbody>
+                    <tr>
+                        <th scope="col">名前</th>
+                        <th scope="col" th:text="${user.userName}"></th>
+                    </tr>
+                    <tr>
+                        <th scope="col">チーム</th>
+                        <th scope="col" th:text="${user.team}"></th>
+                    </tr> 
+                    <tr>
+                        <th scope="col">役職</th>
+                        <th scope="col" th:text="${user.position}"></th>
+                    </tr>
+                    <tr>
+                        <th scope="col">電話番号</th>
+                        <th scope="col" th:text="${user.tel}"></th>
+                    </tr>
+                    <tr>
+                        <th scope="col">メールアドレス</th>
+                        <th scope="col" th:text="${user.email}"></th>
+                    </tr>
+                    <tr>
+                        <th scope="col">認証</th>
+                        <th scope="col" th:text="${user.auth}"></th>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" th:formaction="@{/mypage/employee/delete/complete_r}" class="btn btn-primary">削除</button>
+            <button type="submit" th:formaction="@{/admin}" class="btn btn-secondary">戻る</button>
+        </form>
+    </div>
 
 </body>
+
 </html>

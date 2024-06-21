@@ -2,7 +2,11 @@ package jp.co.sss.management.repository;
 
 import java.util.List;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import jp.co.sss.management.entity.User;
@@ -31,8 +35,37 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	 */
 	User findByUserIdAndStatus(Integer userId, int status);
 
-    User findByEmail(String email);
+	/**
+	 * 削除フラグを条件に検索
+	 * @param status
+	 * @return 会員エンティティ
+	 */
+	List<User> findByStatus(int status);
 
-    List<User> findByStatus(int i);
+	/**
+	 * 
+	 * @param email
+	 * @return 会員エンティティ
+	 */
+	User findByEmail(String email);
 
+	/**
+	 * ユーザIDを条件に検索
+	 * @param userId
+	 * @return 会員エンティティ
+	 */
+	User findByUserId(Integer userId);
+
+	/**
+	 * 
+	 * 
+	 */
+	@Query("SELECT u FROM User u WHERE u.status = :status and u.userName LIKE %:keyword% ORDER BY FUNCTION('NLSSORT', u.position, 'NLS_SORT=BINARY_AI') ASC")
+	List<User> findByKeywordAndStatusOrderByPositionASC(@Param(value="keyword") String keyword,@Param(value="status") int status);
+	
+	@Query("SELECT u FROM User u WHERE u.status = :status and u.userName LIKE %:keyword% ORDER BY FUNCTION('NLSSORT', u.userName, 'NLS_SORT=BINARY_AI') ASC")
+	List<User> findByKeywordAndStatusOrderByUserNameSC(@Param(value="keyword") String keyword,@Param(value="status") int status);
+	
+	@Query("SELECT u FROM User u WHERE u.status = :status and u.userName LIKE %:keyword% ORDER BY FUNCTION('NLSSORT', u.team, 'NLS_SORT=BINARY_AI') ASC")
+	List<User> findByKeywordAndStatusOrderByTeamSC(@Param(value="keyword") String keyword,@Param(value="status") int status);
 }
