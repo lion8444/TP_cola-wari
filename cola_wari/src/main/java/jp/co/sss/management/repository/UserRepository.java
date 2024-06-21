@@ -2,6 +2,8 @@ package jp.co.sss.management.repository;
 
 import java.util.List;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -75,4 +77,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("SELECT u FROM User u WHERE u.status = :status and u.userName LIKE %:keyword% ORDER BY FUNCTION('NLSSORT', u.team, 'NLS_SORT=BINARY_AI') ASC")
 	List<User> findByKeywordAndStatusOrderByTeamSC(@Param(value = "keyword") String keyword,
 			@Param(value = "status") int status);
+
+	List<User> findByStatusOrderByUserIdAsc(int i);
 }

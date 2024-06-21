@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -81,7 +80,7 @@ public class Company {
 	private ComCategory comCagetory;
 
 	/**
-	 * 企業の案件の担当社リスト
+	 * 企業の案件の担当者リスト
 	 */
 	@OneToMany(mappedBy = "company")
 	private List<Agent> agents;
