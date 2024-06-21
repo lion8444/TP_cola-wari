@@ -11,49 +11,51 @@
 
 <body id="page-top">
 
-	<!-- Begin Page Content -->
-	<div class="container-fluid">
-		<!-- Page Heading -->
-		<h1 class="h3 mb-4 text-gray-800">部員一覧</h1>
-		<!-- DataTales-->
-		<div class="card shadow mb-4">
-			<div class="card-body">
-				<div class="table-responsive">
-					<table>
-						<thead>
-							<form action="/cola_wari/user/list" method="post">
-								<input type="text" id="username" name="username" th:value=${keyword} placeholder="部員名を入力">
-								<input type="submit" value="検索" name="submit">
-								<tr>
-									<th>部員名</th>
-									<th><input type="submit" value="役職" name="submit"></th>
-									<th><input type="submit" value="チーム" name="submit"></th>
-								</tr>
-							</form>
-						</thead>
-						<tbody>
-							<tr th:each="user:${users}">
-								<td>
-									<a th:href="@{/user/detail/{id}(id=${user.userId})}">
-										<d th:text="${user.userName}"></d>
-									</a>
-								</td>
-								<td>
-									<d th:text="${user.position}"></d>
-								</td>
-								<td>
-									<d th:text="${user.team}"></d>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /.container-fluid -->
+    <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">部員一覧</h1>
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <form action="/cola_wari/user/list" method="post">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="username" name="username" th:value=${keyword} placeholder="部員名を入力">
+                            <div class="input-group-append">
+                                <input class="btn btn-outline-secondary" type="submit" value="検索" name="submit">
+                            </div>
+                        </div>
+                    </form>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>部員名</th>
+                                <th><input class="btn btn-primary" type="submit" value="役職" name="submit"></th>
+                                <th><input class="btn btn-primary" type="submit" value="チーム" name="submit"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="user:${users}">
+                                <td>
+                                    <a th:href="@{/user/detail/{id}(id=${user.userId})}">
+                                        <span th:text="${user.userName}"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span th:text="${user.position}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${user.team}"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 
 </html>
-折りた

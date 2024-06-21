@@ -44,6 +44,11 @@ public class AdminController {
 		//セッション情報の削除
 		session.removeAttribute("userForm");
 
+		//ユーザを選んでいなかった場合	
+		Integer select = (Integer) session.getAttribute("select");
+		model.addAttribute("select", select);
+		session.removeAttribute("select");
+
 		//全てのユーザ情報をDBから取得
 		List<User> userList = userRepository.findByStatusOrderByUserIdAsc(0);
 		//userをスコープに保存

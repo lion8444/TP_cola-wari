@@ -24,6 +24,12 @@
                                         <h1 class="h4 text-gray-900 mb-4">ログイン</h1>
                                     </div>
                                     <form class="user" th:action="@{/login}" method="post" th:object="${loginForm}">
+                                        <th:block th:if="${#fields.hasErrors()}">
+                                            <ul>
+                                                <li style="color: red;" th:each="err:${#fields.detailedErrors()}" th:text="${err.message}"></li>
+                                            </ul>
+                                            <br />
+                                        </th:block>
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 aria-describedby="emailHelp"  placeholder="Enter Email Address..." th:field="*{email}">
