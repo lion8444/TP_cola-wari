@@ -12,39 +12,41 @@
     <div class="container-fluid">
     
         <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">部員登録確認</h1>
-        <form method="get">
-            <table class="table" th:each="user:${session.userForm}">
-                <tbody>
-                    <tr>
-                        <th scope="col">名前</th>
-                        <th scope="col" th:text="${user.userName}"></th>
-                    </tr>
-                    <tr>
-                        <th scope="col">チーム</th>
-                        <th scope="col" th:text="${user.team}"></th>
-                    </tr> 
-                    <tr>
-                        <th scope="col">役職</th>
-                        <th scope="col" th:text="${user.position}"></th>
-                    </tr>
-                    <tr>
-                        <th scope="col">電話番号</th>
-                        <th scope="col" th:text="${user.tel}"></th>
-                    </tr>
-                    <tr>
-                        <th scope="col">メールアドレス</th>
-                        <th scope="col" th:text="${user.email}"></th>
-                    </tr>
-                    <tr>
-                        <th scope="col">認証</th>
-                        <th scope="col" th:text="${user.auth}"></th>
-                    </tr>
-                </tbody>
-            </table>
-            <button type="submit" th:formaction="@{/mypage/employee/update/complete_r}" class="btn btn-primary">変更</button>
-            <button type="submit" th:formaction="@{/mypage/employee/update}" class="btn btn-secondary">戻る</button>
-        </form>
+        <h1 class="h3 mb-4 text-gray-800">部員変更確認</h1>
+        <div class="card shadow mb-4 card-body">
+            <form method="get">
+                <table class="table" th:each="user:${session.userForm}">
+                    <tbody>
+                        <tr>
+                            <th scope="col">名前</th>
+                            <th scope="col" th:text="${user.userName}"></th>
+                        </tr>
+                        <tr>
+                            <th scope="col">チーム</th>
+                            <th scope="col" th:text="${user.team}"></th>
+                        </tr> 
+                        <tr>
+                            <th scope="col">役職</th>
+                            <th scope="col" th:text="${user.position}"></th>
+                        </tr>
+                        <tr>
+                            <th scope="col">電話番号</th>
+                            <th scope="col" th:text="${user.tel}"></th>
+                        </tr>
+                        <tr>
+                            <th scope="col">メールアドレス</th>
+                            <th scope="col" th:text="${user.email}"></th>
+                        </tr>
+                        <tr>
+                            <th scope="col">認証</th>
+                            <th scope="col" th:text="${user.auth}"></th>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" th:formaction="@{/mypage/employee/update/complete_r}" class="btn btn-primary">変更</button>
+                <button type="submit" th:formaction="@{/mypage/employee/update}" class="btn btn-secondary">戻る</button>
+            </form>
+        </div>
     </div>
 
 </body>

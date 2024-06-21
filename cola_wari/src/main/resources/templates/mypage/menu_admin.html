@@ -14,6 +14,7 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">管理者限定機能</h1>
     <form method="post">
+      <p th:if="${select != null}" style="color: red;">変更、削除を行う場合はユーザを選択してください。</p>
       <table class="table">
           <thead>
               <tr>

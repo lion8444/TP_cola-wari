@@ -96,6 +96,10 @@ public class LoginController {
 		//管理者権限の情報をセッションスコープに保存
 		session.setAttribute("auth", userBean.getAuth());
 
+		//不要なセッションスコープ削除
+		session.removeAttribute("messeage1");
+		session.removeAttribute("messeage2");
+
 		return "index";
 	}
 
@@ -108,13 +112,13 @@ public class LoginController {
 			ログインが成功した場合 "redirect:/index" トップ画面表示処理
 	 */
 	@RequestMapping(path = "/login", method = { RequestMethod.GET, RequestMethod.POST })
-	public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult result) {
+	public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult result, Model model) {
 		String returnStr = "login";
 
 		//入力値に誤りがあった場合
 		if (result.hasErrors()) {
-			// セッション情報を無効にして、ログイン画面再表示
-			session.invalidate();
+			session.setAttribute("result", result);
+			model.addAttribute("org.springframework.validation.BindingResult.userForm", result);
 			returnStr = "login/login";
 		} else {
 			returnStr = "redirect:/";

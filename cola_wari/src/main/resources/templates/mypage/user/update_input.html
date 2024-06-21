@@ -20,10 +20,17 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                    <div class="col-lg-6 d-none d-lg-block"></div>
                     <div class="col-lg-6">
                         <div class="p-5">
                             <form class="user" th:action="@{/mypage/password/update/complete_r}" method="post" th:object="${passwordForm}">
+                                <th:block th:if="${#fields.hasErrors()}">
+                                    <ul>
+                                        <li style="color: red;" th:each="err:${#fields.detailedErrors()}" th:text="${err.message}"></li>
+                                    </ul>
+                                </th:block>
+                                <p th:text="${session.messeage1}" style="color: red;"></p>
+                                <p th:text="${session.messeage2}" style="color: red;"></p>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-user" placeholder="前回のパスワード" th:field="*{oldPassword}">
                                 </div>

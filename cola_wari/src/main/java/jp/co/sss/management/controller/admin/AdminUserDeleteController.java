@@ -40,9 +40,14 @@ public class AdminUserDeleteController {
 			return "redirect:/";
 		}
 
+		//メッセージ表示用(変更削除する人を選択してください。)
+		Integer select = 0;
 		if (selectedUserId == null) {
 			//部員登録・変更・削除用のセッションスコープを初期化
 			session.removeAttribute("userForm");
+			//メッセージ表示用(変更削除する人を選択してください。)
+			select = 1;
+			session.setAttribute("select", select);
 			// selectedUserId が null の場合、/adminへ遷移
 			return "redirect:/admin";
 		}
