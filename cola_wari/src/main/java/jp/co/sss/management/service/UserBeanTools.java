@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jp.co.sss.management.bean.UserBean;
-import jp.co.sss.management.bean.UserBean;
-import jp.co.sss.management.entity.Schedule;
 import jp.co.sss.management.entity.User;
 import jp.co.sss.management.repository.AgendaEntryRepository;
 

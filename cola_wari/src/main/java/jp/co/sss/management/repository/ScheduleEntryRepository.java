@@ -19,12 +19,13 @@ import jp.co.sss.management.entity.User;
 @Repository
 public interface ScheduleEntryRepository extends JpaRepository<ScheduleEntry, Integer> {
 
-    List<User> findBySchedule_ScheduleId(Integer scheduleId);
+	@Query("select s.user from ScheduleEntry s where s.schedule = :schedule")
+    List<User> findByScheduleUsers(Schedule schedule);
 	/**
 	 * ユーザIDのみ入ったuserを条件に検索
 	 * @param user ユーザ
 	 */
-	@Query("select a.schedule from ScheduleEntry a where a.user = :user")
-	List<Schedule> findByUser(User user);
+	@Query("select s.schedule from ScheduleEntry s where s.user = :user")
+	List<Schedule> findByUserSchedules(User user);
 
 }
