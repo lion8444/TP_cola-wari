@@ -2,8 +2,6 @@ package jp.co.sss.management.repository;
 
 import java.util.List;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -54,13 +52,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	 * @param userId
 	 * @return 会員エンティティ
 	 */
-	User findByUserId(Integer userId);
-
-	/**
-	 * statusが0のデータを取得し、主キー昇順で返す
-	 * @return statusが0のUserエンティティのリスト
-	 */
-	List<User> findByStatusOrderByUserIdAsc(int status);
+	User findByUserId(Integer userId);;
 
 	/**
 	 * 
