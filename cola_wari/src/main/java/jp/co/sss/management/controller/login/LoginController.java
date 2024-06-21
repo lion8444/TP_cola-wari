@@ -17,9 +17,9 @@ public class LoginController {
 
     @GetMapping({"", "/"})
     public String index() {
-        if (session.getAttribute("user") == null) {
-            return "login/login";
-        }
+//        if (session.getAttribute("user") == null) {
+//            return "login/login";
+//        }
         return "index";
     }
 

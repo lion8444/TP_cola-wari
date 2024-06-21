@@ -3,25 +3,88 @@
 
 <head>
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title></title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title></title>
 
 </head>
 
 <body id="page-top">
 
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
+	<!-- Begin Page Content -->
+	<div class="container-fluid">
 
-        <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">企業詳細</h1>
+		<!-- Page Heading -->
+		<h1 class="h3 mb-4 text-gray-800">企業詳細</h1>
+		<div class="d-grid gap-2 d-md-block my-3">
+			<button class="btn btn-primary" type="button" onclick="location.href='/cola_wari/company/update/input'">変更</button>
+		</div>
 
-       
-    </div>
-    <!-- /.container-fluid -->
+		<table class="table">
 
-    </div>
+			<tr>
+				<th scope="col">企業名</th>
+				<td th:text="${company.comName}"></td>
+			</tr>
+			<tr>
+				<th scope="row">業種</th>
+				<td th:text="${company.comCagetory.cateName}"></td>
+			</tr>
+			<tr>
+				<th scope="row">住所</th>
+				<td th:text="${company.addr}"></td>
+			</tr>
+			<tr>
+				<th scope="row">企業URL</th>
+				<td>
+					<a th:href="@{${company.comUrl}}" th:text="${company.comUrl}" target="_blank"></a>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">説明</th>
+				<td th:text="${company.description}"></td>
+			</tr>
+			<tr>
+				<th scope="row">最終更新日</th>
+				<td th:text="${company.updateDate}"></td>
+			</tr>
+			
+		</table>
+		<table class="table" th:each="agent:${agent}">
+				<tr>
+					<th scope="row">担当者</th>
+					<td th:text="${agent.agentName}"></td>
+				</tr>
+				<tr>
+					<th scope="row">部署名</th>
+					<td th:text="${agent.department}"></td>
+				</tr>
+				<tr>
+					<th scope="row">所属チーム</th>
+					<td th:text="${agent.team}"></td>
+				</tr>
+				<tr>
+					<th scope="row">役職</th>
+					<td th:text="${agent.position}"></td>
+				</tr>
+				<tr>
+					<th scope="row">電話番号</th>
+					<td th:text="${agent.tel}"></td>
+				</tr>
+				<tr>
+					<th scope="row">メールアドレス</th>
+					<td th:text="${agent.email}"></td>
+				</tr>
+		</table>
+		<div class="d-grid gap-2 d-md-block my-3">
+			<button class="btn btn-primary" type="button" onclick="location.href='/cola_wari/company/list'">戻る</button>
+		</div>
+	</div>
+
+	</div>
+	<!-- /.container-fluid -->
+
+	</div>
 
 </body>
 
