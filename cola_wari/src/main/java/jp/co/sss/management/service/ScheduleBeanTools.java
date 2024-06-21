@@ -2,13 +2,20 @@ package jp.co.sss.management.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale.Category;
 
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jp.co.sss.management.bean.AgendaBean;
+import jp.co.sss.management.bean.AgendaEntryBean;
 import jp.co.sss.management.bean.ScheduleBean;
+import jp.co.sss.management.entity.Agenda;
+import jp.co.sss.management.entity.AgendaEntry;
 import jp.co.sss.management.entity.Schedule;
+import jp.co.sss.management.form.ScheduleForm;
 import jp.co.sss.management.repository.AgendaRepository;
 
 @Service
@@ -43,4 +50,20 @@ public class ScheduleBeanTools {
 
 		return beanList;
     }
+
+    public Schedule copyFormToEntity(ScheduleForm form) {
+        Agenda agenda = new Agenda();
+		Schedule entity = new Schedule();
+
+		BeanUtils.copyProperties(form, entity);
+
+		if (form.getScheduleId() != null) {
+			entity.setScheduleId(form.getScheduleId());
+		}
+
+		agenda.setAgendaId(form.getAgendaId());
+		entity.setAgenda(agenda);
+
+		return entity;
+	}
 }

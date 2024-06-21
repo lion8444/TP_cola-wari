@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/schedule_layout :: layout(~{::body/content()})}">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{common/schedule_layout :: layout(~{::body/content()})}">
 
 <head>
 
@@ -8,7 +9,45 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet" />
-    
+    <style>
+        .multiselect {
+            width: 100%;
+        }
+
+        .selectBox {
+            position: relative;
+        }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        #checkboxes {
+            display: none;
+            border: 1px #dadada solid;
+        }
+
+        #checkboxes label {
+            display: block;
+        }
+
+        #checkboxes label:hover {
+            background-color: #1e90ff;
+        }
+    </style>
+
+    <script>
+
+    </script>
 </head>
 
 <body id="page-top">
@@ -51,6 +90,71 @@
                                         Close
                                     </button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="modal-view-event-add" class="modal modal-top fade calendar-modal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <form action="" id="add-event" method="post">
+                                    <div class="modal-body">
+                                        <h4 class="text-blue h4 mb-10">スケジュール追加</h4>
+                                        <div class="form-group">
+                                            <label>タイトル</label>
+                                            <input type="text" class="form-control" name="title" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>開始日付</label>
+                                            <input type="text" class="datetimepicker form-control" name="startDate" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>終了日付</label>
+                                            <input type="text" class="datetimepicker form-control" name="endDate" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>場所</label>
+                                            <input type="text" class="form-control" name="addr" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>説明</label>
+                                            <textarea class="form-control" name="description"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>参加者</label>
+                                            <div class="multiselect">
+                                                <div class="selectBox" id="selectBoxClick">
+                                                    <select class="form-control" id="userSelect" text="参加者選択">
+                                                    </select>
+                                                    <div class="overSelect"></div>
+                                                </div>
+                                                <br>
+                                                <div id="checkboxes">
+                                                    <div th:each="user : ${users}">
+
+                                                        <input type="checkbox" name="userIdList"
+                                                            th:value="${user.userId}" />
+                                                        <label><span  th:text="|${user.userName}&nbsp;&nbsp;&nbsp;&nbsp;${user.team}&nbsp;&nbsp;&nbsp;&nbsp;${user.position}|"></span></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>案件</label>
+                                            <select class="form-control" id="agendaSelect" name="agendaId">
+                                                <option th:each="agenda : ${agendas}" th:value="${agenda.agendaId}"
+                                                    th:text="${agenda.title}">circle</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="add-event-submit" class="btn btn-primary">
+                                            Save
+                                        </button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                            Close
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

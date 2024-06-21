@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
+
+<head>
+
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title></title>
+
+</head>
+
+<body id="page-top">
+
+	<!-- Begin Page Content -->
+	<div class="container-fluid">
+
+		<!-- Page Heading -->
+		<h1 class="h3 mb-4 text-gray-800">部員一覧</h1>
+
+		<div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>部員名</th>
+								<th>役職</th>
+								<th>チーム</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="user:${users}">
+								<td>
+									<a th:href="@{/user/detail/{id}(id=${user.userId})}">
+										<d th:text="${user.userName}"></d>
+									</a>
+								</td>
+								<td>
+									<d th:text="${user.team}"></d>								
+								</td>
+								<td>
+									<d th:text="${user.position}"></d>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.container-fluid -->
+
+</body>
+
+</html>
