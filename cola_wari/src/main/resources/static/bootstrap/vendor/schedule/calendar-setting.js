@@ -1,8 +1,6 @@
 let checkValues = new Array;
 
 jQuery(document).ready(function () {
-
-	$('#selectBoxClick').on("click", showCheckboxes);
 	$('input:checkbox').on('change', checkedTest);
 	$('#add-event-submit').on('click', insertScheduleSubmit);
 });
@@ -36,6 +34,7 @@ function insertScheduleSubmit() {
 
 
 function checkedTest() {
+	$('#agendaSelect').empty();
 	if ($(this).is(':checked')) {
 		console.log($(this).val());
 		checkValues.push($(this).val());
@@ -46,15 +45,18 @@ function checkedTest() {
 
 	// });
 	console.log(checkValues);
-	if (checkValues != null) {
+	if (checkValues == null || checkValues.length == 0) {
+		$('#agendaSelect').append($('<option></option>').attr('value', 0).text('案件無し（個人スケジュール）'));
+	}else {
 		$.ajax({
 			url: "/cola_wari/schedule/agendaList"
 			, type: "post"
 			, data: { userIdList: checkValues }
 			, success: (agendas) => {
-				if (agendas == null) {
+				$('#agendaSelect').empty();
+				if (agendas == null || agendas.length == 0) {
 					console.log("null");
-					$('#agendaSelect').append($('<option></option>').attr('value', null).text('参加者たちに該当する案件が存在しない'));
+					$('#agendaSelect').append($('<option></option>').attr('value', 0).text('案件無し（個人スケジュール）'));
 				}
 				agendas.forEach(element => {
 					console.log(element)
@@ -68,19 +70,6 @@ function checkedTest() {
 		});
 	}
 
-}
-
-var expanded = false;
-
-function showCheckboxes() {
-	var checkboxes = document.getElementById("checkboxes");
-	if (!expanded) {
-		checkboxes.style.display = "block";
-		expanded = true;
-	} else {
-		checkboxes.style.display = "none";
-		expanded = false;
-	}
 }
 
 (function () {
@@ -117,7 +106,6 @@ function showCheckboxes() {
 						jQuery("#modal-view-event-add").modal();
 					},
 					eventClick: function (event, jsEvent, view) {
-						jQuery(".event-icon").html("<i class='fa fa-" + event.icon + "'></i>");
 						jQuery(".event-title").html(event.title);
 						jQuery(".event-body").html(event.description);
 						jQuery(".eventUrl").attr("href", "/cola_wari/schedule/detail/" + event.scheduleId);

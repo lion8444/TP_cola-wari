@@ -942,7 +942,7 @@ addParseToken(['MMM', 'MMMM'], function (input, array, config, token) {
 // LOCALES
 
 var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
-var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
+var defaultLocaleMonths = '01_02_03_04_05_06_07_08_09_10_11_12'.split('_');
 function localeMonths (m, format) {
     if (!m) {
         return isArray(this._months) ? this._months :
@@ -952,7 +952,7 @@ function localeMonths (m, format) {
         this._months[(this._months.isFormat || MONTHS_IN_FORMAT).test(format) ? 'format' : 'standalone'][m.month()];
 }
 
-var defaultLocaleMonthsShort = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_');
+var defaultLocaleMonthsShort = '01_02_03_04_05_06_07_08_09_10_11_12'.split('_');
 function localeMonthsShort (m, format) {
     if (!m) {
         return isArray(this._monthsShort) ? this._monthsShort :
@@ -19229,14 +19229,14 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
 })();
  })(window, jQuery);
 ;(function ($) { $.fn.datepicker.language['en'] = {
-    days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-    daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    months: ['January','February','March','April','May','June', 'July','August','September','October','November','December'],
-    monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    days: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
+    daysShort: ['日', '月', '火', '水', '木', '金', '土'],
+    daysMin: ['日', '月', '火', '水', '木', '金', '土'],
+    months: ['01','02','03','04','05','06', '07','08','09','10','11','12'],
+    monthsShort: ['01','02','03','04','05','06', '07','08','09','10','11','12'],
     today: 'Today',
     clear: 'Clear',
-    dateFormat: 'mm/dd/yyyy',
+    dateFormat: 'yyyy/mm/dd',
     timeFormat: 'hh:ii aa',
     firstDay: 0
 }; })(jQuery);

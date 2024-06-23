@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
+import jp.co.sss.management.bean.ComCategoryBean;
 import jp.co.sss.management.entity.Agent;
-import jp.co.sss.management.entity.ComCagetory;
+import jp.co.sss.management.entity.ComCategory;
 import jp.co.sss.management.entity.Company;
+
 import jp.co.sss.management.form.AgentForm;
 import jp.co.sss.management.form.CompanyForm;
+
 import jp.co.sss.management.repository.AgentRepository;
 import jp.co.sss.management.repository.CompanyRepository;
 import jp.co.sss.management.service.BeanTools;
@@ -57,10 +60,11 @@ public class ComRegistController {
 		CompanyForm companyForm = new CompanyForm();
 		AgentForm agentForm = new AgentForm();
 
+		// ComCategoryBean comCategoryBean = 
+
 		model.addAttribute("companyForm", companyForm);
 		model.addAttribute("agentForm", agentForm);
-		companyForm = (CompanyForm)session.getAttribute("companyForm");
-		agentForm = (AgentForm) session.getAttribute("agentForm");
+		
 		return "company/regist_input";
 	}
 
@@ -87,7 +91,7 @@ public class ComRegistController {
 	 */
 	@PostMapping("regist/complete")
 	public String registComplete() {
-		ComCagetory category = new ComCagetory();
+		ComCategory category = new ComCategory();
 
 		//セッション保持情報から入力値再取得
 		CompanyForm companyForm = (CompanyForm) session.getAttribute("companyForm");

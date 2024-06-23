@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
+
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+
+</head>
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <th:block th:if="${complete eq 0}">
+                <div class="text-center">
+                    <h1 class="h3 mb-4 text-gray-800">変更完了</h1>
+                    <p class="lead text-gray-800 mb-2">スケジュール変更成功</p>
+                    <p class="text-gray-800 mb-5">スケジュール変更に成功しました</p>
+                    <a th:href="@{/}">&larr; トップページへ</a>&emsp;&emsp;&emsp;
+                    <a th:href="@{/schedule/list}">&larr; スケジュールカレンダーへ</a>&emsp;&emsp;&emsp;
+                    <a th:href="@{/schedule/detail/{scheduleId}(scheduleId=${scheduleId})}">&larr; スケジュール詳細へ</a>
+                </div>
+            </th:block>
+            <th:block th:unless="${complete eq 0}">
+                <div class="text-center">
+                    <h1 class="h3 mb-4 text-gray-800">削除完了</h1>
+                    <p class="lead text-gray-800 mb-2">スケジュール削除成功</p>
+                    <p class="text-gray-800 mb-5">スケジュール削除に成功しました</p>
+                    <a th:href="@{/}">&larr; トップページへ</a>&emsp;&emsp;&emsp;
+                    <a th:href="@{/schedule/list}">&larr; スケジュールカレンダーへ</a>&emsp;&emsp;&emsp;
+                </div>
+            </th:block>
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+</body>
+
+</html>

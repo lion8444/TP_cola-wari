@@ -61,13 +61,6 @@ public class UserServiceImpl implements UserService {
             User user = userRepository.getReferenceById(userId);
             UserBean userBean = userBeanTools.copyEntityToBean(user);
 
-            List<AgendaBean> agendaBeans = agendaBeanTools.copyEntityListToBeanList(agendaEntryRepository.findByUserAgendas(user));
-            if(!agendaBeans.isEmpty()) {
-                log.debug("UserServiceImpl.searchUserBeansByUserId agendaBean Check : {}", agendaBeans.get(0).toString());
-            }
-            
-            userBean.setAgendaBeans(agendaBeans);
-
             userBeans.add(userBean);
         }
         return userBeans;

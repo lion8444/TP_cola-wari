@@ -53,8 +53,7 @@ public class UserController {
 	@PostMapping({"/user/detail/{id}"})
 	public String userDetail(Model model,@PathVariable Integer id) {
 		User user = userRepository.getReferenceById(id);
-		model.addAttribute("users",user);
-		System.out.println(model.getAttribute("users"));
+		model.addAttribute("user",user);
 		List<AgendaEntry> progressEntry = agendaEntryRepository.findByUserId(id,0);
 		model.addAttribute("progresses",progressEntry);
 		List<AgendaEntry> endEntry = agendaEntryRepository.findByUserId(id,1);

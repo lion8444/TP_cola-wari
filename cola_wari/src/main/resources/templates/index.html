@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/schedule_layout_index :: layout(~{::body/content()})}">
 
 <head>
 
@@ -10,6 +10,18 @@
 </head>
 
 <body id="page-top">
+
+    <div class="pre-loader">
+        <div class="pre-loader-box">
+            <div class="loader-logo">
+            </div>
+            <div class="loader-progress" id="progress_div">
+                <div class="bar" id="bar1"></div>
+            </div>
+            <div class="percent" id="percent1">0%</div>
+            <div class="loading-text">Loading...</div>
+        </div>
+    </div>
 
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -26,13 +38,38 @@
                     <h6 class="m-0 font-weight-bold text-primary">週間スケジュール</h6>
                 </div>
                 <div class="card-body">
-                    <p>Google and Facebook buttons are available featuring each company's respective
-                        brand color. They are used on the user login and registration pages.</p>
-                    <p>You can create more custom buttons by adding a new color variable in the
-                        <code>_variables.scss</code> file and then using the Bootstrap button variant
-                        mixin to create a new style, as demonstrated in the <code>_buttons.scss</code>
-                        file.
-                    </p>
+                    <div class="main-container">
+                        <div class="pd-ltr-20 xs-pd-20-10">
+                            <div class="min-height-200px">
+                                <div class="pd-20 card-box mb-30">
+                                    <div class="calendar-wrap">
+                                        <div id="calendar"></div>
+                                    </div>
+                                    <!-- calendar modal -->
+                                    <div id="modal-view-event" class="modal modal-top fade calendar-modal">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <h4 class="h4">
+                                                        <span class="event-title"></span>
+                                                    </h4>
+                                                    <div class="event-time"></div>
+                                                    <hr>
+                                                    <div class="event-body"></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a class="eventUrl" href="">詳細</a>
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                                        戻る
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -45,23 +82,23 @@
                         <h6 class="m-0 font-weight-bold text-primary">進行中の案件</h6>
                     </div>
                     <div class="card-body">
-						<ul>
-							<!-- リストアイテムとして各AgendaBeanを表示(5件まで) -->
-        					<li th:each="agendaBean,iterStat : ${nowAgendas}" th:if="${iterStat.index < 5}">
-            					<!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{案件ID}も入れる　-->
-            					<a th:href="@{/agenda/detail}" th:text="${agendaBean.title}"></a>
-        					</li>
-    					</ul>
-    					
-    					<li th:unless="${not #lists.isEmpty(nowAgendas)}">
-        					<span>表示できる案件情報がありません。</span>
-    					</li>
+                        <ul>
+                            <!-- リストアイテムとして各AgendaBeanを表示(5件まで) -->
+                            <li th:each="agendaBean,iterStat : ${nowAgendas}" th:if="${iterStat.index < 5}">
+                                <!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{案件ID}も入れる　-->
+                                <a th:href="@{/agenda/detail}" th:text="${agendaBean.title}"></a>
+                            </li>
+                        </ul>
 
-    					
-    					<!-- リンクの最後に{user_id}も入れる -->
-    					<form th:action="@{/agenda/list/{userId}(userId=${userId})}" method="get">
-							<input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
-						</form>
+                        <li th:unless="${not #lists.isEmpty(nowAgendas)}">
+                            <span>表示できる案件情報がありません。</span>
+                        </li>
+
+
+                        <!-- リンクの最後に{user_id}も入れる -->
+                        <form th:action="@{/agenda/list/{userId}(userId=${userId})}" method="get">
+                            <input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
+                        </form>
 
                     </div>
                 </div>
@@ -77,23 +114,23 @@
                         <h6 class="m-0 font-weight-bold text-primary">現在のタスク</h6>
                     </div>
                     <div class="card-body">
-						
-						<ul>
-							<!-- リストアイテムとして各scheduleBeanを表示(5件まで) -->
-        					<li th:each="scheduleBean,iterStat : ${nowTasks}" th:if="${iterStat.index < 5}">
-            					<!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{スケジュールID}も入れる　-->
-            					<a th:href="@{/schedule/detail}" th:text="${scheduleBean.title}"></a>
-        					</li>
-    					</ul>
-    					
-    					<li th:unless="${not #lists.isEmpty(nowTasks)}">
-        					<span>表示できるタスク情報がありません。</span>
-    					</li>
-    					
-    					<!-- リンクの最後に{user_id}も入れる -->
-    					<form th:action="@{/schedule/list}" method="get">
-							<input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
-						</form>
+
+                        <ul>
+                            <!-- リストアイテムとして各scheduleBeanを表示(5件まで) -->
+                            <li th:each="scheduleBean,iterStat : ${nowTasks}" th:if="${iterStat.index < 5}">
+                                <!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{スケジュールID}も入れる　-->
+                                <a th:href="@{/schedule/detail}" th:text="${scheduleBean.title}"></a>
+                            </li>
+                        </ul>
+
+                        <li th:unless="${not #lists.isEmpty(nowTasks)}">
+                            <span>表示できるタスク情報がありません。</span>
+                        </li>
+
+                        <!-- リンクの最後に{user_id}も入れる -->
+                        <form th:action="@{/schedule/list}" method="get">
+                            <input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
+                        </form>
 
                     </div>
                 </div>

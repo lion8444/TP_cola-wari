@@ -1,7 +1,10 @@
 package jp.co.sss.management.entity;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -68,13 +71,13 @@ public class Schedule {
 	 * スケジュール開始日付(YYYY/MM/DD HH:mm)
 	 */
 	@Column
-	private Date startDate;
+	private LocalDateTime startDate;
 
 	/**
 	 * スケジュール終了日付(YYYY/MM/DD HH:mm)
 	 */
 	@Column
-	private Date endDate;
+	private LocalDateTime endDate;
 
 	/**
 	 * ミーティングの案件

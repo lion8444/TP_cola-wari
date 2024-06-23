@@ -11,7 +11,6 @@
 
 <body>
 	<h1 class="h3 mb-4 text-gray-800">部員詳細</h1>
-	<tr th:each="user:${users}">
 		<h3 th:if="${user.status == 1}">
 			<font color="red" size="1">このユーザーはもう。。。</font>
 		</h3>
@@ -20,7 +19,7 @@
 				<div class="table-responsive">
 					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 						<tbody>
-							<tr th:each="user:${users}">
+							<tr>
 								<th>
 									名前
 								</th>
@@ -28,15 +27,7 @@
 									<d th:text="${user.userName}"></d>
 								</td>
 							</tr>
-							<tr th:each="user:${users}">
-								<th>
-									役職
-								</th>
-								<td>
-									<d th:text="${user.position}"></d>
-								</td>
-							</tr>
-							<tr th:each="user:${users}">
+							<tr>
 								<th>
 									チーム
 								</th>
@@ -44,7 +35,15 @@
 									<d th:text="${user.team}"></d>
 								</td>
 							</tr>
-							<tr th:each="user:${users}">
+							<tr>
+								<th>
+									役職
+								</th>
+								<td>
+									<d th:text="${user.position}"></d>
+								</td>
+							</tr>
+							<tr>
 								<th>
 									電話番号
 								</th>
@@ -53,7 +52,7 @@
 								</td>
 							</tr>
 
-							<tr th:each="user:${users}">
+							<tr>
 								<th>
 									メールアドレス
 								</th>

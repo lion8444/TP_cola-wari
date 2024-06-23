@@ -9,45 +9,6 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet" />
-    <style>
-        .multiselect {
-            width: 100%;
-        }
-
-        .selectBox {
-            position: relative;
-        }
-
-        .selectBox select {
-            width: 100%;
-            font-weight: bold;
-        }
-
-        .overSelect {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-        }
-
-        #checkboxes {
-            display: none;
-            border: 1px #dadada solid;
-        }
-
-        #checkboxes label {
-            display: block;
-        }
-
-        #checkboxes label:hover {
-            background-color: #1e90ff;
-        }
-    </style>
-
-    <script>
-
-    </script>
 </head>
 
 <body id="page-top">
@@ -79,15 +40,16 @@
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <h4 class="h4">
-                                        <span class="event-icon weight-400 mr-3"></span><span
-                                            class="event-title"></span>
+                                        <span class="event-title"></span>
                                     </h4>
+                                    <div class="event-time"></div>
+                                    <hr>
                                     <div class="event-body"></div>
                                 </div>
                                 <div class="modal-footer">
                                     <a class="eventUrl" href="">詳細</a>
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">
-                                        Close
+                                        戻る
                                     </button>
                                 </div>
                             </div>
@@ -105,11 +67,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label>開始日付</label>
-                                            <input type="text" class="datetimepicker form-control" name="startDate" />
+                                            <input type="text" class="datetimepicker form-control" name="startDate"
+                                                autocomplete='off' />
                                         </div>
                                         <div class="form-group">
                                             <label>終了日付</label>
-                                            <input type="text" class="datetimepicker form-control" name="endDate" />
+                                            <input type="text" class="datetimepicker form-control" name="endDate"
+                                                autocomplete='off' />
                                         </div>
                                         <div class="form-group">
                                             <label>場所</label>
@@ -121,37 +85,38 @@
                                         </div>
                                         <div class="form-group">
                                             <label>参加者</label>
-                                            <div class="multiselect">
-                                                <div class="selectBox" id="selectBoxClick">
-                                                    <select class="form-control" id="userSelect" text="参加者選択">
-                                                    </select>
-                                                    <div class="overSelect"></div>
-                                                </div>
-                                                <br>
-                                                <div id="checkboxes">
-                                                    <div th:each="user : ${users}">
-
-                                                        <input type="checkbox" name="userIdList"
-                                                            th:value="${user.userId}" />
-                                                        <label><span  th:text="|${user.userName}&nbsp;&nbsp;&nbsp;&nbsp;${user.team}&nbsp;&nbsp;&nbsp;&nbsp;${user.position}|"></span></label>
-                                                    </div>
+                                            <div id="checkboxes" class="form-control"
+                                                style="overflow-y:auto; height:200px">
+                                                <div th:each="user : ${users}">
+                                                    <input type="checkbox" th:id="${user.userId}" name="userIdList"
+                                                        th:value="${user.userId}" />
+                                                    <tr>
+                                                        <td>
+                                                            <label th:for="${user.userId}"
+                                                                th:text="${user.userName}"></label>
+                                                        </td>
+                                                        <td>
+                                                            <label th:text="${user.team}"></label>
+                                                        </td>
+                                                        <td>
+                                                            <label th:text="${user.position}"></label>
+                                                        </td>
+                                                    </tr>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label>案件</label>
                                             <select class="form-control" id="agendaSelect" name="agendaId">
-                                                <option th:each="agenda : ${agendas}" th:value="${agenda.agendaId}"
-                                                    th:text="${agenda.title}">circle</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" id="add-event-submit" class="btn btn-primary">
-                                            Save
+                                            登録
                                         </button>
                                         <button type="button" class="btn btn-primary" data-dismiss="modal">
-                                            Close
+                                            戻る
                                         </button>
                                     </div>
                                 </form>

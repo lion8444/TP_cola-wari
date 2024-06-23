@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{common/schedule_update_layout :: layout(~{::body/content()})}">
+
+<head>
+
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title></title>
+
+</head>
+
+<body id="page-top">
+	<div class="container-fluid">
+
+		<!-- Page Heading -->
+		<h1 class="h3 mb-4 text-gray-800">スゲージュル変更</h1>
+
+		<form th:action="@{/schedule/update}" method="post">
+			<input type="hidden" name="scheduleId" th:value="${schedule.scheduleBean.scheduleId}">
+			<div class="col-md-6 form-group">
+				<label class="form-label">スゲージュル名</label>
+				<input type="text" class="form-control" name="title" th:value="${schedule.scheduleBean.title}">
+			</div>
+			<div class="col-md-6 form-group">
+				<label class="form-label">開始日付</label>
+				<input type="text" class="datetimepicker form-control" name="startDate"
+					th:value="${schedule.scheduleBean.startDate}" autocomplete='off' />
+			</div>
+			<div class="col-md-6 form-group">
+				<label class="form-label">終了日付</label>
+				<input type="text" class="datetimepicker form-control" name="endDate"
+					th:value="${schedule.scheduleBean.endDate}" autocomplete='off' />
+			</div>
+			<div class="col-md-6 form-group">
+				<label class="form-label">住所</label>
+				<input type="text" class="form-control" name="addr" th:field="${schedule.scheduleBean.addr}">
+			</div>
+			<div class="col-md-6 form-group">
+				<label class="form-label">説明</label>
+				<textarea name="description" class="form-control"
+					th:value="${schedule.scheduleBean.description}"></textarea>
+			</div>
+			<div class="col-md-6 form-group">
+				<label class="form-label">参加者</label>
+				<div class="form-control" style="overflow-y:auto; height:200px">
+					<div th:each="user : ${users}">
+							<input type="checkbox" th:id="${user.userBean.userId}" name="userIdList"
+								th:value="${user.userBean.userId}" th:checked="${user.checked eq 1}"/>
+							<tr>
+								<td>
+									<label th:for="${user.userBean.userId}" th:text="${user.userBean.userName}"></label>
+								</td>
+								<td>
+									<label th:text="${user.userBean.team}"></label>
+								</td>
+								<td>
+									<label th:text="${user.userBean.position}"></label>
+								</td>
+							</tr>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 form-group">
+				<label class="form-label">案件</label>
+				<select class="form-control" name="agendaId" id="agendaSelect">
+					<option th:value="${schedule.scheduleBean.agendaBean.agendaId}"
+						th:text="${schedule.scheduleBean.agendaBean.title}"></option>
+				</select>
+			</div>
+
+			<div class="d-grid gap-2 d-md-block m-3">
+				<button class="btn btn-primary" type="submit">変更</button>
+				<button class="btn btn-primary" type="button"
+					onclick="location.href='/cola_wari/company/list'">戻る</button>
+			</div>
+
+		</form>
+
+	</div>
+</body>
+
+</html>

@@ -1,5 +1,7 @@
 package jp.co.sss.management.controller.mypage;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jp.co.sss.management.bean.UserBean;
+import jp.co.sss.management.entity.AgendaEntry;
 import jp.co.sss.management.entity.User;
 import jp.co.sss.management.form.PasswordForm;
+import jp.co.sss.management.repository.AgendaEntryRepository;
 import jp.co.sss.management.repository.UserRepository;
 
 @Controller
@@ -30,17 +34,27 @@ public class MypageController {
 	@Autowired
 	UserRepository userRepository;
 
+	@Autowired
+	AgendaEntryRepository agendaEntryRepository;
+
 	/**
 	 * マイページ表示用コントローラ（一般会員）
 	 */
 	@RequestMapping(path = "/mypage", method = { RequestMethod.GET, RequestMethod.POST })
-	public String showMypage() {
+	public String showMypage(Model model) {
 		//ログインされていない場合ログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		if (userBean == null) {
 			// 対象が無い場合、ログイン画面へ
 			return "redirect:/";
 		}
+		Integer id = userBean.getUserId();
+		User user = userRepository.getReferenceById(id);
+		model.addAttribute("user",user);
+		List<AgendaEntry> progressEntry = agendaEntryRepository.findByUserId(id,0);
+		model.addAttribute("progresses",progressEntry);
+		List<AgendaEntry> endEntry = agendaEntryRepository.findByUserId(id,1);
+		model.addAttribute("ends",endEntry);
 
 		return "mypage/menu_user";
 	}
