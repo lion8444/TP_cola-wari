@@ -23,34 +23,33 @@ import jp.co.sss.management.entity.User;
 import jp.co.sss.management.form.LoginForm;
 import jp.co.sss.management.repository.AgendaEntryRepository;
 import jp.co.sss.management.repository.ScheduleEntryRepository;
+import jp.co.sss.management.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-
-
 
 @Slf4j
 @Controller
 public class LoginController {
-    
-    @Autowired
-    HttpSession session;
+
+	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
+	HttpSession session;
 
 	@Autowired
 	AgendaEntryRepository agendaEntryRepository;
-	
+
 	@Autowired
 	ScheduleEntryRepository scheduleEntryRepository;
 
-	
-	
 	@RequestMapping(path = "/", method = { RequestMethod.GET, RequestMethod.POST })
 	public String index(Model model) {
-		
+
 		//ユーザの情報が無かったらログイン画面へ
 		if (session.getAttribute("user") == null) {
 			return "login/login";
 		}
-		
-		
+
 		//登録されているユーザのBeanを取得
 		UserBean userBean = ((UserBean) session.getAttribute("user"));
 		//ビーンからユーザIdを取得
@@ -59,58 +58,51 @@ public class LoginController {
 		User user = new User();
 		//空っぽのユーザにIDのみ情報を入れる
 		user.setUserId(userId);
-		
-		
+
 		//ユーザIdが一致する案件情報を中間テーブルを通して検索
 		List<Agenda> agendas = agendaEntryRepository.findByUserAgendas(user);
 		//AgendaBean agendaBean = new AgendaBean();
 		List<AgendaBean> agendaBeans = new ArrayList<>();
-		
-		
+
 		List<Schedule> schedules = scheduleEntryRepository.findByUserSchedules(user);
 		List<ScheduleBean> scheduleBeans = new ArrayList<>();
-		
-		
-		
+
 		for (Agenda agenda : agendas) {
 			log.debug("案件データ確認 : {}", agenda.getTitle());
 
 			// 各Agendaごとに新しいAgendaBeanを作成して情報をセットする
-		    AgendaBean agendaBean = new AgendaBean();
-		    agendaBean.setTitle(agenda.getTitle());
-		    
-		    // AgendaBeanをリストに追加
-		    agendaBeans.add(agendaBean);		
-		 }
-		
-		
-		for(Schedule schedule : schedules) {
+			AgendaBean agendaBean = new AgendaBean();
+			agendaBean.setTitle(agenda.getTitle());
+
+			// AgendaBeanをリストに追加
+			agendaBeans.add(agendaBean);
+		}
+
+		for (Schedule schedule : schedules) {
 			log.debug("スケジュールデータ確認 : {}", schedule.getTitle());
-			
+
 			ScheduleBean scheduleBean = new ScheduleBean();
 			scheduleBean.setTitle(schedule.getTitle());
-		    
+
 			scheduleBeans.add(scheduleBean);
-		    
+
 		}
-		
-		
-		
-		
-		
-		
+
 		//リクエストスコープ（仮）に、取得した案件情報を登録
 		model.addAttribute("nowAgendas", agendaBeans);
-		
+
 		model.addAttribute("nowTasks", scheduleBeans);
 
-		
 		//管理者権限の情報をセッションスコープに保存
-        session.setAttribute("auth", userBean.getAuth());
-        
-        return "index";
-    }
-    
+		session.setAttribute("auth", userBean.getAuth());
+
+		//不要なセッションスコープ削除
+		session.removeAttribute("messeage1");
+		session.removeAttribute("messeage2");
+
+		return "index";
+	}
+
 	/**
 	 * ログイン処理
 	 *
@@ -120,13 +112,13 @@ public class LoginController {
 			ログインが成功した場合 "redirect:/index" トップ画面表示処理
 	 */
 	@RequestMapping(path = "/login", method = { RequestMethod.GET, RequestMethod.POST })
-	public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult result) {
+	public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult result, Model model) {
 		String returnStr = "login";
 
 		//入力値に誤りがあった場合
 		if (result.hasErrors()) {
-			// セッション情報を無効にして、ログイン画面再表示
-			session.invalidate();
+			session.setAttribute("result", result);
+			model.addAttribute("org.springframework.validation.BindingResult.userForm", result);
 			returnStr = "login/login";
 		} else {
 			returnStr = "redirect:/";

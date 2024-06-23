@@ -2,8 +2,6 @@ package jp.co.sss.management.repository;
 
 import java.util.List;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -54,20 +52,23 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	 * @param userId
 	 * @return 会員エンティティ
 	 */
-	User findByUserId(Integer userId);
+	User findByUserId(Integer userId);;
 
 	/**
 	 * 
 	 * 
 	 */
 	@Query("SELECT u FROM User u WHERE u.status = :status and u.userName LIKE %:keyword% ORDER BY FUNCTION('NLSSORT', u.position, 'NLS_SORT=BINARY_AI') ASC")
-	List<User> findByKeywordAndStatusOrderByPositionASC(@Param(value="keyword") String keyword,@Param(value="status") int status);
-	
+	List<User> findByKeywordAndStatusOrderByPositionASC(@Param(value = "keyword") String keyword,
+			@Param(value = "status") int status);
+
 	@Query("SELECT u FROM User u WHERE u.status = :status and u.userName LIKE %:keyword% ORDER BY FUNCTION('NLSSORT', u.userName, 'NLS_SORT=BINARY_AI') ASC")
-	List<User> findByKeywordAndStatusOrderByUserNameSC(@Param(value="keyword") String keyword,@Param(value="status") int status);
-	
+	List<User> findByKeywordAndStatusOrderByUserNameSC(@Param(value = "keyword") String keyword,
+			@Param(value = "status") int status);
+
 	@Query("SELECT u FROM User u WHERE u.status = :status and u.userName LIKE %:keyword% ORDER BY FUNCTION('NLSSORT', u.team, 'NLS_SORT=BINARY_AI') ASC")
-	List<User> findByKeywordAndStatusOrderByTeamSC(@Param(value="keyword") String keyword,@Param(value="status") int status);
+	List<User> findByKeywordAndStatusOrderByTeamSC(@Param(value = "keyword") String keyword,
+			@Param(value = "status") int status);
 
 	List<User> findByStatusOrderByUserIdAsc(int i);
 }

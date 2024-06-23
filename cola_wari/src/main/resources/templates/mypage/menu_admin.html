@@ -14,6 +14,7 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">管理者限定機能</h1>
     <form method="post">
+      <p th:if="${select != null}" style="color: red;">変更、削除を行う場合はユーザを選択してください。</p>
       <table class="table">
           <thead>
               <tr>
@@ -34,6 +35,7 @@
               </tr>
           </tbody>
       </table>
+      <button type="submit" th:formaction="@{/mypage/category}" class="btn btn-primary">カテゴリ登録</button>
       <button type="submit" th:formaction="@{/mypage/employee/input}" class="btn btn-primary">登録</button>
       <button type="submit" th:formaction="@{/mypage/employee/update_r}" class="btn btn-secondary">変更</button>
       <button type="submit" th:formaction="@{/mypage/employee/delete/check}" class="btn btn-dark">削除</button>

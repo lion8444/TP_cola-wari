@@ -43,16 +43,21 @@ public class AdminUserResistController {
 			return "redirect:/";
 		}
 
+		// セッションからユーザー登録情報を取得
+		UserForm userForm = (UserForm) session.getAttribute("userForm");
+
 		// セッションからエラー情報を取得
 		BindingResult result = (BindingResult) session.getAttribute("result");
 		if (result != null) {
 			// エラー情報をモデルに追加し、セッションから削除
 			model.addAttribute("org.springframework.validation.BindingResult.userForm", result);
 			session.removeAttribute("result");
+		} else {
+			// 入力フォーム情報を画面表示設定
+			model.addAttribute("userForm", userForm);
 		}
 
-		// セッションからユーザー登録情報を取得
-		UserForm userForm = (UserForm) session.getAttribute("userForm");
+		//userFormに情報が無いとき、初めての遷移と判断。
 		if (userForm == null) {
 			userForm = new UserForm();
 			//初期パスワード追加
@@ -65,9 +70,6 @@ public class AdminUserResistController {
 
 			return "mypage/admin/resist_input";
 		}
-
-		// 入力フォーム情報を画面表示設定
-		model.addAttribute("userForm", userForm);
 
 		return "mypage/admin/resist_input";
 	}
