@@ -1,9 +1,9 @@
 package jp.co.sss.management.service.schedule;
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,7 +14,6 @@ import jp.co.sss.management.bean.RestScheduleBean;
 import jp.co.sss.management.bean.ScheduleBean;
 import jp.co.sss.management.bean.ScheduleEntryBean;
 import jp.co.sss.management.entity.Agenda;
-import jp.co.sss.management.entity.Agent;
 import jp.co.sss.management.entity.Schedule;
 import jp.co.sss.management.entity.ScheduleEntry;
 import jp.co.sss.management.entity.User;
@@ -124,7 +123,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         // log.debug("ScheduleServiceImpl.insertSchedule dateformat check : {}",simpleDateFormat.parse(form.getStartDate()));
         // schedule.setStartDate();
         
-        Agenda agenda = agendaRepository.save(agendaRepository.getReferenceById(form.getAgendaId()));
+        Agenda agenda = new Agenda();
+        if(form.getAgendaId() != null) {
+        	agenda = agendaRepository.save(agendaRepository.getReferenceById(form.getAgendaId()));
+        }
+        
 
         schedule.setAgenda(agenda);
         if (scheduleRepository.save(schedule) == null) {

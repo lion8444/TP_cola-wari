@@ -43,7 +43,7 @@ public class Company {
 	private String comName;
 
 	/**
-	 * 企業注所
+	 * 企業住所
 	 */
 	@Column
 	private String addr;

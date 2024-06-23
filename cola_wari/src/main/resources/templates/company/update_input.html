@@ -13,16 +13,16 @@
 	<div class="container-fluid">
 
 		<!-- Page Heading -->
-		<h1 class="h3 mb-4 text-gray-800">企業登録</h1>
-		<p>登録する情報を入力してください。</p>
+		<h1 class="h3 mb-4 text-gray-800">企業情報変更</h1>
+		<p>変更する情報を入力してください。</p>
 
 		<table>
-			<form th:action="@{company/regist/check}" method="post" th:object="${companyForm}">
-				
+			<form th:action="@{company/regist/check}" method="post">
+
 				<tr>
 					<div class="col-md-6">
 						<td><label class="form-label">企業名</label></td>
-						<td><input type="text" th:field="*{comName}" th:value="*{comName}"/></td>
+						<td><input type="text" th:field="*{companyForm.comName}" th:value="${company.comName}"/></td>
 					</div>
 				</tr>
 
@@ -32,7 +32,7 @@
 						<td><label class="form-label">業種</label></td>
 						<td><select name="cateId">
 								<option value="">業種を選択</option>
-								<option th:each="category:${categories}" th:value="*{cateId}"
+								<option th:each="category:${categories}" th:value="*{companyForm.cateId}"
 									th:text="${category.cateName}"></option>
 							</select></td>
 					</div>
@@ -40,64 +40,64 @@
 				<tr>
 					<div class="col-md-6">
 						<td><label class="form-label">住所</label></td>
-						<td><input type="text" th:field="*{addr}" th:value="*{addr}"/></td>
+						<td><input type="text" th:field="*{companyForm.addr}" /></td>
 					</div>
 				</tr>
 				<tr>
 					<div class="col-md-6">
 						<td><label class="form-label">企業URL</label></td>
-						<td><input type="url" th:field="*{comUrl}" th:value="*{comUrl}"/></td>
+						<td><input type="url" th:field="*{companyForm.comUrl}" /></td>
 					</div>
 				</tr>
 				<tr>
 					<div class="col-md-6">
 						<td><label class="form-label">説明</label></td>
-						<td><input type="text" th:field="*{description}" th:value="*{description}"/></td>
+						<td><input type="text" th:field="*{companyForm.description}" /></td>
 					</div>
 				</tr>
 				<tr>
 					<div class="col-md-6">
-<!--						<td><label class="form-label">担当者名</label></td>
-						<td><input type="text" th:field="*{agentForm.agentName}" th:value="*{agentForm.agentName}"/></td>
+						<td><label class="form-label">担当者名</label></td>
+						<td><input type="text" th:field="*{agentForm.agentName}" /></td>
 					</div>
 				</tr>
 				<tr>
 					<div class="col-md-6">
 						<td><label class="form-label">部署名</label></td>
-						<td><input type="text" th:field="*{agentForm.department}" th:value="*{agentForm.department}"/></td>
+						<td><input type="text" th:field="*{agentForm.department}" /></td>
 					</div>
 				</tr>
 				<tr>
 					<div class="col-md-6">
 						<td><label class="form-label">所属チーム</label></td>
-						<td><input type="text" th:field="*{agentForm.team}" th:value="*{agentForm.team}"/></td>
+						<td><input type="text" th:field="*{agentForm.team}" /></td>
 					</div>
 				</tr>
 				<tr>
 					<div class="col-md-6">
 						<td><label class="form-label">役職</label></td>
-						<td><input type="text" th:field="*{agentForm.position}" th:value="*{agentForm.position}"/></td>
+						<td><input type="text" th:field="*{agentForm.position}" /></td>
 					</div>
 				</tr>
 				<tr>
 					<div class="col-md-6">
 						<td><label class="form-label">電話番号</label></td>
-						<td><input type="text" th:field="*{agentForm.tel}" th:value="*{agentForm.tel}"/></td>
+						<td><input type="text" th:field="*{agentForm.tel}" /></td>
 					</div>
 				</tr>
 				<tr>
 					<div class="col-md-6">
 						<td><label class="form-label">メールアドレス</label></td>
-						<td><input type="text" th:field="*{agentForm.email}" th:value="*{agentForm.email}"/></td>
+						<td><input type="text" th:field="*{agentForm.email}" /></td>
 					</div>
-				</tr>-->
+				</tr>
 
 				<tr>
 					<td>
 						<div class="d-grid gap-2 d-md-block m-3">
 
 							<button class="btn btn-primary" type="submit"
-								onclick="location.href='/cola_wari/company/regist/check'">確認</button>
+								onclick="location.href='/cola_wari/company/update/check'">確認</button>
 
 							<button class="btn btn-primary" type="button"
 								onclick="location.href='/cola_wari/company/list'">戻る</button>

@@ -17,7 +17,8 @@
 		<!-- Page Heading -->
 		<h1 class="h3 mb-4 text-gray-800">企業詳細</h1>
 		<div class="d-grid gap-2 d-md-block my-3">
-			<button class="btn btn-primary" type="button" onclick="location.href='/cola_wari/company/update/input'">変更</button>
+			<!--<button class="btn btn-primary" type="button" onclick="{/company/detail/1}" method="get">変更</button>-->
+			<a th:href="@{/company/update/input/{id}(id=${company.comId})}">変更</a>
 		</div>
 
 		<table class="table">
