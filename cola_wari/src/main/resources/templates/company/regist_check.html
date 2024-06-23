@@ -23,13 +23,13 @@
 				<th scope="col">企業名</th>
 				<td scope="col" th:text="*{comName}"></td>
 			</tr>
-			<tr>
+			<!--<tr>
 				<th scope="row">業種</th>
-				<td th:text="*{cateName}"></td>
-			</tr>
+				<td th:text="*{companyForm.cateId.cateName}"></td>
+			</tr>-->
 			<tr>
 				<th scope="row">住所</th>
-				<td th:text="*{comAddr}"></td>
+				<td th:text="*{addr}"></td>
 			</tr>
 			<tr>
 				<th scope="row">企業URL</th>
@@ -39,18 +39,40 @@
 				<th scope="row">説明</th>
 				<td th:text="*{description}"></td>
 			</tr>
-			<tr>
-				<th scope="row">企業担当者</th>
-				<td th:text="*{comName}"></td>
+<!--			<tr>
+				<th scope="row">担当者名</th>
+				<td th:text="*{agentForm.agentName}"></td>
 			</tr>
-			
+			<tr>
+				<th scope="row">部署名</th>
+				<td th:text="*{agentForm.department}"></td>
+			</tr>
+			<tr>
+				<th scope="row">所属チーム</th>
+				<td th:text="*{agentForm.team}"></td>
+			</tr>
+			<tr>
+				<th scope="row">役職</th>
+				<td th:text="*{agentForm.position}"></td>
+			</tr>
+			<tr>
+				<th scope="row">電話番号</th>
+				<td th:text="*{agentForm.tel}"></td>
+			</tr>
+			<tr>
+				<th scope="row">メールアドレス</th>
+				<td th:text="*{agentForm.email}"></td>
+			</tr>-->
+
 
 		</table>
 
 
 		<div class="d-grid gap-2 d-md-block my-3">
-			<button class="btn btn-primary" type="button" onclick="location.href='/cola_wari/company/resist/complete'">登録</button>
-			<button class="btn btn-primary" type="button" onclick="location.href='/cola_wari/company/regist/input'">戻る</button>
+			<button class="btn btn-primary" type="button"
+				onclick="location.href='/cola_wari/company/resist/complete'">登録</button>
+			<button class="btn btn-primary" type="button"
+				onclick="location.href='/cola_wari/company/regist/input'">戻る</button>
 		</div>
 
 

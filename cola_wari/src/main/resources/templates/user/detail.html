@@ -8,7 +8,6 @@
 	<title></title>
 
 </head>
-
 <body>
 	<h1 class="h3 mb-4 text-gray-800">部員詳細</h1>
 		<h3 th:if="${user.status == 1}">
@@ -73,37 +72,34 @@
 										<a th:href="@{/agenda/detail/{id}(id=${progress.agenda.agendaId})}">
 											<li th:text="${progress.agenda.title}"></li>
 										</a>
-								</span>
-								<span th:if="${progress.agenda == null}">
-									NULLが参照されました
-								</span>
-								</td>
-							</tr>
-							<tr style="background-color: lightgray;" th:each="end, endStat : ${ends}">
-								<th th:if="${endStat.index == 0}">
-									終了済み案件
-								</th>
-								<th th:unless="${endStat.index == 0}">
-
-								</th>
-								<span th:if="${end.agenda != null and end.agenda.status == 1}">
+									</span>
+									<span th:if="${progress.agenda == null}">
+										NULLが参照されました
+									</span>
+									</td>
+								</tr>
+								<tr style="background-color: lightgray;" th:each="end, endStat : ${ends}">
+									<th th:if="${endStat.index == 0}">
+											終了済み案件
+									</th>
+									<th th:unless="${endStat.index == 0}">
+										
+									</th>
+									<span th:if="${end.agenda != null and end.agenda.status == 1}">
 									<td>
 										<a th:href="@{/agenda/detail/{id}(id=${end.agenda.agendaId})}">
-											<fontfont color="red">
-												<li th:text="${end.agenda.title}"></li>
-												</fontfont>
+											<fontfont color="red"><li th:text="${end.agenda.title}"></li></font>
 										</a>
-								</span>
-								<span th:if="${end.agenda == null}">
-									NULLが参照されました
-								</span>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+									</span>
+									<span th:if="${end.agenda == null}">
+										NULLが参照されました
+									</span>
+									</td>
+								</tr>
+						</table>
 			</div>
-		</div>
+		</tr>
+	</div>
 </body>
 
 </html>

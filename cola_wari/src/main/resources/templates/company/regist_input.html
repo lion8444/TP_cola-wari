@@ -60,64 +60,101 @@
 		<h1 class="h3 mb-4 text-gray-800">企業登録</h1>
 		<p>登録する情報を入力してください。</p>
 
-		<form th:action="@{company/regist/check}" method="post">
-			<div class="col-md-6">
-				<label for="inputCompany" class="form-label">企業名</label>
-				<input type="text" th:field="*{companyForm.comName}" />
-			</div>
-			<!--<div class="col-md-6">
-				<label for="inputEmail4" class="form-label">業種</label>
-				<select name="category">
-					<option th:each="category:${com_categories}" th:value="${category.cateId}" th:text="${category.cateName}"></option>
-				</select>
-			</div>-->
-			<div class="col-md-6">
-				<label for="inputAddress" class="form-label">住所</label>
-				<input type="text" th:field="*{companyForm.comAddr}" />
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">企業URL</label>
-				<input type="url" th:field="*{companyForm.comUrl}" />
-			</div>
-			<div class="col-md-6">
-				<label for="inputAddress" class="form-label">説明</label>
-				<input type="text" th:field="*{companyForm.description}" />
-			</div>
+		<table>
+			<form th:action="@{company/regist/check}" method="post" th:object="${companyForm}">
+				
+				<tr>
+					<div class="col-md-6">
+						<td><label class="form-label">企業名</label></td>
+						<td><input type="text" th:field="*{comName}" th:value="*{comName}"/></td>
+					</div>
+				</tr>
 
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">担当者</label>
-				<input type="text" th:field="*{agentForm.agentName}"/>
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">部署名</label>
-				<input type="text" th:field="*{agentForm.department}"/>
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">所属チーム</label>
-				<input type="text" th:field="*{agentForm.team}"/>
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">役職</label>
-				<input type="text" th:field="*{agentForm.position}"/>
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">電話番号</label>
-				<input type="text" th:field="*{agentForm.tel}"/>
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">メールアドレス</label>
-				<input type="text" th:field="*{agentForm.email}"/>
-			</div>
+				<tr>
 
-			<div class="d-grid gap-2 d-md-block m-3">
-				<button class="btn btn-primary" type="submit"
-					onclick="location.href='/cola_wari/company/regist/check'">確認</button>
-				<button class="btn btn-primary" type="button"
-					onclick="location.href='/cola_wari/company/list'">戻る</button>
-			</div>
+					<div class="col-md-6">
+						<td><label class="form-label">業種</label></td>
+						<td><select name="cateId">
+								<option value="">業種を選択</option>
+								<option th:each="category:${categories}" th:value="*{cateId}"
+									th:text="${category.cateName}"></option>
+							</select></td>
+					</div>
+				</tr>
+				<tr>
+					<div class="col-md-6">
+						<td><label class="form-label">住所</label></td>
+						<td><input type="text" th:field="*{addr}" th:value="*{addr}"/></td>
+					</div>
+				</tr>
+				<tr>
+					<div class="col-md-6">
+						<td><label class="form-label">企業URL</label></td>
+						<td><input type="url" th:field="*{comUrl}" th:value="*{comUrl}"/></td>
+					</div>
+				</tr>
+				<tr>
+					<div class="col-md-6">
+						<td><label class="form-label">説明</label></td>
+						<td><input type="text" th:field="*{description}" th:value="*{description}"/></td>
+					</div>
+				</tr>
+				<tr>
+					<div class="col-md-6">
+<!--						<td><label class="form-label">担当者名</label></td>
+						<td><input type="text" th:field="*{agentForm.agentName}" th:value="*{agentForm.agentName}"/></td>
+					</div>
+				</tr>
+				<tr>
+					<div class="col-md-6">
+						<td><label class="form-label">部署名</label></td>
+						<td><input type="text" th:field="*{agentForm.department}" th:value="*{agentForm.department}"/></td>
+					</div>
+				</tr>
+				<tr>
+					<div class="col-md-6">
+						<td><label class="form-label">所属チーム</label></td>
+						<td><input type="text" th:field="*{agentForm.team}" th:value="*{agentForm.team}"/></td>
+					</div>
+				</tr>
+				<tr>
+					<div class="col-md-6">
+						<td><label class="form-label">役職</label></td>
+						<td><input type="text" th:field="*{agentForm.position}" th:value="*{agentForm.position}"/></td>
+					</div>
+				</tr>
+				<tr>
+					<div class="col-md-6">
+						<td><label class="form-label">電話番号</label></td>
+						<td><input type="text" th:field="*{agentForm.tel}" th:value="*{agentForm.tel}"/></td>
+					</div>
+				</tr>
+				<tr>
+					<div class="col-md-6">
+						<td><label class="form-label">メールアドレス</label></td>
+						<td><input type="text" th:field="*{agentForm.email}" th:value="*{agentForm.email}"/></td>
+					</div>
+				</tr>-->
 
-		</form>
+				<tr>
+					<td>
+						<div class="d-grid gap-2 d-md-block m-3">
 
+							<button class="btn btn-primary" type="submit"
+								onclick="location.href='/cola_wari/company/regist/check'">確認</button>
+
+							<button class="btn btn-primary" type="button"
+								onclick="location.href='/cola_wari/company/list'">戻る</button>
+
+						</div>
+					</td>
+				</tr>
+
+
+
+
+			</form>
+		</table>
 	</div>
 </body>
 

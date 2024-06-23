@@ -71,6 +71,13 @@ public class MypageController {
 			return "redirect:/";
 		}
 
+		BindingResult result = (BindingResult) session.getAttribute("result");
+		if (result != null) {
+			//セッションにエラー情報がある場合、エラー情報を画面表示設定
+			model.addAttribute("org.springframework.validation.BindingResult.passwordForm", result);
+			session.removeAttribute("result");
+		}
+
 		return "mypage/user/update_input";
 	}
 
@@ -80,44 +87,66 @@ public class MypageController {
 	 */
 	@RequestMapping(path = "/mypage/password/update/complete_r", method = RequestMethod.POST)
 	public String updatePassword(@Valid @ModelAttribute PasswordForm passwordForm, BindingResult result) {
-		// 入力値にエラーがあった場合、入力画面に戻る
-		if (result.hasErrors()) {
-
-			session.setAttribute("result", result);
-
-			//変更入力画面　表示処理
-			return "redirect:mypage/employee/update";
-		}
-
+		//エラーがあるか否かを調べるやつ
+		boolean error = false;
 		//userという名前のセッションスコープからユーザIDの取得
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		int userId = userBean.getUserId();
-
-		// 変更対象の情報を取得(一応、いらないなら消す)
+		// 変更対象の情報を取得
 		User user = userRepository.findByUserIdAndStatus(userId, 0);
+
 		if (user == null) {
 			// 対象が無い場合、エラー
 			return "redirect:/";
 		}
 
-		//入力された前回のパスワードとDBのパスワードが一致しないとき
-		if (!(user.getPassword().equals(passwordForm.getOldPassword()))) {
-			return "redirect:/";
-		} else {
+		// 入力値にエラーがあった場合、入力画面に戻る
+		if (result.hasErrors()) {
+			//入力された前回のパスワードとDBのパスワードが一致しないとき
+			if (!(user.getPassword().equals(passwordForm.getOldPassword()))) {
+				String messeage1 = "・前回のパスワードが一致しません。";
+				session.setAttribute("messeage1", messeage1);
+			}
 			//新しいパスワードと確認用パスワードが一致しないとき
 			if (!(passwordForm.getNewPassword().equals(passwordForm.getCheckPassword()))) {
-				return "redirect:/";
-			} else {
-				//フォームの新しいパスワードを変更しエンティティを更新。
-				user.setPassword(passwordForm.getNewPassword());
-
-				// 情報を保存
-				userRepository.save(user);
+				String messeage2 = "・新しいパスワードと確認用パスワードが一致しません。";
+				session.setAttribute("messeage2", messeage2);
 			}
+
+			session.setAttribute("result", result);
+
+			//変更入力画面　表示処理
+			return "redirect:/mypage/password/update";
 		}
 
-		//変更完了画面　表示処理
-		return "redirect:/mypage/password/update/complete";
+		//入力された前回のパスワードとDBのパスワードが一致しないとき
+		if (!(user.getPassword().equals(passwordForm.getOldPassword()))) {
+			String messeage1 = "前回のパスワードと一致しません。";
+			session.setAttribute("messeage1", messeage1);
+			error = true;
+		}
+		//新しいパスワードと確認用パスワードが一致しないとき
+		if (!(passwordForm.getNewPassword().equals(passwordForm.getCheckPassword()))) {
+			String messeage2 = "新しいパスワードと確認用パスワードが一致しません。";
+			session.setAttribute("messeage2", messeage2);
+			error = true;
+		}
+
+		//エラーがない場合
+		if (error == false) {
+			//フォームの新しいパスワードを変更しエンティティを更新。
+			user.setPassword(passwordForm.getNewPassword());
+
+			// 情報を保存
+			userRepository.save(user);
+
+			//変更完了画面　表示処理
+			return "redirect:/mypage/password/update/complete";
+		} else {
+			//エラーがある場合、入力画面へリダイレクト
+			return "redirect:mypage/password/update";
+		}
+
 	}
 
 	/**
@@ -125,6 +154,16 @@ public class MypageController {
 	 */
 	@RequestMapping(path = "/mypage/password/update/complete", method = RequestMethod.GET)
 	public String showCompletePassword() {
+		session.removeAttribute("messeage1");
+		session.removeAttribute("messeage2");
+
+		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
+		UserBean userBean = (UserBean) session.getAttribute("user");
+		if (userBean == null) {
+			// 対象が無い場合、ログイン画面へ
+			return "redirect:/";
+		}
+
 		return "mypage/user/update_complete";
 	}
 
