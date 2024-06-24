@@ -29,7 +29,7 @@ public class AdminUserDeleteController {
 	/**
 	 * 削除確認画面表示
 	 */
-	@RequestMapping(path = "/mypage/employee/delete/check", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/admin/employee/delete/check", method = { RequestMethod.GET, RequestMethod.POST })
 	public String userDeleteCheck(@RequestParam(value = "selectedUser", required = false) String selectedUserId) {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
@@ -65,7 +65,7 @@ public class AdminUserDeleteController {
 	/**
 	 * データベース更新
 	 */
-	@RequestMapping(path = "/mypage/employee/delete/complete_r", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/admin/employee/delete/complete_r", method = { RequestMethod.GET, RequestMethod.POST })
 	public String userDeleteComplete_r() {
 		//セッションスコープから削除するデータ抽出
 		User userDelete = (User) session.getAttribute("userForm");
@@ -79,13 +79,13 @@ public class AdminUserDeleteController {
 		//セッション情報の削除
 		session.removeAttribute("userForm");
 
-		return "redirect:/mypage/employee/delete/complete";
+		return "redirect:/admin/employee/delete/complete";
 	}
 
 	/**
 	 * 完了画面表示
 	 */
-	@GetMapping("/mypage/employee/delete/complete")
+	@GetMapping("/admin/employee/delete/complete")
 	public String userDeleteComplete() {
 		return "mypage/admin/delete_complete";
 	}

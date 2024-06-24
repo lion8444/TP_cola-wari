@@ -35,7 +35,7 @@ public class AdminUserUpdateController {
 	/**
 	 * 登録画面表示コントローラ
 	 */
-	@RequestMapping(path = "/mypage/employee/update_r", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/admin/employee/update_r", method = { RequestMethod.GET, RequestMethod.POST })
 	public String showUserUpdate_r(@RequestParam(value = "selectedUser", required = false) String selectedUserId) {
 		//メッセージ表示用(変更削除する人を選択してください。)
 		Integer select = 0;
@@ -76,16 +76,16 @@ public class AdminUserUpdateController {
 			//変更入力フォームをセッションに保持
 			session.setAttribute("userUpdateForm", userForm);
 
-			return "redirect:/mypage/employee/update";
+			return "redirect:/admin/employee/update";
 		}
 
 		//変更入力フォームをセッションに保持
 		session.setAttribute("userUpdateForm", userForm);
 
-		return "redirect:/mypage/employee/update";
+		return "redirect:/admin/employee/update";
 	}
 
-	@RequestMapping(path = "/mypage/employee/update", method = RequestMethod.GET)
+	@RequestMapping(path = "/admin/employee/update", method = RequestMethod.GET)
 	public String showUserUpdate(Model model) {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
@@ -116,26 +116,26 @@ public class AdminUserUpdateController {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(path = "/mypage/employee/update/check_r", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/admin/employee/update/check_r", method = { RequestMethod.GET, RequestMethod.POST })
 	public String inputUpdateUser_r(@Valid @ModelAttribute UserUpdateForm userUpdateForm, BindingResult result) {
 		// 入力値にエラーがあった場合、入力画面に戻る
 		if (result.hasErrors()) {
 			session.setAttribute("result", result);
 			//変更入力画面　表示処理
-			return "redirect:/mypage/employee/update";
+			return "redirect:/admin/employee/update";
 		}
 
 		//入力された内容をセッションスコープに保存
 		session.setAttribute("userUpdateForm", userUpdateForm);
 
-		return "redirect:/mypage/employee/update/check";
+		return "redirect:/admin/employee/update/check";
 	}
 
 	/**
 	 * 登録確認画面表示
 	 * @return
 	 */
-	@GetMapping("/mypage/employee/update/check")
+	@GetMapping("/admin/employee/update/check")
 	public String inputUpdateUser() {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
@@ -153,7 +153,7 @@ public class AdminUserUpdateController {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(path = "/mypage/employee/update/complete_r", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/admin/employee/update/complete_r", method = { RequestMethod.GET, RequestMethod.POST })
 	public String inputUpdateUserCheck_r() {
 		//セッションスコープの内容を取り出す。
 		UserUpdateForm userUpdateForm = (UserUpdateForm) session.getAttribute("userUpdateForm");
@@ -184,14 +184,14 @@ public class AdminUserUpdateController {
 		//データベース更新
 		userRepository.save(user);
 
-		return "redirect:/mypage/employee/update/complete";
+		return "redirect:/admin/employee/update/complete";
 	}
 
 	/**
 	 * 登録確認画面表示
 	 * @return
 	 */
-	@GetMapping("/mypage/employee/update/complete")
+	@GetMapping("/admin/employee/update/complete")
 	public String inputUpdateUserComplete() {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
