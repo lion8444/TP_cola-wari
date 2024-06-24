@@ -1,7 +1,6 @@
 package jp.co.sss.management.controller.company;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
-import jp.co.sss.management.bean.ComCategoryBean;
 import jakarta.validation.Valid;
 import jp.co.sss.management.entity.Agent;
 import jp.co.sss.management.entity.ComCategory;
@@ -94,7 +92,7 @@ public class ComRegistController {
 	 * 	入力値エラーなし："redirect:regist/check" 登録確認画面　表示処理
 	 */
 	@PostMapping("regist/input")
-	public String registInputCheck(@Valid @ModelAttribute CompanyForm companyForm, AgentForm agentForm) {
+	public String registInputCheck(@Valid @ModelAttribute CompanyForm companyForm, @Valid @ModelAttribute AgentForm agentForm) {
 
 		log.debug("ComRegistController.registInputCheck CompanyForm : {}, AgentForm : {}", companyForm.toString(), agentForm.toString());
 		
@@ -112,7 +110,6 @@ public class ComRegistController {
 	 * @param model Viewとの値受渡し
 	 * @return "admin/item/regist_check" 登録確認画面表示
 	 */
-	@SuppressWarnings("unchecked")
 	@GetMapping("regist/check")
 	public String registCheck(Model model) {
 		//セッションから入力フォーム情報取得
@@ -147,7 +144,6 @@ public class ComRegistController {
 	 *
 	 * @return "redirect:/regist/complete" 登録完了画面　表示処理
 	 */
-	@SuppressWarnings("unchecked")
 	@PostMapping("regist/check")
 	public String registComplete() {
 		
@@ -183,14 +179,7 @@ public class ComRegistController {
 			}
 			agentEntity.setCompany(companyEntity);
 			agentRepository.save(agentEntity);	
-		}
-		// Agent agentEntity = new Agent();
-		// BeanUtils.copyProperties(agentForm, agentEntity);
-		// if (agentForm.getAgentId() != null) {
-		// 	agentEntity.setAgentId(agentForm.getAgentId());
-		// }
-		// agentEntity.setCompany(companyEntity);
-		// agentRepository.save(agentEntity);	
+		}	
 
 		//セッション情報の削除
 		session.removeAttribute("companyForm");
