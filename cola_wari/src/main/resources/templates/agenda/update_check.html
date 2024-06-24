@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
+
+<head>
+
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title></title>
+
+</head>
+
+<body id="page-top">
+
+	<!-- Begin Page Content -->
+	<div class="container-fluid">
+
+		<!-- Page Heading -->
+		<h1 class="h3 mb-4 text-gray-800">案件変更確認</h1>
+		<p>以下の内容に変更します。</p>
+
+		<form th:action="@{/agenda/update/complete}" method="post">
+			<table class="table">
+
+				<tr>
+					<th scope="col">案件名</th>
+					<td th:text="${agendaForm.title}" scope="col"></td>
+				</tr>
+				<tr>
+					<th scope="row">企業名</th>
+					<td th:text="${com.comName}"></td>
+				</tr>
+				<tr>
+					<th scope="row">説明</th>
+					<td th:text="${agendaForm.description}"></td>
+				</tr>
+				<tr th:each="user:${userList}">
+					<th scope="row">担当部員名</th>
+					<td th:text="${user.userName}"></td>
+					<input type="hidden" name="userId" th:value="${user.userId}" />
+				</tr>
+				<tr>
+					<th scope="row">企業担当者名</th>
+					<td th:text="${agent.agentName}"></td>
+					<input type="hidden" name="agentId" th:value="${agent.agentId}" />
+
+				</tr>
+				<tr>
+					<th scope="row">案件開始日</th>
+					<td th:text="${agendaForm.startDate}"></td>
+				</tr>
+				<tr>
+					<th scope="row">案件終了日</th>
+					<td th:text="${agendaForm.endDate}"></td>
+				</tr>
+				<tr>
+					<th scope="row">報告</th>
+					<td th:text="${agendaForm.report}"></td>
+				</tr>
+
+
+			</table>
+
+			<input type="hidden" name="agendaId" th:value="${agendaForm.agendaId}">
+			<input type="hidden" name="title" th:value="${agendaForm.title}" />
+			<input type="hidden" name="comId" th:value="${com.comId}" />
+			<input type="hidden" name="description" th:value="${agendaForm.description}" />
+			<input type="hidden" name="startDate" th:value="${agendaForm.startDate}" />
+			<input type="hidden" name="endDate" th:value="${agendaForm.endDate}" />
+			<input type="hidden" name="status" th:value="${agendaForm.status}" />
+			<input type="hidden" name="report" th:value="${agendaForm.report}" />
+
+			<div class="d-grid gap-2 d-md-block my-3">
+				<input class="btn btn-primary" type="submit" value="変更">
+			</div>
+
+
+		</form>
+		
+		<form  th:action="@{/agenda/update}" >
+		<div class="d-grid gap-2 d-md-block my-3">
+			<input class="btn btn-primary" type="submit" value="戻る">
+		</div>
+		</form>
+
+
+	</div>
+	<!-- /.container-fluid -->
+
+</body>
+
+</html>

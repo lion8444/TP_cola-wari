@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
+
+<head>
+
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title></title>
+
+</head>
+
+<body id="page-top">
+
+	<!-- Begin Page Content -->
+	<div class="container-fluid">
+
+		<!-- Page Heading -->
+		<h1 class="h3 mb-4 text-gray-800">案件一覧</h1>
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+			<nav class="navbar bg-body-tertiary">
+				<div class="container-fluid">
+
+					<form class="d-flex" role="search">
+						<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn btn-outline-success" type="submit">Search</button>
+					</form>
+				</div>
+			</nav>
+		</div>
+		<th:block th:if="${#lists.isEmpty(agendas)}">
+			<div class="message">
+				<p class="back_to_top_message">案件情報が登録されていません。</p>
+			</div>
+		</th:block>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">No</th>
+					<th scope="col">案件名</th>
+					<th scope="col">担当社員名</th>
+					<th scope="col">企業名</th>
+					<th scope="col">案件開始日</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="agenda: ${agendas}">
+					<th scope="row" th:text="${agenda.agendaId}"></th>
+					<td>
+						<a th:href="@{/agenda/detail/{agendaId}(agendaId=${agenda.agendaId})}"
+							th:text="${agenda.title}"></a>
+					</td>
+					<td>
+						<ul th:each="agendaEntries : ${agenda.agendaEntries}">
+							<li th:text=" ${agendaEntries.user.userName}"></li>
+						</ul>
+					</td>
+					<td th:text="${agenda.company.comName}"></td>
+					<td th:text="${agenda.startDate}"></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+		<form th:action="@{/agenda/input}">
+			<div class="d-grid gap-2 d-md-block">
+				<input class="btn btn-primary" type="submit" value="案件登録">
+			</div>
+		</form>
+
+	</div>
+	<!-- /.container-fluid -->
+
+</body>
+
+</html>
