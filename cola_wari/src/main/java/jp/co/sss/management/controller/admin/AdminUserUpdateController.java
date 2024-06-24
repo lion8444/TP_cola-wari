@@ -1,6 +1,5 @@
 package jp.co.sss.management.controller.admin;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +41,7 @@ public class AdminUserUpdateController {
 		Integer select = 0;
 		if (selectedUserId == null) {
 			//部員登録・変更・削除用のセッションスコープを初期化
-			session.removeAttribute("userForm");
+			session.removeAttribute("userUpdateForm");
 			//メッセージ表示用(変更削除する人を選択してください。)
 			select = 1;
 			session.setAttribute("select", select);
@@ -51,7 +50,7 @@ public class AdminUserUpdateController {
 		}
 
 		//セッションスコープより入力情報を取り出す
-		UserUpdateForm userForm = (UserUpdateForm) session.getAttribute("userForm");
+		UserUpdateForm userForm = (UserUpdateForm) session.getAttribute("userUpdateForm");
 		//userFormに何も入っていない場合、初めての遷移と判断
 		if (userForm == null) {
 			//チェックぼくっすにチェックを入れられたユーザIdで検索し、DBから持ってくる。
@@ -69,18 +68,19 @@ public class AdminUserUpdateController {
 			userForm.setTel(userUpdate.getTel());
 			userForm.setPosition(userUpdate.getPosition());
 			userForm.setAuth(userUpdate.getAuth());
+			userForm.setUserId(userId);
 
-			//userFormにコピー
-			BeanUtils.copyProperties(userUpdate, userForm);
+			//			//userFormにコピー
+			//			BeanUtils.copyProperties(userUpdate, userForm);
 
 			//変更入力フォームをセッションに保持
-			session.setAttribute("userForm", userForm);
+			session.setAttribute("userUpdateForm", userForm);
 
 			return "redirect:/mypage/employee/update";
 		}
 
 		//変更入力フォームをセッションに保持
-		session.setAttribute("userForm", userForm);
+		session.setAttribute("userUpdateForm", userForm);
 
 		return "redirect:/mypage/employee/update";
 	}
@@ -95,15 +95,15 @@ public class AdminUserUpdateController {
 		}
 
 		//セッションから入力フォーム取得
-		UserUpdateForm userForm = (UserUpdateForm) session.getAttribute("userForm");
+		UserUpdateForm userUpdateForm = (UserUpdateForm) session.getAttribute("userUpdateForm");
 
 		// 入力フォーム情報を画面表示設定
-		model.addAttribute("userForm", userForm);
+		model.addAttribute("userUpdateForm", userUpdateForm);
 
 		BindingResult result = (BindingResult) session.getAttribute("result");
 		if (result != null) {
 			//セッションにエラー情報がある場合、エラー情報を画面表示設定
-			model.addAttribute("org.springframework.validation.BindingResult.userForm", result);
+			model.addAttribute("org.springframework.validation.BindingResult.userUpdateForm", result);
 			session.removeAttribute("result");
 		}
 
@@ -117,7 +117,7 @@ public class AdminUserUpdateController {
 	 * @return
 	 */
 	@RequestMapping(path = "/mypage/employee/update/check_r", method = { RequestMethod.GET, RequestMethod.POST })
-	public String inputUpdateUser_r(@Valid @ModelAttribute UserUpdateForm userForm, BindingResult result) {
+	public String inputUpdateUser_r(@Valid @ModelAttribute UserUpdateForm userUpdateForm, BindingResult result) {
 		// 入力値にエラーがあった場合、入力画面に戻る
 		if (result.hasErrors()) {
 			session.setAttribute("result", result);
@@ -126,7 +126,7 @@ public class AdminUserUpdateController {
 		}
 
 		//入力された内容をセッションスコープに保存
-		session.setAttribute("userForm", userForm);
+		session.setAttribute("userUpdateForm", userUpdateForm);
 
 		return "redirect:/mypage/employee/update/check";
 	}
@@ -156,24 +156,30 @@ public class AdminUserUpdateController {
 	@RequestMapping(path = "/mypage/employee/update/complete_r", method = { RequestMethod.GET, RequestMethod.POST })
 	public String inputUpdateUserCheck_r() {
 		//セッションスコープの内容を取り出す。
-		UserUpdateForm userForm = (UserUpdateForm) session.getAttribute("userForm");
+		UserUpdateForm userUpdateForm = (UserUpdateForm) session.getAttribute("userUpdateForm");
+		User userUpdate = (User) session.getAttribute("userUpdate");
 
-		//前回の内容をセッションスコープのuserから取り出す
-		UserBean userBean = (UserBean) session.getAttribute("user");
-
-		//変更した内容を前回の情報に代入
-		userBean.setUserName(userForm.getUserName());
-		userBean.setTeam(userForm.getTeam());
-		userBean.setEmail(userForm.getEmail());
-		userBean.setTel(userForm.getTel());
-		userBean.setPosition(userForm.getPosition());
-		userBean.setAuth(userForm.getAuth());
+		int userId = userUpdate.getUserId();
+		String password = userUpdate.getPassword();
 
 		//エンティティのオブジェクト作成
 		User user = new User();
 
-		//id以外をエンティティにコピー
-		BeanUtils.copyProperties(userBean, user);
+		//変更した内容をエンティティに代入
+		user.setUserName(userUpdateForm.getUserName());
+		user.setTeam(userUpdateForm.getTeam());
+		user.setEmail(userUpdateForm.getEmail());
+		user.setTel(userUpdateForm.getTel());
+		user.setPosition(userUpdateForm.getPosition());
+		user.setAuth(userUpdateForm.getAuth());
+		user.setUserId(userId);
+		user.setPassword(password);
+
+		System.out.println(user.getUserName());
+		System.out.println(user.getTeam());
+		System.out.println(user.getUserId());
+		System.out.println(user.getPassword());
+		System.out.println(user.getEmail());
 
 		//データベース更新
 		userRepository.save(user);

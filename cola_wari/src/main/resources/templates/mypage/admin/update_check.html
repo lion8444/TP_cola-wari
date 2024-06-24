@@ -15,7 +15,7 @@
         <h1 class="h3 mb-4 text-gray-800">部員変更確認</h1>
         <div class="card shadow mb-4 card-body">
             <form method="get">
-                <table class="table" th:each="user:${session.userForm}">
+                <table class="table" th:each="user:${session.userUpdateForm}">
                     <tbody>
                         <tr>
                             <th scope="col">名前</th>

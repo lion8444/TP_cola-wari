@@ -19,4 +19,6 @@ public interface ScheduleService {
     List<RestScheduleBean> showRestScheduleBeansByWeek();
 
     int insertSchedule(ScheduleForm form);
+
+    void deleteSchedule(Integer scheduleId);
 }
