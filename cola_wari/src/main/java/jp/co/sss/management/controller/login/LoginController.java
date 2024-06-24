@@ -64,7 +64,7 @@ public class LoginController {
 		//AgendaBean agendaBean = new AgendaBean();
 		List<AgendaBean> agendaBeans = new ArrayList<>();
 
-		List<Schedule> schedules = scheduleEntryRepository.findByUser(user);
+		List<Schedule> schedules = scheduleEntryRepository.findByUserSchedules(user);
 		List<ScheduleBean> scheduleBeans = new ArrayList<>();
 
 		for (Agenda agenda : agendas) {

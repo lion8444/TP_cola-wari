@@ -91,7 +91,7 @@
     					</li>
     					
     					<!-- リンクの最後に{user_id}も入れる -->
-    					<form th:action="@{/schedule/list}" method="get">
+    					<form th:action="@{/schedule/list/{userId}(userId=${userId}}" method="get">
 							<input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
 						</form>
 
