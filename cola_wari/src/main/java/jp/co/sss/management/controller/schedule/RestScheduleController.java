@@ -1,13 +1,10 @@
 package jp.co.sss.management.controller.schedule;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.sss.management.bean.AgendaBean;
@@ -17,8 +14,6 @@ import jp.co.sss.management.service.agenda.AgendaService;
 import jp.co.sss.management.service.schedule.ScheduleService;
 import jp.co.sss.management.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Slf4j
@@ -45,14 +40,17 @@ public class RestScheduleController {
 
     @PostMapping("/schedule/agendaList")
     public List<AgendaBean> viewAgendas(@RequestParam List<Integer> userIdList) {
+    	if(userIdList.isEmpty()) {
+    		return null;
+    	}
 
         log.debug("RestScheduleController.viewAgendas userIdList size : {}", userIdList.size());
         for (Integer integer : userIdList) {
             log.debug("RestScheduleController.viewAgendas userIdList : {}", integer);
         }
         List<AgendaBean> agendaBeans = agendaService.showAgendaBeansWithUsers(userService.searchUserBeansByUserId(userIdList));
-        if (!agendaBeans.isEmpty()) {
-            log.debug("RestScheduleController.viewAgendas userIdList : {}", agendaBeans.get(0).toString());
+        if (agendaBeans.isEmpty()) {
+            log.debug("RestScheduleController.viewAgendas agendaBean IS Null : {}");
         }else {
             for (AgendaBean agendaBean : agendaBeans) {
                 log.debug("RestSchedulecontroller.viewAgendas return AgendaBeanList Check size : {}, value : {}", agendaBeans.size(), agendaBean.toString());

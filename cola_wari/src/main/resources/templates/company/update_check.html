@@ -15,45 +15,69 @@
 
 		<!-- Page Heading -->
 		<h1 class="h3 mb-4 text-gray-800">企業情報変更確認</h1>
-		<p>以下の内容に変更します。</p>
+		<p>以下の内容で変更します。</p>
 
-		<table class="table" th:object="${companyForm}">
+		<table class="table">
 
 			<tr>
 				<th scope="col">企業名</th>
-				<td scope="col" th:text="*{comName}"></td>
+				<td scope="col" th:text="*{companyForm.comName}"></td>
 			</tr>
 			<tr>
 				<th scope="row">業種</th>
-				<td th:text="*{cateName}"></td>
+				<td th:text="*{companyForm.cateName}"></td>
 			</tr>
 			<tr>
 				<th scope="row">住所</th>
-				<td th:text="*{comAddr}"></td>
+				<td th:text="*{companyForm.addr}"></td>
 			</tr>
 			<tr>
 				<th scope="row">企業URL</th>
-				<td th:text="*{comUrl}"></td>
+				<td th:text="*{companyForm.comUrl}"></td>
 			</tr>
 			<tr>
 				<th scope="row">説明</th>
-				<td th:text="*{description}"></td>
+				<td th:text="*{companyForm.description}"></td>
 			</tr>
-			<tr>
-				<th scope="row">企業担当者</th>
-				<td th:text="*{comName}"></td>
-			</tr>
-
-
+		</table>
+		<table class="table">
+				<div th:each="agent, status : ${agentForm.agentForms}">
+					<tr>
+						<th scope="row">担当者名</th>
+						<td th:text="*{agentForm.agentForms[__${status.index}__].agentName}"></td>
+					</tr>
+					<tr>
+						<th scope="row">部署名</th>
+						<td th:text="*{agentForm.agentForms[__${status.index}__].department}"></td>
+					</tr>
+					<tr>
+						<th scope="row">所属チーム</th>
+						<td th:text="*{agentForm.agentForms[__${status.index}__].team}"></td>
+					</tr>
+					<tr>
+						<th scope="row">役職</th>
+						<td th:text="*{agentForm.agentForms[__${status.index}__].position}"></td>
+					</tr>
+					<tr>
+						<th scope="row">電話番号</th>
+						<td th:text="*{agentForm.agentForms[__${status.index}__].tel}"></td>
+					</tr>
+					<tr>
+						<th scope="row">メールアドレス</th>
+						<td th:text="*{agentForm.agentForms[__${status.index}__].email}"></td>
+					</tr>
+				</div>
+			
 		</table>
 
 
-		<div class="d-grid gap-2 d-md-block my-3">
-			<button class="btn btn-primary" type="button"
-				onclick="location.href='/cola_wari/company/update/complete'">登録</button>
-			<button class="btn btn-primary" type="button"
-				onclick="location.href='/cola_wari/company/update/input'">戻る</button>
-		</div>
+		<form th:action="@{/company/update/check}" method="post">
+			<div class="d-grid gap-2 d-md-block my-3">
+				<button class="btn btn-primary" type="submit">登録</button>
+				<button class="btn btn-primary" type="button"
+					onclick="history.back()">戻る</button>
+			</div>
+		</form>
 
 
 	</div>

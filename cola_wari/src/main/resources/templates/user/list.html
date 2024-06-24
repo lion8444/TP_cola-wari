@@ -16,7 +16,7 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 <div class="table-responsive">
-                    <form action="/cola_wari/user/list" method="post">
+                    <form th:action="@{/user/list}" method="post">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" id="username" name="username" th:value=${keyword} placeholder="部員名を入力">
                             <div class="input-group-append">

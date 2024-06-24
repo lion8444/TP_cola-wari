@@ -11,8 +11,9 @@ import jp.co.sss.management.bean.CompanyBean;
 import jp.co.sss.management.entity.Agent;
 import jp.co.sss.management.entity.Company;
 import jp.co.sss.management.repository.AgentRepository;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @Service
 public class CompanyBeanTools {
 
@@ -30,6 +31,13 @@ public class CompanyBeanTools {
 			CompanyBean bean = new CompanyBean();
 			BeanUtils.copyProperties(entity, bean);
 
+			log.debug("CompanyBeanTools.copyEntityListToBeanList companyBean updateDate check : {}", bean.getUpdateDate());
+
+			if (entity.getUpdateDate() != null) {
+				log.debug("CompanyBeanTools.copyEntityListToBeanList company updateDate check : {}", entity.getUpdateDate().toString());
+				bean.setUpdateDate(entity.getUpdateDate().toString());
+			}
+				
 			if (entity.getComCagetory() != null) {
 				bean.setCateName(entity.getComCagetory().getCateName());
 			}

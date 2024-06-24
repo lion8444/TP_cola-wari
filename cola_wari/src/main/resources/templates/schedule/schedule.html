@@ -2,24 +2,83 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" th:replace="~{common/layout :: layout(~{::body/content()})}">
 
 <head>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
-
 </head>
 
 <body id="page-top">
 
-    <!-- Begin Page Content -->　
+    <!-- Begin Page Content -->
     <div class="container-fluid">
 
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">スケジュール詳細</h1>
+        <h4 class="h4 mb-4 text-red-800" style="color: red;" th:if="${schedule.scheduleBean.status eq 1}">終了</h4>
+        <div class="d-grid gap-2 d-md-block my-3" th:if="${schedule.scheduleBean.status eq 0}">
+            <form th:action="@{/schedule/delete}" method="post" onsubmit="return confirm('本当に削除しますか？')">
+            <button class="btn btn-primary" type="button"
+                th:onclick="|location.href='@{/schedule/update(scheduleId=${schedule.scheduleBean.scheduleId})}'|">変更</button>
+            
+                <input type="hidden" name="scheduleId" th:value="${schedule.scheduleBean.scheduleId}">
+                <button class="btn btn-primary" type="submit">削除</button>
+            </form>
+        </div>
 
-       
+        <table class="table">
+
+            <tr>
+                <th scope="col">スケジュール名</th>
+                <td th:text="${schedule.scheduleBean.title}"></td>
+            </tr>
+            <tr>
+                <th scope="row">開始日付</th>
+                <td th:text="${schedule.scheduleBean.startDate}"></td>
+            </tr>
+            <tr>
+                <th scope="row">終了日付</th>
+                <td th:text="${schedule.scheduleBean.endDate}"></td>
+            </tr>
+            <tr>
+                <th scope="row">場所</th>
+                <td th:text="${schedule.scheduleBean.addr}"></td>
+            </tr>
+            <tr>
+                <th scope="row">説明</th>
+                <td th:text="${schedule.scheduleBean.description}"></td>
+            </tr>
+            <tr>
+                <th scope="row">案件</th>
+                <td>
+                    <a th:href="@{/agenda/detail/{agendaId}(agendaId=${schedule.scheduleBean.agendaBean.agendaId})}" th:text="${schedule.scheduleBean.agendaBean.title}"></a>
+                </td>
+            </tr>
+        </table>
+        <table class="table" th:each="user : ${schedule.userBeans}">
+            <tr>
+                <th scope="row">担当者</th>
+                <td>
+                    <a th:href="@{/user/detail/{userId}(userId=${user.userId})}" th:text="${user.userName}"></a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">所属チーム</th>
+                <td th:text="${user.team}"></td>
+            </tr>
+            <tr>
+                <th scope="row">役職</th>
+                <td th:text="${user.position}"></td>
+            </tr>
+        </table>
+        <div class="d-grid gap-2 d-md-block my-3">
+            <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/schedule/list}'|">戻る</button>
+        </div>
+    </div>
+
     </div>
     <!-- /.container-fluid -->
+
+    </div>
 
 </body>
 

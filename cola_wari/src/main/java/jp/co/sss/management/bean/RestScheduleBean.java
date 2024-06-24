@@ -1,7 +1,5 @@
 package jp.co.sss.management.bean;
 
-import java.sql.Date;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,14 +32,16 @@ public class RestScheduleBean {
 	/**
 	 * スケジュール開始日付(YYYY/MM/DD HH:mm)
 	 */
-	private Date start;
+	private String start;
 
 	/**
 	 * スケジュール終了日付(YYYY/MM/DD HH:mm)
 	 */
-	private Date end;
+	private String end;
 
 	private String className;
+	
+	private boolean allDay;
 
 
 }
