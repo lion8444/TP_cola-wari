@@ -10,108 +10,133 @@
 </head>
 
 <body id="page-top">
-	<div class="container-fluid">
+	<div class="container">
 
 		<!-- Page Heading -->
 		<h1 class="h3 mb-4 text-gray-800">企業情報変更</h1>
-		<p>変更する情報を入力してください。</p>
-
-		<table>
-			<form th:action="@{company/regist/check}" method="post">
-
-				<tr>
-					<div class="col-md-6">
-						<td><label class="form-label">企業名</label></td>
-						<td><input type="text" th:field="*{companyForm.comName}" th:value="${company.comName}"/></td>
+		<form th:action="@{/company/update/input}" method="post">
+			<div class="form-group">
+				<input type="hidden" name="comId" th:value="${companyForm.comId}">
+				<label class="form-label">企業名</label>
+				<input type="text" class="form-control" th:field="*{companyForm.comName}"/>
+			</div>
+			<div class="form-group">
+				<label class="form-label">業種</label>
+				<select th:field="*{companyForm.cateId}" class="form-control">
+					<option value="">業種を選択</option>
+					<option th:each="category : ${categories}" th:value="${category.cateId}"
+						th:text="${category.cateName}" th:selected="${category.cateId eq companyForm.cateId}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="form-label">住所</label>
+				<input type="text" class="form-control" th:field="*{companyForm.addr}"/>
+			</div>
+			<div class="form-group">
+				<label class="form-label">企業URL</label>
+				<input type="text" class="form-control" th:field="*{companyForm.comUrl}"/>
+			</div>
+			<div class="form-group">
+				<label class="form-label">説明</label>
+				<textarea class="form-control" th:field="*{companyForm.description}"></textarea>
+			</div>
+			<div id="agentForms">
+				<div class="card shadow mb-4 agent-form" th:each="agent, status : ${agentForm.agentForms}">
+					<div class="card-header py-3">
+						<h6 class="m-0 font-weight-bold text-primary">担当者入力</h6>
+						<button type="button" class="btn btn-primary" onclick="createAgentForm()">追加</button>
+						<button type="button" class="btn btn-secondary" onclick="deleteAgentForm(this)">削除</button>
 					</div>
-				</tr>
-
-				<tr>
-
-					<div class="col-md-6">
-						<td><label class="form-label">業種</label></td>
-						<td><select name="cateId">
-								<option value="">業種を選択</option>
-								<option th:each="category:${categories}" th:value="*{companyForm.cateId}"
-									th:text="${category.cateName}"></option>
-							</select></td>
-					</div>
-				</tr>
-				<tr>
-					<div class="col-md-6">
-						<td><label class="form-label">住所</label></td>
-						<td><input type="text" th:field="*{companyForm.addr}" /></td>
-					</div>
-				</tr>
-				<tr>
-					<div class="col-md-6">
-						<td><label class="form-label">企業URL</label></td>
-						<td><input type="url" th:field="*{companyForm.comUrl}" /></td>
-					</div>
-				</tr>
-				<tr>
-					<div class="col-md-6">
-						<td><label class="form-label">説明</label></td>
-						<td><input type="text" th:field="*{companyForm.description}" /></td>
-					</div>
-				</tr>
-				<tr>
-					<div class="col-md-6">
-						<td><label class="form-label">担当者名</label></td>
-						<td><input type="text" th:field="*{agentForm.agentName}" /></td>
-					</div>
-				</tr>
-				<tr>
-					<div class="col-md-6">
-						<td><label class="form-label">部署名</label></td>
-						<td><input type="text" th:field="*{agentForm.department}" /></td>
-					</div>
-				</tr>
-				<tr>
-					<div class="col-md-6">
-						<td><label class="form-label">所属チーム</label></td>
-						<td><input type="text" th:field="*{agentForm.team}" /></td>
-					</div>
-				</tr>
-				<tr>
-					<div class="col-md-6">
-						<td><label class="form-label">役職</label></td>
-						<td><input type="text" th:field="*{agentForm.position}" /></td>
-					</div>
-				</tr>
-				<tr>
-					<div class="col-md-6">
-						<td><label class="form-label">電話番号</label></td>
-						<td><input type="text" th:field="*{agentForm.tel}" /></td>
-					</div>
-				</tr>
-				<tr>
-					<div class="col-md-6">
-						<td><label class="form-label">メールアドレス</label></td>
-						<td><input type="text" th:field="*{agentForm.email}" /></td>
-					</div>
-				</tr>
-
-				<tr>
-					<td>
-						<div class="d-grid gap-2 d-md-block m-3">
-
-							<button class="btn btn-primary" type="submit"
-								onclick="location.href='/cola_wari/company/update/check'">確認</button>
-
-							<button class="btn btn-primary" type="button"
-								onclick="location.href='/cola_wari/company/list'">戻る</button>
-
+					<div class="card-body">
+						<div class="form-group">
+							<label class="form-label">担当者名</label>
+							<input type="text" class="form-control" th:field="*{agentForm.agentForms[__${status.index}__].agentName}"/>
 						</div>
-					</td>
-				</tr>
+						<div class="form-group">
+							<label class="form-label">部署名</label>
+							<input type="text" class="form-control" th:field="*{agentForm.agentForms[__${status.index}__].department}"/>
+						</div>
+						<div class="form-group">
+							<label class="form-label">所属チーム</label>
+							<input type="text" class="form-control" th:field="*{agentForm.agentForms[__${status.index}__].team}"/>
+						</div>
+						<div class="form-group">
+							<label class="form-label">役職</label>
+							<input type="text" class="form-control" th:field="*{agentForm.agentForms[__${status.index}__].position}"/>
+						</div>
+						<div class="form-group">
+							<label class="form-label">電話番号</label>
+							<input type="text" class="form-control" th:field="*{agentForm.agentForms[__${status.index}__].tel}"/>
+						</div>
+						<div class="form-group">
+							<label class="form-label">メールアドレス</label>
+							<input type="text" class="form-control" th:field="*{agentForm.agentForms[__${status.index}__].email}"/>
+						</div>
+					</div>
+				</div>
+			</div>
 
 
-
-
-			</form>
-		</table>
+			<button type="submit" class="btn btn-primary">確認</button>
+			<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/company/detail/{id}(id=${companyForm.comId})}'|">戻る</button>
+			<hr>
+		</form>
 	</div>
+
+	<script>
+		let index = 1;
+		function createAgentForm() {
+			const div = document.createElement('div');
+			div.className = 'card shadow mb-4 agent-form';
+			div.innerHTML = `
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">担当者入力</h6>
+                <button type="button" class="btn btn-primary" onclick="createAgentForm()">追加</button>
+                <button type="button" class="btn btn-secondary" onclick="deleteAgentForm(this)">削除</button>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="form-label">担当者名</label>
+                    <input type="text" class="form-control" name="agentForms[${index}].agentName" placeholder="担当者名">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">部署名</label>
+                    <input type="text" class="form-control" name="agentForms[${index}].department" placeholder="部署名">
+                </div>
+				<div class="form-group">
+					<label class="form-label">所属チーム</label>
+					<input type="text" class="form-control" name="agentForms[${index}].team" placeholder="所属チーム" />
+				</div>
+				<div class="form-group">
+					<label class="form-label">役職</label>
+					<input type="text" class="form-control" name="agentForms[${index}].position" placeholder="役職" />
+				</div>
+				<div class="form-group">
+					<label class="form-label">電話番号</label>
+					<input type="text" class="form-control" name="agentForms[${index}].tel" placeholder="電話番号" />
+				</div>
+				<div class="form-group">
+					<label class="form-label">メールアドレス</label>
+					<input type="text" class="form-control" name="agentForms[${index}].email" placeholder="メールアドレス" />
+				</div>
+            </div>`;
+
+			document.getElementById('agentForms').appendChild(div);
+			index++;
+		}
+
+		function deleteAgentForm(button) {
+			const card = button.closest('.agent-form');
+			if (index < 1) {
+				alert("最低限一人の担当者は必須です。");
+				return;
+			}
+			if (card) {
+				card.remove();
+				index--; // 인덱스 감소
+			}
+		}
+	</script>
 </body>
 
 </html>

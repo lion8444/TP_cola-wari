@@ -1,5 +1,7 @@
 package jp.co.sss.management.controller.company;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -26,7 +28,9 @@ import jp.co.sss.management.repository.AgentRepository;
 import jp.co.sss.management.repository.ComCategoryRepository;
 import jp.co.sss.management.repository.CompanyRepository;
 import jp.co.sss.management.service.BeanTools;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/company")
 public class ComRegistController {
@@ -37,19 +41,19 @@ public class ComRegistController {
 	 * 企業情報　リポジトリ
 	 */
 	@Autowired
-	public CompanyRepository companyRepository;
+	CompanyRepository companyRepository;
 
 	/**
 	 * 担当者情報　リポジトリ
 	 */
 	@Autowired
-	public AgentRepository agentRepository;
+	AgentRepository agentRepository;
 	
 	/**
 	 * 企業カテゴリ情報　リポジトリ
 	 */
 	@Autowired
-	public ComCategoryRepository comCategoryRepository;
+	ComCategoryRepository comCategoryRepository;
 
 	/**
 	 * セッション
@@ -70,14 +74,13 @@ public class ComRegistController {
 	public String registInput(Model model) {
 		CompanyForm companyForm = new CompanyForm();
 		AgentForm agentForm = new AgentForm();
+		
 		List<ComCategory> categories = comCategoryRepository.findAll();
 
 		model.addAttribute("companyForm", companyForm);
 		model.addAttribute("agentForm", agentForm);
 		model.addAttribute("categories", categories);
 		
-		companyForm = (CompanyForm) session.getAttribute("companyForm");
-		agentForm = (AgentForm) session.getAttribute("agentForm");
 		return "company/regist_input";
 	}
 
@@ -90,27 +93,17 @@ public class ComRegistController {
 	 * 	入力値エラーあり："redirect:regist/input" 入力録画面　表示処理
 	 * 	入力値エラーなし："redirect:regist/check" 登録確認画面　表示処理
 	 */
-	@PostMapping("regist/check")
+	@PostMapping("regist/input")
 	public String registInputCheck(@Valid @ModelAttribute CompanyForm companyForm, AgentForm agentForm) {
 
-		companyForm = (CompanyForm) session.getAttribute("companyForm");
-		agentForm = (AgentForm) session.getAttribute("agentForm");
-
-
-		//直前のセッション情報を取得
-		//CompanyForm lastCompanyForm = (CompanyForm) session.getAttribute("companyForm");
-		//AgentForm lastAgentForm = (AgentForm) session.getAttribute("agentForm");
-		//if ((lastCompanyForm == null) || (lastAgentForm == null)) {
-			// セッション情報が無い場合、エラー
-			//return "redirect:/syserror";
-		//}
+		log.debug("ComRegistController.registInputCheck CompanyForm : {}, AgentForm : {}", companyForm.toString(), agentForm.toString());
 		
 		// 入力フォームをセッションに保持
 		session.setAttribute("companyForm", companyForm);
 		session.setAttribute("agentForm", agentForm);
 		
 		// 登録確認画面　表示処理
-		return "redirect:/regist/check";
+		return "company/regist_check";
 	}
 	
 	/**
@@ -119,6 +112,7 @@ public class ComRegistController {
 	 * @param model Viewとの値受渡し
 	 * @return "admin/item/regist_check" 登録確認画面表示
 	 */
+	@SuppressWarnings("unchecked")
 	@GetMapping("regist/check")
 	public String registCheck(Model model) {
 		//セッションから入力フォーム情報取得
@@ -153,9 +147,10 @@ public class ComRegistController {
 	 *
 	 * @return "redirect:/regist/complete" 登録完了画面　表示処理
 	 */
-	@PostMapping("regist/complete")
+	@SuppressWarnings("unchecked")
+	@PostMapping("regist/check")
 	public String registComplete() {
-		ComCategory category = new ComCategory();
+		
 
 		//セッション保持情報から入力値再取得
 		CompanyForm companyForm = (CompanyForm) session.getAttribute("companyForm");
@@ -163,22 +158,39 @@ public class ComRegistController {
 
 		// Formクラス内の各フィールドの値をエンティティにコピー
 		Company companyEntity = new Company();
-		Agent agentEntity = new Agent();
 
 		BeanUtils.copyProperties(companyForm, companyEntity);
-		BeanUtils.copyProperties(agentForm, agentEntity);
+		
 
 		if (companyForm.getComId() != null) {
 			companyEntity.setComId(companyForm.getComId());
 		}
 
-		if (agentForm.getAgentId() != null) {
-			agentEntity.setAgentId(agentForm.getAgentId());
-		}
+		
+
+		companyEntity.setUpdateDate(LocalDate.now());
+		ComCategory category = comCategoryRepository.getReferenceById(companyForm.getCateId());
+		companyEntity.setComCagetory(category);
 
 		// 商品情報をDBに保存
 		companyRepository.save(companyEntity);
-		agentRepository.save(agentEntity);
+
+		for (AgentForm agentForm2 : agentForm.getAgentForms()) {
+			Agent agentEntity = new Agent();
+			BeanUtils.copyProperties(agentForm2, agentEntity);
+			if (agentForm2.getAgentId() != null) {
+				agentEntity.setAgentId(agentForm2.getAgentId());
+			}
+			agentEntity.setCompany(companyEntity);
+			agentRepository.save(agentEntity);	
+		}
+		// Agent agentEntity = new Agent();
+		// BeanUtils.copyProperties(agentForm, agentEntity);
+		// if (agentForm.getAgentId() != null) {
+		// 	agentEntity.setAgentId(agentForm.getAgentId());
+		// }
+		// agentEntity.setCompany(companyEntity);
+		// agentRepository.save(agentEntity);	
 
 		//セッション情報の削除
 		session.removeAttribute("companyForm");
@@ -186,7 +198,7 @@ public class ComRegistController {
 
 		//登録完了画面　表示処理
 		//二重送信対策のためリダイレクトを行う
-		return "redirect:/regist/complete";
+		return "redirect:/company/regist/complete";
 	}
 	
 	/**
@@ -194,10 +206,10 @@ public class ComRegistController {
 	 *
 	 * @return "admin/item/regist_complete" 登録完了画面　表示
 	 */
-	@GetMapping("regist/compalete")
+	@GetMapping("regist/complete")
 	public String registCompleteFinish() {
 
 		//登録完了画面　表示
-		return "/regist_complete";
+		return "company/regist_complete";
 	}
 }

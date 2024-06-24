@@ -1,12 +1,29 @@
 let checkValues = new Array;
-
+let inputCheck = false;
 jQuery(document).ready(function () {
+	$('#schedule-title').on('keyup', textInputCheck);
+	$('#schedule-start').on('keyup', textInputCheck);
+	$('#schedule-end').on('keyup', textInputCheck);
+	$('#schedule-addr').on('keyup', textInputCheck);
+	$('#schedule-desc').on('keyup', textInputCheck);
 	$('input:checkbox').on('change', checkedTest);
 	$('#add-event-submit').on('click', insertScheduleSubmit);
 });
 // $(document).on('change', 'input:checkbox[name=userId]', checkedTest);
 
+function textInputCheck() {
+	if(!$(this).val() == "") {
+		inputCheck = true;
+	} else {
+		inputCheck = false;
+	}
+}
+
 function insertScheduleSubmit() {
+	if (!inputCheck) {
+		alert("全入力欄を正しく入力してください。");
+		return;
+	}
 	if (checkValues == null) {
 		alert("参加者を選択してください");
 		return;

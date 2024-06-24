@@ -16,7 +16,6 @@ import jp.co.sss.management.bean.ScheduleEntryBean;
 import jp.co.sss.management.bean.UserBean;
 import jp.co.sss.management.bean.UserCheckedBean;
 import jp.co.sss.management.form.ScheduleForm;
-import jp.co.sss.management.repository.UserRepository;
 import jp.co.sss.management.service.agenda.AgendaService;
 import jp.co.sss.management.service.schedule.ScheduleService;
 import jp.co.sss.management.service.user.UserService;

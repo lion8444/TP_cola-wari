@@ -33,13 +33,13 @@
 					th:value="${schedule.scheduleBean.endDate}" autocomplete='off' />
 			</div>
 			<div class="col-md-6 form-group">
-				<label class="form-label">住所</label>
-				<input type="text" class="form-control" name="addr" th:field="${schedule.scheduleBean.addr}">
+				<label class="form-label">場所</label>
+				<input type="text" class="form-control" name="addr" th:value="${schedule.scheduleBean.addr}">
 			</div>
 			<div class="col-md-6 form-group">
 				<label class="form-label">説明</label>
 				<textarea name="description" class="form-control"
-					th:value="${schedule.scheduleBean.description}"></textarea>
+					th:text="${schedule.scheduleBean.description}"></textarea>
 			</div>
 			<div class="col-md-6 form-group">
 				<label class="form-label">参加者</label>

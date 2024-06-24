@@ -40,13 +40,17 @@
                 <td th:text="${schedule.scheduleBean.endDate}"></td>
             </tr>
             <tr>
+                <th scope="row">場所</th>
+                <td th:text="${schedule.scheduleBean.addr}"></td>
+            </tr>
+            <tr>
                 <th scope="row">説明</th>
                 <td th:text="${schedule.scheduleBean.description}"></td>
             </tr>
             <tr>
                 <th scope="row">案件</th>
-                <td th:text="${schedule.scheduleBean.agendaBean.title}">
-                    <a th:href="@{/agenda/detail/{agendaId}(agendaId={agendaId})}" th:text="${schedule.scheduleBean.agendaBean.agendaId}"></a>
+                <td>
+                    <a th:href="@{/agenda/detail/{agendaId}(agendaId=${schedule.scheduleBean.agendaBean.agendaId})}" th:text="${schedule.scheduleBean.agendaBean.title}"></a>
                 </td>
             </tr>
         </table>

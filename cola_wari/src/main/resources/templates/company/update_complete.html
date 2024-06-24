@@ -13,12 +13,14 @@
 	<!-- Begin Page Content -->
 	<div class="container-fluid">
 
-		<!-- Page Heading -->
-		<h1 class="h3 mb-4 text-gray-800">企業情報変更完了</h1>
-		<p>企業の情報変更が完了しました。</p>
-		<a th:href="/cola_wari/company/list">詳細画面へ戻る</a>
-
-
+		<div class="text-center">
+			<h1 class="h3 mb-4 text-gray-800">変更完了</h1>
+			<p class="lead text-gray-800 mb-2">企業情報変更完了</p>
+			<p class="text-gray-800 mb-5">企業情報変更に成功しました</p>
+			<a th:href="@{/}">&larr; トップページへ</a>&emsp;&emsp;&emsp;
+			<a th:href="@{/company/list}">&larr; 企業一覧へ</a>&emsp;&emsp;&emsp;
+			<a th:href="@{/company/detail/{id}(id=${comId})}">&larr; 企業詳細へ</a>
+		</div>
 
 	</div>
 	<!-- /.container-fluid -->

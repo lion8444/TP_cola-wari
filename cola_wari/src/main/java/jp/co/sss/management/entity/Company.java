@@ -1,6 +1,7 @@
 package jp.co.sss.management.entity;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -63,14 +64,14 @@ public class Company {
 	/**
 	 * 企業情報の登録日程(YYYY/MM/DD HH:mm)
 	 */
-	@Column(insertable = false, updatable = false)
-	private String insertDate;
+	@Column(updatable = false)
+	private final LocalDate insertDate = LocalDate.now();
 
 	/**
 	 * 企業情報の修正日程(YYYY/MM/DD HH:mm)
 	 */
 	@Column
-	private String updateDate;
+	private LocalDate updateDate;
 
 	/**
 	 * 企業の業界情報(カテゴリ)

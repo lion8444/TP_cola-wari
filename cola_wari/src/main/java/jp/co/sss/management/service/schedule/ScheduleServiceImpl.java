@@ -133,8 +133,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     public int insertSchedule(ScheduleForm form) {
         log.debug("ScheduleServiceImpl.insertSchedule ScheduleForm check : {}", form.getStartDate());
         ScheduleEntry scheduleEntry = new ScheduleEntry();
-
+        log.debug("Schedule DescriptionTest : {}", form.getDescription());
         Schedule schedule = scheduleBeanTools.copyFormToEntity(form);
+        log.debug("Schedule DescriptionTest : {}", schedule.getDescription());
         try {
             schedule.setStartDate(parseDateString(form.getStartDate()));
             schedule.setEndDate(parseDateString(form.getEndDate()));

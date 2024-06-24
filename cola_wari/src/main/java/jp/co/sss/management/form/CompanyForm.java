@@ -52,9 +52,6 @@ public class CompanyForm implements Serializable {
 	 */
 	private Integer cateId;
 
-	/**
-	 * 企業の業界情報(カテゴリ)
-	 */
 	private String cateName;
 
 }
