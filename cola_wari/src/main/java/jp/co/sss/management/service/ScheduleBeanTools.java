@@ -13,9 +13,7 @@ import jp.co.sss.management.entity.Agenda;
 import jp.co.sss.management.entity.Schedule;
 import jp.co.sss.management.form.ScheduleForm;
 import jp.co.sss.management.repository.AgendaRepository;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class ScheduleBeanTools {
 

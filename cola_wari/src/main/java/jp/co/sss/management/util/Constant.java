@@ -24,6 +24,7 @@ public class Constant {
 	/** 戻るフラグの値（戻るボタン押下時） */
 	public static final int BACK_FLG_TRUE = 1;
 
+	public static final String BOOTSTRAP_FOLDER = "/bootstrap/";
 	/** CSS保存用フォルダの名前 */
 	public static final String CSS_FOLDER = "/css/";
 	/** JS保存用フォルダの名前 */

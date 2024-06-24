@@ -35,7 +35,7 @@ public class CategoryInput {
 	/**
 	 * カテゴリ一覧画面表示
 	 */
-	@RequestMapping(path = "/mypage/category", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/admin/category", method = { RequestMethod.GET, RequestMethod.POST })
 	public String showCategory(Model model) {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
@@ -66,7 +66,7 @@ public class CategoryInput {
 	/**
 	 * カテゴリDB更新
 	 */
-	@RequestMapping(path = "/mypage/category/complete_r", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/admin/category/complete_r", method = { RequestMethod.GET, RequestMethod.POST })
 	public String resistCategory_r(@Valid @ModelAttribute CategoryForm categoryForm, BindingResult result) {
 		// 入力値にエラーがあった場合、入力画面に戻る
 		if (result.hasErrors()) {
@@ -74,7 +74,7 @@ public class CategoryInput {
 			session.setAttribute("result", result);
 
 			//変更入力画面　表示処理
-			return "redirect:/mypage/category";
+			return "redirect:/admin/category";
 		}
 
 		//フォームをコピー
@@ -84,13 +84,13 @@ public class CategoryInput {
 		//データベース更新
 		categoryRepository.save(cc);
 		System.out.println("DB更新");
-		return "redirect:/mypage/category/complete";
+		return "redirect:/admin/category/complete";
 	}
 
 	/**
 	 * 完了画面表示
 	 */
-	@GetMapping("/mypage/category/complete")
+	@GetMapping("/admin/category/complete")
 	public String resistCategory() {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");

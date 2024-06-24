@@ -45,9 +45,8 @@ public class LoginController {
 	@RequestMapping(path = "/", method = { RequestMethod.GET, RequestMethod.POST })
 	public String index(Model model) {
 
-		//ユーザの情報が無かったらログイン画面へ
 		if (session.getAttribute("user") == null) {
-			return "login/login";
+			return "redirect:/login";
 		}
 
 		//登録されているユーザのBeanを取得
@@ -104,6 +103,13 @@ public class LoginController {
 		return "index";
 	}
 
+
+	@GetMapping("/login")
+	public String goToLoginPage() {
+		return "login/login";
+	}
+	
+
 	/**
 	 * ログイン処理
 	 *
@@ -112,27 +118,23 @@ public class LoginController {
 	 * @return
 			ログインが成功した場合 "redirect:/index" トップ画面表示処理
 	 */
-	@RequestMapping(path = "/login", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/login", method = { RequestMethod.POST })
 	public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult result, Model model) {
-		String returnStr = "login";
 
 		//入力値に誤りがあった場合
 		if (result.hasErrors()) {
 			session.setAttribute("result", result);
 			model.addAttribute("org.springframework.validation.BindingResult.userForm", result);
-			returnStr = "login/login";
-		} else {
-			returnStr = "redirect:/";
-		}
-
-		return returnStr;
+			return "login/login";
+		} 
+		return "redirect:/";
 	}
 
 	/**
 	 * ログアウト処理
 	 * @return
 	 */
-	@GetMapping("/logout")
+	@RequestMapping(path = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String logout() {
 		session.invalidate();
 		return "redirect:/";

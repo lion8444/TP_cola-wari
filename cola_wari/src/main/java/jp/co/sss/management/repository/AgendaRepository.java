@@ -1,6 +1,7 @@
 package jp.co.sss.management.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import jp.co.sss.management.entity.Agenda;
@@ -20,5 +21,8 @@ public interface AgendaRepository extends JpaRepository<Agenda, Integer> {
 	 * @return 案件エンティティ
 	 */
 	Agenda findByAgendaIdAndStatus(Integer agendaId, int status);
+	
+	@Query("SELECT a FROM Agenda a WHERE a.agendaId = (SELECT MAX(a2.agendaId) FROM Agenda a2)") 
+	Agenda findByMaxAgendaId();
 
 }

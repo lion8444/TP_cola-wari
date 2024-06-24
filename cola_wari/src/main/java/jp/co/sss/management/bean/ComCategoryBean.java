@@ -1,8 +1,5 @@
 package jp.co.sss.management.bean;
 
-
-import java.util.List;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

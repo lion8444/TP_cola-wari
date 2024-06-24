@@ -144,7 +144,7 @@ public class MypageController {
 			return "redirect:/mypage/password/update/complete";
 		} else {
 			//エラーがある場合、入力画面へリダイレクト
-			return "redirect:mypage/password/update";
+			return "redirect:/mypage/password/update";
 		}
 
 	}
