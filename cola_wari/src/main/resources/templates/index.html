@@ -82,23 +82,23 @@
                         <h6 class="m-0 font-weight-bold text-primary">進行中の案件</h6>
                     </div>
                     <div class="card-body">
-                        <ul>
-                            <!-- リストアイテムとして各AgendaBeanを表示(5件まで) -->
-                            <li th:each="agendaBean,iterStat : ${nowAgendas}" th:if="${iterStat.index < 5}">
-                                <!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{案件ID}も入れる　-->
-                                <a th:href="@{/agenda/detail}" th:text="${agendaBean.title}"></a>
-                            </li>
-                        </ul>
-
-                        <li th:unless="${not #lists.isEmpty(nowAgendas)}">
-                            <span>表示できる案件情報がありません。</span>
-                        </li>
-
-
-                        <!-- リンクの最後に{user_id}も入れる -->
-                        <form th:action="@{/agenda/list/{userId}(userId=${userId})}" method="get">
-                            <input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
-                        </form>
+						<ul>
+							<!-- リストアイテムとして各AgendaBeanを表示(5件まで) -->
+        					<li th:each="agendaBean,iterStat : ${nowAgendas}" th:if="${iterStat.index < 5}">
+            					<!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{案件ID}も入れる　-->
+            					<a th:href="@{/agenda/detail}" th:text="${agendaBean.title}"></a>
+        					</li>
+    					</ul>
+    					
+    					<li th:unless="${not #lists.isEmpty(nowAgendas)}">
+							<p th:text="#{msg.top.agenda.none}"></p>
+    					</li>
+    					
+    					
+    					<!-- リンクの最後に{user_id}も入れる -->
+    					<form th:action="@{/agenda/list/{userId}(userId=${userId})}" method="get">
+							<input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
+						</form>
 
                     </div>
                 </div>
@@ -114,23 +114,23 @@
                         <h6 class="m-0 font-weight-bold text-primary">現在のタスク</h6>
                     </div>
                     <div class="card-body">
-
-                        <ul>
-                            <!-- リストアイテムとして各scheduleBeanを表示(5件まで) -->
-                            <li th:each="scheduleBean,iterStat : ${nowTasks}" th:if="${iterStat.index < 5}">
-                                <!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{スケジュールID}も入れる　-->
-                                <a th:href="@{/schedule/detail}" th:text="${scheduleBean.title}"></a>
-                            </li>
-                        </ul>
-
-                        <li th:unless="${not #lists.isEmpty(nowTasks)}">
-                            <span>表示できるタスク情報がありません。</span>
-                        </li>
-
-                        <!-- リンクの最後に{user_id}も入れる -->
-                        <form th:action="@{/schedule/list}" method="get">
-                            <input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
-                        </form>
+						
+						<ul>
+							<!-- リストアイテムとして各scheduleBeanを表示(5件まで) -->
+        					<li th:each="scheduleBean,iterStat : ${nowTasks}" th:if="${iterStat.index < 5}">
+            					<!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{スケジュールID}も入れる　-->
+            					<a th:href="@{/schedule/detail}" th:text="${scheduleBean.title}"></a>
+        					</li>
+    					</ul>
+    					
+    					<li th:unless="${not #lists.isEmpty(nowTasks)}">
+							<p th:text="#{msg.top.scheduleTask.none}"></p>
+    					</li>
+    					
+    					<!-- リンクの最後に{user_id}も入れる -->
+    					<form th:action="@{/schedule/list/{userId}(userId=${userId}}" method="get">
+							<input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
+						</form>
 
                     </div>
                 </div>

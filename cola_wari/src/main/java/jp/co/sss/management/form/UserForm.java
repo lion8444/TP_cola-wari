@@ -28,7 +28,7 @@ public class UserForm implements Serializable {
 	private Integer userId;
 	
 	/**
-	 * ユーザー名
+	 * ユーザーのメールアドレス
 	 */
 	@NotBlank
 	@Email
@@ -60,7 +60,7 @@ public class UserForm implements Serializable {
 	private String tel;
 
 	/**
-	 * ユーザーのメールアドレス
+	 * ユーザー名
 	 */
 	@NotBlank
 	@Size(min = 1, max = 30, message = "{text.maxsize.message}")

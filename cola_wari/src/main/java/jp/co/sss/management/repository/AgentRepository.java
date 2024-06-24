@@ -18,6 +18,8 @@ public interface AgentRepository extends JpaRepository<Agent, Integer> {
 	List<Agent> findByCompany_ComId(int comId);
 
     void deleteAllByCompany(Company companyEntity);
+    
+    Agent findByAgentIdAndCompany(Integer agentId, Company company);
 
 
 }

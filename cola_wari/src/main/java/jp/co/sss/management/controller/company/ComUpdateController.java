@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +45,7 @@ public class ComUpdateController {
 	 */
 	@Autowired
 	AgentRepository agentRepository;
-	
+
 	/**
 	 * 企業カテゴリ情報　リポジトリ
 	 */
@@ -68,7 +69,6 @@ public class ComUpdateController {
 		CompanyForm companyForm = new CompanyForm();
 		List<ComCategory> categories = comCategoryRepository.findAll();
 
-		
 		Company company = companyRepository.getReferenceById(id);
 		List<Agent> agentList = agentRepository.findByCompany_ComId(id);
 		List<AgentForm> agentForms = new ArrayList<>();
@@ -89,11 +89,11 @@ public class ComUpdateController {
 
 		companyForm.setCateId(company.getComCagetory().getCateId());
 		companyForm.setCateName(company.getComCagetory().getCateName());
-		
+
 		model.addAttribute("companyForm", companyForm);
 		model.addAttribute("agentForm", agentForm);
 		model.addAttribute("categories", categories);
-		
+
 		companyForm = (CompanyForm) session.getAttribute("companyForm");
 		agentForm = (AgentForm) session.getAttribute("agentForm");
 
@@ -101,20 +101,31 @@ public class ComUpdateController {
 	}
 
 	@PostMapping("update/input")
-	public String registInputCheck(@Valid @ModelAttribute CompanyForm companyForm, AgentForm agentForm) {
+	public String registInputCheck(@Valid @ModelAttribute CompanyForm companyForm, @Valid AgentForm agentForm,
+			BindingResult result) {
 
-		log.debug("ComRegistController.registInputCheck CompanyForm : {}, AgentForm : {}", companyForm.toString(), agentForm.toString());
+		// 入力値にエラーがあった場合、入力画面に戻る
+		if (result.hasErrors()) {
+
+			session.setAttribute("result", result);
+
+			//変更入力画面　表示処理
+			return "redirect:/update/input/{id}";
+		}
+
+		log.debug("ComRegistController.registInputCheck CompanyForm : {}, AgentForm : {}", companyForm.toString(),
+				agentForm.toString());
 		companyForm.setCateName(comCategoryRepository.getReferenceById(companyForm.getCateId()).getCateName());
 
 		log.debug("companyForm cateName check : {}", companyForm.getCateName());
 		// 入力フォームをセッションに保持
 		session.setAttribute("companyForm", companyForm);
 		session.setAttribute("agentForm", agentForm);
-		
+
 		// 登録確認画面　表示処理
 		return "redirect:/company/update/check";
 	}
-	
+
 	/**
 	 * 登録確認画面　表示処理
 	 *
@@ -128,7 +139,7 @@ public class ComUpdateController {
 		AgentForm agentForm = (AgentForm) session.getAttribute("agentForm");
 
 		log.debug("companyForm cateName check : {}, {}", companyForm.getCateName(), agentForm.toString());
-		
+
 		/**
 		if (companyForm == null) {
 			// セッション情報がない場合、エラー
@@ -143,7 +154,7 @@ public class ComUpdateController {
 		//入力フォーム情報をスコープへ設定
 		model.addAttribute("companyForm", companyForm);
 		model.addAttribute("agentForm", agentForm);
-		
+
 		//System.out.println(companyForm.toString());
 		//System.out.println(agentForm.toString());
 
@@ -160,7 +171,6 @@ public class ComUpdateController {
 	@Transactional
 	@PostMapping("update/check")
 	public String registComplete() {
-		
 
 		//セッション保持情報から入力値再取得
 		CompanyForm companyForm = (CompanyForm) session.getAttribute("companyForm");
@@ -170,7 +180,6 @@ public class ComUpdateController {
 		Company companyEntity = new Company();
 
 		BeanUtils.copyProperties(companyForm, companyEntity);
-		
 
 		if (companyForm.getComId() != null) {
 			companyEntity.setComId(companyForm.getComId());
@@ -184,7 +193,7 @@ public class ComUpdateController {
 		companyRepository.save(companyEntity);
 
 		agentRepository.deleteAllByCompany(companyEntity);
-	
+
 		List<Agent> temps = agentRepository.findByCompany_ComId(companyEntity.getComId());
 		if (!temps.isEmpty()) {
 			log.debug("DeleteAll ERROR!!!!!!!!!!!!!!!!!!!!!!!");
@@ -197,7 +206,7 @@ public class ComUpdateController {
 				agentEntity.setAgentId(agentForm2.getAgentId());
 			}
 			agentEntity.setCompany(companyEntity);
-			agentRepository.save(agentEntity);	
+			agentRepository.save(agentEntity);
 		}
 
 		session.setAttribute("comId", companyEntity.getComId());
@@ -209,7 +218,7 @@ public class ComUpdateController {
 		//二重送信対策のためリダイレクトを行う
 		return "redirect:/company/update/complete";
 	}
-	
+
 	/**
 	 * 登録完了画面　表示処理
 	 *

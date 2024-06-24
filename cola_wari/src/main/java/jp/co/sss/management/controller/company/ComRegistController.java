@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +19,8 @@ import jakarta.validation.Valid;
 import jp.co.sss.management.entity.Agent;
 import jp.co.sss.management.entity.ComCategory;
 import jp.co.sss.management.entity.Company;
-
 import jp.co.sss.management.form.AgentForm;
 import jp.co.sss.management.form.CompanyForm;
-
 import jp.co.sss.management.repository.AgentRepository;
 import jp.co.sss.management.repository.ComCategoryRepository;
 import jp.co.sss.management.repository.CompanyRepository;
@@ -46,7 +45,7 @@ public class ComRegistController {
 	 */
 	@Autowired
 	AgentRepository agentRepository;
-	
+
 	/**
 	 * 企業カテゴリ情報　リポジトリ
 	 */
@@ -72,13 +71,13 @@ public class ComRegistController {
 	public String registInput(Model model) {
 		CompanyForm companyForm = new CompanyForm();
 		AgentForm agentForm = new AgentForm();
-		
+
 		List<ComCategory> categories = comCategoryRepository.findAll();
 
 		model.addAttribute("companyForm", companyForm);
 		model.addAttribute("agentForm", agentForm);
 		model.addAttribute("categories", categories);
-		
+
 		return "company/regist_input";
 	}
 
@@ -91,19 +90,20 @@ public class ComRegistController {
 	 * 	入力値エラーあり："redirect:regist/input" 入力録画面　表示処理
 	 * 	入力値エラーなし："redirect:regist/check" 登録確認画面　表示処理
 	 */
-	@PostMapping("regist/input")
-	public String registInputCheck(@Valid @ModelAttribute CompanyForm companyForm, @Valid @ModelAttribute AgentForm agentForm) {
+	@PostMapping("/regist/input")
+	public String registInputCheck(@Valid @ModelAttribute CompanyForm companyForm, AgentForm agentForm,
+			BindingResult result, Model model) {
+		log.debug("ComRegistController.registInputCheck CompanyForm : {}, AgentForm : {}", companyForm.toString(),
+				agentForm.toString());
 
-		log.debug("ComRegistController.registInputCheck CompanyForm : {}, AgentForm : {}", companyForm.toString(), agentForm.toString());
-		
 		// 入力フォームをセッションに保持
 		session.setAttribute("companyForm", companyForm);
 		session.setAttribute("agentForm", agentForm);
-		
+
 		// 登録確認画面　表示処理
 		return "company/regist_check";
 	}
-	
+
 	/**
 	 * 登録確認画面　表示処理
 	 *
@@ -115,7 +115,7 @@ public class ComRegistController {
 		//セッションから入力フォーム情報取得
 		CompanyForm companyForm = (CompanyForm) session.getAttribute("companyForm");
 		AgentForm agentForm = (AgentForm) session.getAttribute("agentForm");
-		
+
 		/**
 		if (companyForm == null) {
 			// セッション情報がない場合、エラー
@@ -130,7 +130,7 @@ public class ComRegistController {
 		//入力フォーム情報をスコープへ設定
 		model.addAttribute("companyForm", companyForm);
 		model.addAttribute("agentForm", agentForm);
-		
+
 		//System.out.println(companyForm.toString());
 		//System.out.println(agentForm.toString());
 
@@ -146,7 +146,6 @@ public class ComRegistController {
 	 */
 	@PostMapping("regist/check")
 	public String registComplete() {
-		
 
 		//セッション保持情報から入力値再取得
 		CompanyForm companyForm = (CompanyForm) session.getAttribute("companyForm");
@@ -156,13 +155,10 @@ public class ComRegistController {
 		Company companyEntity = new Company();
 
 		BeanUtils.copyProperties(companyForm, companyEntity);
-		
 
 		if (companyForm.getComId() != null) {
 			companyEntity.setComId(companyForm.getComId());
 		}
-
-		
 
 		companyEntity.setUpdateDate(LocalDate.now());
 		ComCategory category = comCategoryRepository.getReferenceById(companyForm.getCateId());
@@ -189,7 +185,7 @@ public class ComRegistController {
 		//二重送信対策のためリダイレクトを行う
 		return "redirect:/company/regist/complete";
 	}
-	
+
 	/**
 	 * 登録完了画面　表示処理
 	 *

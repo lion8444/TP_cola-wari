@@ -15,7 +15,7 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-4 text-gray-800">部員変更</h1>
         <div class="card shadow mb-4 card-body">
-            <form method="post" th:object="${userForm}">
+            <form method="post" th:object="${userUpdateForm}">
                 <!-- エラーメッセージを表示 -->
                 <th:block th:if="${#fields.hasErrors()}">
                     <ul>
@@ -51,14 +51,14 @@
 
                 <input type="hidden" th:field="*{userId}" />
 
-                <button type="submit" th:formaction="@{/mypage/employee/update/check_r}" class="btn btn-primary">確認</button>
+                <button type="submit" th:formaction="@{/admin/employee/update/check_r}" class="btn btn-primary">確認</button>
                 <button type="submit" th:formaction="@{/admin}" class="btn btn-secondary">戻る</button>
                 <hr>
             </form>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> -->
 </body>
 
 </html>

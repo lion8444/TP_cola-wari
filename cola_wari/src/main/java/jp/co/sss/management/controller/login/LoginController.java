@@ -53,6 +53,7 @@ public class LoginController {
 		UserBean userBean = ((UserBean) session.getAttribute("user"));
 		//ビーンからユーザIdを取得
 		int userId = userBean.getUserId();
+		System.out.println(userId);
 		//空のユーザを作る
 		User user = new User();
 		//空っぽのユーザにIDのみ情報を入れる

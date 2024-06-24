@@ -34,7 +34,7 @@ public class AdminUserResistController {
 	/**
 	 * 登録画面表示コントローラ
 	 */
-	@RequestMapping(path = "/mypage/employee/input", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/admin/employee/input", method = { RequestMethod.GET, RequestMethod.POST })
 	public String showUserResist(Model model) {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
@@ -80,7 +80,7 @@ public class AdminUserResistController {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(path = "/mypage/employee/input/check_r", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/admin/employee/input/check_r", method = { RequestMethod.GET, RequestMethod.POST })
 	public String inputResistUser_r(@Valid @ModelAttribute UserForm userForm, BindingResult result) {
 
 		// 入力値にエラーがあった場合、入力画面に戻る
@@ -89,7 +89,7 @@ public class AdminUserResistController {
 			session.setAttribute("result", result);
 
 			//変更入力画面　表示処理
-			return "redirect:/mypage/employee/input";
+			return "redirect:/admin/employee/input";
 		}
 
 		//ユーザビーンを作成。
@@ -100,14 +100,14 @@ public class AdminUserResistController {
 		//入力された内容をセッションスコープに保存
 		session.setAttribute("userBean", userBean);
 
-		return "redirect:/mypage/employee/input/check";
+		return "redirect:/admin/employee/input/check";
 	}
 
 	/**
 	 * 登録確認画面表示
 	 * @return
 	 */
-	@GetMapping("/mypage/employee/input/check")
+	@GetMapping("/admin/employee/input/check")
 	public String inputResistUser() {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
@@ -125,7 +125,7 @@ public class AdminUserResistController {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(path = "/mypage/employee/input/complete_r", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(path = "/admin/employee/input/complete_r", method = { RequestMethod.GET, RequestMethod.POST })
 	public String inputResistUserCheck_r() {
 		//セッションスコープの内容を取り出す。
 		UserBean userBean = (UserBean) session.getAttribute("userBean");
@@ -139,14 +139,14 @@ public class AdminUserResistController {
 		//データベース更新
 		userRepository.save(user);
 
-		return "redirect:/mypage/employee/input/complete";
+		return "redirect:/admin/employee/input/complete";
 	}
 
 	/**
 	 * 登録確認画面表示
 	 * @return
 	 */
-	@GetMapping("/mypage/employee/input/complete")
+	@GetMapping("/admin/employee/input/complete")
 	public String inputResistUserComplete() {
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
