@@ -78,17 +78,15 @@ public class ComRegistController {
 		model.addAttribute("categories", categories);
 
 		BindingResult result1 = (BindingResult) session.getAttribute("result1");
-		BindingResult result2 = (BindingResult) session.getAttribute("result2");
+
 		if (result1 != null) {
 			//セッションにエラー情報がある場合、エラー情報を画面表示設定
 			model.addAttribute("org.springframework.validation.BindingResult.companyForm", result1);
 			companyForm = (CompanyForm) session.getAttribute("companyForm");
+			model.addAttribute("error", (boolean) session.getAttribute("error"));
+			session.removeAttribute("error");
 			model.addAttribute("companyForm", companyForm);
 			session.removeAttribute("result1");
-		} else if (result2 != null) {
-			//セッションにエラー情報がある場合、エラー情報を画面表示設定
-			model.addAttribute("org.springframework.validation.BindingResult.agentForm", result2);
-			session.removeAttribute("result2");
 		}
 
 		return "company/regist_input";
@@ -104,7 +102,7 @@ public class ComRegistController {
 	 * 	入力値エラーなし："redirect:regist/check" 登録確認画面　表示処理
 	 */
 	@PostMapping("/regist/input")
-	public String registInputCheck(@Valid CompanyForm companyForm, BindingResult result1, @Valid AgentForm agentForm,
+	public String registInputCheck(@Valid CompanyForm companyForm, BindingResult result1, AgentForm agentForm,
 			BindingResult result2) {
 		//エラーがあるか否か
 		boolean error = false;
@@ -115,10 +113,6 @@ public class ComRegistController {
 			session.setAttribute("result1", result1);
 			error = true;
 		}
-		if (result2.hasErrors()) {
-			session.setAttribute("result2", result2);
-			error = true;
-		}
 
 		if (error == true) {
 			//変更入力画面　表示処理
@@ -127,6 +121,8 @@ public class ComRegistController {
 			session.setAttribute("error", error);
 			return "redirect:/company/regist/input";
 		}
+
+		companyForm.setCateName(comCategoryRepository.getReferenceById(companyForm.getCateId()).getCateName());
 
 		log.debug("ComRegistController.registInputCheck CompanyForm : {}, AgentForm : {}", companyForm.toString(),
 				agentForm.toString());

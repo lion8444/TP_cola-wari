@@ -36,8 +36,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="company:${companies}">
-					<td th:text="${company.comId}">
+				<tr th:each="company, status : ${companies}">
+					<td th:text="${status.count}">
 					</td>
 					<td>
 						<a th:href="@{/company/detail/{id}(id=${company.comId})}" th:text="${company.comName}"></a>

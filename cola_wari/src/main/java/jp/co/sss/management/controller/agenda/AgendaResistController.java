@@ -51,8 +51,8 @@ public class AgendaResistController {
 	
     @GetMapping("/input")
     public String registAgenda(Model model,AgendaForm agendaform) {
-    	model.addAttribute("users", userRepository.findAll());
-    	model.addAttribute("agents", agentRepository.findAll());
+    	model.addAttribute("users", userRepository.findByStatus(0));
+    	model.addAttribute("agents", agentRepository.findByDeleteFlag(0));
     	model.addAttribute("comps", companyRepository.findAll());
     	
     	BindingResult result = (BindingResult) session.getAttribute("result");
@@ -71,7 +71,7 @@ public class AgendaResistController {
 			session.setAttribute("result", result);
 
 			//登録入力画面　表示処理
-			return "redirect:/project/regist/input";
+			return "redirect:/agenda/input";
 
 		}
     	

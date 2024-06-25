@@ -36,6 +36,7 @@ public class AgendaShowController {
     @RequestMapping("/list")
     public String showAgendaList(Model model) {
     	List<Agenda> agendas = agendaRepository.findByStatus(0);
+		agendas = agendas.stream().filter(agenda -> agenda.getAgendaId() != 0).toList();
     	model.addAttribute("agendas", agendas);
     	
         return "agenda/list";

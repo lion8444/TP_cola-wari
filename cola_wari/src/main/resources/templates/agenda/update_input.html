@@ -26,10 +26,11 @@
 				</div>
 				<div class="col-md-6">
 					<label for="inputPassword4" class="form-label">企業名</label>
-					<select name="comId" class="form-control">
+					<select id="company-find-agents" name="comId" class="form-control">
+						<option selected>企業を選んでください</option>
 						<th:block th:each="comp : ${comps}">
 							<option th:value="${comp.comId}" th:text="${comp.comName}"
-								th:selected="${agenda.company.comName}"></option>
+								th:selected="${comp.comName eq agenda.company.comName}"></option>
 						</th:block>
 					</select>
 				</div>
@@ -42,19 +43,20 @@
 					<label for="inputEmail4" class="form-label">担当部員</label>
 					<select name="userId" class="form-control" id="inputUser" multiple="multiple">
 						<th:block th:each="user : ${users}">
-							<th:block th:each="agendaEntries : ${agenda.agendaEntries}">
-								<option th:value="${user.userId}" th:text="${user.userName}" th:selected="${user.userName eq agendaEntries.user.userName}"></option>
-							</th:block>
+							<option th:value="${user.userBean.userId}" th:text="${user.userBean.userName}"
+								th:selected="${user.checked eq 1}"></option>
+
 						</th:block>
 					</select>
 				</div>
 				<div class="col-md-6">
 					<label for="inputPassword4" class="form-label">企業担当者</label>
-					<select name="agentId" class="form-control" id="inputUser">
-						<th:block th:each="agent : ${agents}">
+					<select id="setting-agents" name="agentId" class="form-control">
+						<option>企業を選んでください</option>
+						<!-- <th:block th:each="agent : ${agents}">
 							<option th:value="${agent.agentId}" th:text="${agent.agentName}"
 								th:selected="${agendaName}"></option>
-						</th:block>
+						</th:block> -->
 					</select>
 				</div>
 				<div class="col-md-6">
@@ -72,17 +74,12 @@
 				</div>
 
 				<p class="d-grid gap-2 d-md-block my-3">
-					<input class="btn btn-primary" type="hidden" th:field="*{agendaId}">
-					<input class="btn btn-primary" type="submit" value="変更">
-
+					<input type="hidden" th:field="*{agendaId}">
+					<button class="btn btn-primary" type="submit">変更</button>
+					<button class="btn btn-primary" type="button" onclick="history.back()">戻る</button>
+				</p>
+			</form>
 		</div>
-		<form th:action="@{/agenda/detail}">
-			<input class="btn btn-primary" type="submit" value="戻る">
-		</form>
-		</p>
-
-		</form>
-
 
 	</div>
 	<!-- /.container-fluid -->

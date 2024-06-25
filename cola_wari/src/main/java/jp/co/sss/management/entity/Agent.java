@@ -2,6 +2,8 @@ package jp.co.sss.management.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -83,6 +85,7 @@ public class Agent {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "com_id", referencedColumnName = "comId")
+	@JsonIgnore
 	private Company company;
 
 	/**

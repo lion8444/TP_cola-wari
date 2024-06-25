@@ -24,9 +24,7 @@ import jp.co.sss.management.form.LoginForm;
 import jp.co.sss.management.repository.AgendaEntryRepository;
 import jp.co.sss.management.repository.ScheduleEntryRepository;
 import jp.co.sss.management.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller
 public class LoginController {
 

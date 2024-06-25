@@ -70,19 +70,10 @@
 			<input type="hidden" name="report" th:value="${agendaForm.report}" />
 
 			<div class="d-grid gap-2 d-md-block my-3">
-				<input class="btn btn-primary" type="submit" value="変更">
+				<button class="btn btn-primary" type="submit">変更</button>
+				<button class="btn btn-primary" type="button" onclick="history.back()">戻る</button>
 			</div>
-
-
 		</form>
-		
-		<form  th:action="@{/agenda/update}" >
-		<div class="d-grid gap-2 d-md-block my-3">
-			<input class="btn btn-primary" type="submit" value="戻る">
-		</div>
-		</form>
-
-
 	</div>
 	<!-- /.container-fluid -->
 

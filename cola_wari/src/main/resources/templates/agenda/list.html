@@ -37,18 +37,20 @@
 			</thead>
 			<tbody>
 				<tr th:each="agenda, status : ${agendas}">
-					<th scope="row" th:text="${status.count}"></th>
-					<td>
-						<a th:href="@{/agenda/detail/{agendaId}(agendaId=${agenda.agendaId})}"
-							th:text="${agenda.title}"></a>
-					</td>
-					<td>
-						<ul th:each="agendaEntries : ${agenda.agendaEntries}">
-							<li th:text=" ${agendaEntries.user.userName}"></li>
-						</ul>
-					</td>
-					<td th:text="${agenda.company.comName}"></td>
-					<td th:text="${agenda.startDate}"></td>
+					<th:blcok th:unless="${agenda.agendaId eq 0}">
+						<th scope="row" th:text="${status.count}"></th>
+						<td>
+							<a th:href="@{/agenda/detail/{agendaId}(agendaId=${agenda.agendaId})}"
+								th:text="${agenda.title}"></a>
+						</td>
+						<td>
+							<ul th:each="agendaEntries : ${agenda.agendaEntries}">
+								<li th:text=" ${agendaEntries.user.userName}"></li>
+							</ul>
+						</td>
+						<td th:text="${agenda.company.comName}"></td>
+						<td th:text="${agenda.startDate}"></td>
+					</th:blcok>
 				</tr>
 
 			</tbody>
