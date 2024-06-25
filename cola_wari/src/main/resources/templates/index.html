@@ -86,7 +86,7 @@
 							<!-- リストアイテムとして各AgendaBeanを表示(5件まで) -->
         					<li th:each="agendaBean,iterStat : ${nowAgendas}" th:if="${iterStat.index < 5}">
             					<!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{案件ID}も入れる　-->
-            					<a th:href="@{/agenda/detail}" th:text="${agendaBean.title}"></a>
+            					<a th:href="@{/agenda/detail/{id}(id=${agendaBean.agendaId})}" th:text="${agendaBean.title}"></a>
         					</li>
     					</ul>
     					
@@ -96,7 +96,7 @@
     					
     					
     					<!-- リンクの最後に{user_id}も入れる -->
-    					<form th:action="@{/agenda/list/{userId}(userId=${userId})}" method="get">
+    					<form th:action="@{/agenda/list}" method="get">
 							<input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
 						</form>
 
@@ -119,7 +119,7 @@
 							<!-- リストアイテムとして各scheduleBeanを表示(5件まで) -->
         					<li th:each="scheduleBean,iterStat : ${nowTasks}" th:if="${iterStat.index < 5}">
             					<!-- AgendaBeanの情報をリンクとして表示、リンクの最後に{スケジュールID}も入れる　-->
-            					<a th:href="@{/schedule/detail}" th:text="${scheduleBean.title}"></a>
+            					<a th:href="@{/schedule/detail/{id}(id=${scheduleBean.scheduleId})}" th:text="${scheduleBean.title}"></a>
         					</li>
     					</ul>
     					
@@ -127,7 +127,7 @@
 							<p th:text="#{msg.top.scheduleTask.none}"></p>
     					</li>
     					
-    					<!-- リンクの最後に{user_id}も入れる -->
+    					<!-- もっと見るボタン -->
     					<form th:action="@{/schedule/list}" method="get">
 							<input type="submit" value="もっと見る" class="btn btn-primary btn-user btn-block">
 						</form>

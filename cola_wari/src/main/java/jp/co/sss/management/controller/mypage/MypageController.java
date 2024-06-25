@@ -42,6 +42,10 @@ public class MypageController {
 	 */
 	@RequestMapping(path = "/mypage", method = { RequestMethod.GET, RequestMethod.POST })
 	public String showMypage(Model model) {
+		//セッション情報削除
+		session.removeAttribute("messeage1");
+		session.removeAttribute("messeage2");
+
 		//ログインされていない場合ログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		if (userBean == null) {
@@ -50,11 +54,11 @@ public class MypageController {
 		}
 		Integer id = userBean.getUserId();
 		User user = userRepository.getReferenceById(id);
-		model.addAttribute("user",user);
-		List<AgendaEntry> progressEntry = agendaEntryRepository.findByUserId(id,0);
-		model.addAttribute("progresses",progressEntry);
-		List<AgendaEntry> endEntry = agendaEntryRepository.findByUserId(id,1);
-		model.addAttribute("ends",endEntry);
+		model.addAttribute("user", user);
+		List<AgendaEntry> progressEntry = agendaEntryRepository.findByUserId(id, 0);
+		model.addAttribute("progresses", progressEntry);
+		List<AgendaEntry> endEntry = agendaEntryRepository.findByUserId(id, 1);
+		model.addAttribute("ends", endEntry);
 
 		return "mypage/menu_user";
 	}

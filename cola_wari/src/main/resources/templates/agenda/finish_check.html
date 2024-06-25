@@ -16,45 +16,59 @@
 
 		<!-- Page Heading -->
 		<!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">案件終了確認</h1>
-                    <p>この案件を終了しますか。</p>
-                    <table class="table">
-                        <tr>
-                            <th scope="col">案件名</th>
-                            <td scope="col">JAPAN AIRLINES エアチケット予約システム</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">企業名</th>
-                            <td>JAPAN AIRLINES</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">案件開始日</th>
-                            <td>2024/06/12</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">担当部員名</th>
-                            <td>浦上</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">企業担当者名</th>
-                            <td>Smith 070-0000-0000 / smith@abc.com</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">案件の状態</th>
-                            <td>
-                                進行中
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">報告</th>
-                            <td>2024/06/15 担当者面談</td>
-                        </tr>
+		<h1 class="h3 mb-4 text-gray-800">案件終了確認</h1>
+		<p>この案件を終了しますか。</p>
+		
+		<table class="table">
+			<tr>
+				<th scope="col">案件名</th>
+				<td scope="col" th:text="${agenda.title}"></td>
+			</tr>
 
-                    </table>
-                    <div class="d-grid gap-2 d-md-block my-3">
-                        <button class="btn btn-primary" type="button" onclick="location.href='close/complete'">終了</button>
-                        <button class="btn btn-primary" type="button" onclick="location.href='list'">戻る</button>
-                    </div>
+			<tr>
+				<th scope="row">説明</th>
+				<td th:text="${agenda.description}"></td>
+			</tr>
+
+			<tr>
+				<th scope="row">案件開始日</th>
+				<td th:text="${agenda.startDate}"></td>
+			</tr>
+
+			<tr>
+				<th scope="row">企業名</th>
+				<td th:text="${agenda.company.comName}"></td>
+			</tr>
+			<tr>
+				<th scope="row">企業担当者名</th>
+				<td th:text="${agendaName}"></td>
+			</tr>
+			<tr>
+				<th scope="row">担当部員名</th>
+				<td>
+					<ul th:each="agendaEntries : ${agenda.agendaEntries}">
+						<li th:text=" ${agendaEntries.user.userName}"></li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">案件の状態</th>
+				<td th:switch="${agenda.status}">
+					<span th:case="0">進行中</span>
+					<span th:case="1">完了</span>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">報告</th>
+				<td th:text="${agenda.report}"></td>
+			</tr>
+
+		</table>
+		
+		<div class="d-grid gap-2 d-md-block my-3">
+			<button class="btn btn-primary" type="button" onclick="location.href='close/complete'">終了</button>
+			<button class="btn btn-primary" type="button" onclick="location.href='list'">戻る</button>
+		</div>
 
 	</div>
 	<!-- /.container-fluid -->

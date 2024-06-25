@@ -58,7 +58,7 @@ public class AgendaUpdateController {
     }
     
     @PostMapping("/update/check")
-    public String agendaUpdateCheck(Model model,AgendaForm agendaForm,@RequestParam(required = false) List<Integer> userIds,CompanyForm comFomr,AgentForm agentForm) {
+    public String agendaUpdateCheck(Model model,AgendaForm agendaForm,@RequestParam(required = false) List<Integer> userId,CompanyForm comFomr,AgentForm agentForm) {
     	User user;
     	Company company = new Company();
     	company.setComId(comFomr.getComId());
@@ -69,8 +69,8 @@ public class AgendaUpdateController {
     		}
     	
     		List<User> userList = new ArrayList<>();
-        	for(Integer userId:userIds) {
-        		user = userRepository.getReferenceById(userId);
+        	for(Integer userid : userId) {
+        		user = userRepository.getReferenceById(userid);
         		userList.add(user);
         	}
         	
@@ -114,9 +114,8 @@ public class AgendaUpdateController {
         	agent.setAgentId(agentId);
         	agendaEntry.setAgent(agent);
         	
-        	agenda = agendaRepository.findByMaxAgendaId();
         	agendaEntry.setAgenda(agenda);
-    		
+    		        	
     		user.setUserId(userId);
     		agendaEntry.setUser(user);
     		
