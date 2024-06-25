@@ -17,6 +17,12 @@
 		<!-- Page Heading -->
 		<h1 class="h3 mb-4 text-gray-800">案件詳細</h1>
 
+		<form th:action="@{/agenda/close}">
+			<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3">
+				<input class="btn btn-primary me-md-2" type="submit" value="案件終了">
+			</div>
+		</form>
+
 		<table class="table">
 			<tr>
 				<th scope="col">案件名</th>
@@ -52,9 +58,9 @@
 			<tr>
 				<th scope="row">案件の状態</th>
 				<td th:switch="${agenda.status}">
-	                <span th:case="0">進行中</span>
-	                <span th:case="1">完了</span>
-	              </td>
+					<span th:case="0">進行中</span>
+					<span th:case="1">完了</span>
+				</td>
 			</tr>
 			<tr>
 				<th scope="row">報告</th>
@@ -62,17 +68,13 @@
 			</tr>
 
 		</table>
-		
-		<p class="d-grid gap-2 d-md-block my-3">
-		<form th:action = "@{/agenda/update}" >
-			<input class="btn btn-primary" type="hidden" name="agendaId" th:value = "${agenda.agendaId}">
-			<input class="btn btn-primary" type="submit" value = "変更">
-		</form>
-		
-		<form th:action = "@{/agenda/list}" >
-			<input class="btn btn-primary" type="submit" value = "戻る">
-		</form>
-		</p>
+
+		<input class="btn btn-primary" type="hidden" name="agendaId" th:value="${agenda.agendaId}">
+		<div class="d-grid gap-2 d-md-block m-3">
+			<button class="btn btn-primary" type="button"
+				th:onclick="|location.href='@{/agenda/update}?agendaId=${agenda.agendaId}'|">変更</button>
+			<button class="btn btn-primary" type="button" onclick="history.back()">戻る</button>
+		</div>
 
 
 

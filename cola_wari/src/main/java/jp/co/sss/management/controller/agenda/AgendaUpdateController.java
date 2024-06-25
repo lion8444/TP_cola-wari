@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +43,7 @@ public class AgendaUpdateController {
 	UserRepository userRepository;
 	
 	@Autowired
-	AgendaEntryRepository agentEntryRepository;
+	AgendaEntryRepository agendaEntryRepository;
     
     @GetMapping("/update")
     public String agendaUpdate(Model model,Integer agendaId) {
@@ -58,19 +59,19 @@ public class AgendaUpdateController {
     }
     
     @PostMapping("/update/check")
-    public String agendaUpdateCheck(Model model,AgendaForm agendaForm,@RequestParam(required = false) List<Integer> userIds,CompanyForm comFomr,AgentForm agentForm) {
+    public String agendaUpdateCheck(Model model,AgendaForm agendaForm,@RequestParam(required = false) List<Integer> userId,CompanyForm comFomr,AgentForm agentForm) {
     	User user;
     	Company company = new Company();
     	company.setComId(comFomr.getComId());
-    	Agent agent = agentRepository.findByAgentIdAndCompany(agentForm.getAgentId(), company);
+    	Agent agent = agentRepository.findByAgentIdAndCompanyAndDeleteFlag(agentForm.getAgentId(), company, 0);
     		if(agent == null) {
     			model.addAttribute("message", "該当する企業担当者が存在しません。");
     			return "redirect:/update";
     		}
     	
     		List<User> userList = new ArrayList<>();
-        	for(Integer userId:userIds) {
-        		user = userRepository.getReferenceById(userId);
+        	for(Integer userid : userId) {
+        		user = userRepository.getReferenceById(userid);
         		userList.add(user);
         	}
         	
@@ -87,7 +88,7 @@ public class AgendaUpdateController {
     	
         return "agenda/update_check";
     }
-    
+    @Transactional
     @PostMapping("/update/complete")
     public String agendaUpdateComplete(Model model, AgendaForm agendaform,Integer comId,
     		@RequestParam("userId") List<Integer> userIds,Integer agentId) {  	
@@ -104,19 +105,21 @@ public class AgendaUpdateController {
     	com.setComId(comId);
     	agenda.setCompany(com);
     	agendaRepository.save(agenda);
-    	    	
+    	
+		agendaEntryRepository.deleteAllByAgenda(agenda);
+
     	Agent agent = new Agent();
     	
     	List<AgendaEntry> agendaEntries = new ArrayList<>();
     	for(Integer userId:userIds) {
     		User user = new User();
     		AgendaEntry agendaEntry = new AgendaEntry();
+
         	agent.setAgentId(agentId);
+
         	agendaEntry.setAgent(agent);
-        	
-        	agenda = agendaRepository.findByMaxAgendaId();
         	agendaEntry.setAgenda(agenda);
-    		
+
     		user.setUserId(userId);
     		agendaEntry.setUser(user);
     		
@@ -124,8 +127,9 @@ public class AgendaUpdateController {
     	}   	
     	
     	for(AgendaEntry agendaE:agendaEntries) {
-    		agentEntryRepository.save(agendaE);
+    		agendaEntryRepository.save(agendaE);
     	}
         return "agenda/update_complete";
     }
+
 }

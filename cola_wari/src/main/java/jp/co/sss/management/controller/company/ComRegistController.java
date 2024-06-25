@@ -162,7 +162,7 @@ public class ComRegistController {
 		*/
 		//入力フォーム情報をスコープへ設定
 		model.addAttribute("companyForm", companyForm);
-		model.addAttribute("agentForm", agentForm);
+		model.addAttribute("agentForms", agentForm.getAgentForms());
 
 		//System.out.println(companyForm.toString());
 		//System.out.println(agentForm.toString());

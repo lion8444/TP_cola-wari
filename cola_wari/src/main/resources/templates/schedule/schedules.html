@@ -26,100 +26,106 @@
         </div>
     </div>
 
+    <div class="container-fluid">
 
-    <div class="main-container">
-        <div class="pd-ltr-20 xs-pd-20-10">
-            <div class="min-height-200px">
-                <div class="pd-20 card-box mb-30">
-                    <div class="calendar-wrap">
-                        <div id="calendar"></div>
-                    </div>
-                    <!-- calendar modal -->
-                    <div id="modal-view-event" class="modal modal-top fade calendar-modal">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <h4 class="h4">
-                                        <span class="event-title"></span>
-                                    </h4>
-                                    <div class="event-time"></div>
-                                    <hr>
-                                    <div class="event-body"></div>
-                                </div>
-                                <div class="modal-footer">
-                                    <a class="eventUrl" href="">詳細</a>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">
-                                        戻る
-                                    </button>
-                                </div>
-                            </div>
+        <h1 class="h3 mb-4 text-gray-800">企業一覧</h1>
+        <div class="main-container">
+            <div class="pd-ltr-20 xs-pd-20-10">
+                <div class="min-height-200px">
+                    <div class="pd-20 card-box mb-30">
+                        <div class="calendar-wrap">
+                            <div id="calendar"></div>
                         </div>
-                    </div>
-                    <div id="modal-view-event-add" class="modal modal-top fade calendar-modal">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <form action="" id="add-event" method="post">
+                        <!-- calendar modal -->
+                        <div id="modal-view-event" class="modal modal-top fade calendar-modal">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
                                     <div class="modal-body">
-                                        <h4 class="text-blue h4 mb-10">スケジュール追加</h4>
-                                        <div class="form-group">
-                                            <label>タイトル</label>
-                                            <input type="text" class="form-control" id="schedule-title" name="title" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>開始日付</label>
-                                            <input type="text" class="datetimepicker form-control" id="schedule-start" name="startDate"
-                                                autocomplete='off' />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>終了日付</label>
-                                            <input type="text" class="datetimepicker form-control" id="schedule-end" name="endDate"
-                                                autocomplete='off' />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>場所</label>
-                                            <input type="text" class="form-control" id="schedule-addr" name="addr"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>説明</label>
-                                            <textarea class="form-control" name="description" id="schedule-desc"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>参加者</label>
-                                            <div id="checkboxes" class="form-control"
-                                                style="overflow-y:auto; height:200px">
-                                                <div th:each="user : ${users}">
-                                                    <input type="checkbox" th:id="${user.userId}" name="userIdList"
-                                                        th:value="${user.userId}" />
-                                                    <tr>
-                                                        <td>
-                                                            <label th:for="${user.userId}"
-                                                                th:text="${user.userName}"></label>
-                                                        </td>
-                                                        <td>
-                                                            <label th:text="${user.team}"></label>
-                                                        </td>
-                                                        <td>
-                                                            <label th:text="${user.position}"></label>
-                                                        </td>
-                                                    </tr>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>案件</label>
-                                            <select class="form-control" id="agendaSelect" name="agendaId">
-                                            </select>
-                                        </div>
+                                        <h4 class="h4">
+                                            <span class="event-title"></span>
+                                        </h4>
+                                        <div class="event-time"></div>
+                                        <hr>
+                                        <div class="event-body"></div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" id="add-event-submit" class="btn btn-primary">
-                                            登録
-                                        </button>
+                                        <a class="eventUrl" href="">詳細</a>
                                         <button type="button" class="btn btn-primary" data-dismiss="modal">
                                             戻る
                                         </button>
                                     </div>
-                                </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="modal-view-event-add" class="modal modal-top fade calendar-modal">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <form action="" id="add-event" method="post">
+                                        <div class="modal-body">
+                                            <h4 class="text-blue h4 mb-10">スケジュール追加</h4>
+                                            <div class="form-group">
+                                                <label>タイトル</label>
+                                                <input type="text" class="form-control" id="schedule-title"
+                                                    name="title" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>開始日付</label>
+                                                <input type="text" class="datetimepicker form-control"
+                                                    id="schedule-start" name="startDate" autocomplete='off' />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>終了日付</label>
+                                                <input type="text" class="datetimepicker form-control" id="schedule-end"
+                                                    name="endDate" autocomplete='off' />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>場所</label>
+                                                <input type="text" class="form-control" id="schedule-addr"
+                                                    name="addr" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>説明</label>
+                                                <textarea class="form-control" name="description"
+                                                    id="schedule-desc"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>参加者</label>
+                                                <div id="checkboxes" class="form-control"
+                                                    style="overflow-y:auto; height:200px">
+                                                    <div th:each="user : ${users}">
+                                                        <input type="checkbox" th:id="${user.userId}" name="userIdList"
+                                                            th:value="${user.userId}" />
+                                                        <tr>
+                                                            <td>
+                                                                <label th:for="${user.userId}"
+                                                                    th:text="${user.userName}"></label>
+                                                            </td>
+                                                            <td>
+                                                                <label th:text="${user.team}"></label>
+                                                            </td>
+                                                            <td>
+                                                                <label th:text="${user.position}"></label>
+                                                            </td>
+                                                        </tr>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>案件</label>
+                                                <select class="form-control" id="agendaSelect" name="agendaId">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="add-event-submit" class="btn btn-primary">
+                                                登録
+                                            </button>
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                                戻る
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -127,7 +133,6 @@
             </div>
         </div>
     </div>
-
 </body>
 
 </html>

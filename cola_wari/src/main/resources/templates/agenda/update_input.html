@@ -18,67 +18,66 @@
 		<h1 class="h3 mb-4 text-gray-800">案件変更</h1>
 		<p>変更する情報を入力してください。</p>
 
-		<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3">
-			<button class="btn btn-primary me-md-2" type="button">案件終了</button>
-		</div>
 		<div th:object="${agenda}">
-		<form th:action = "@{/agenda/update/check}" method="post" >
-			<div class="col-md-6">
-				<label for="inputEmail4" class="form-label">案件名</label>
-				<input type="text" th:field="*{title}" class="form-control" id="inputAgendaName">
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">企業名</label>
-				<select name="comId"  class="form-control" >
-					<th:block th:each="comp : ${comps}">
-						<option th:value="${comp.comId}" th:text="${comp.comName}" th:selected="${agenda.company.comName}"></option>
-					</th:block>
-				</select>
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">説明</label>
-				<input type="text" th:field="*{description}" class="form-control" id="inputDescription">
-			</div>
+			<form th:action="@{/agenda/update/check}" method="post">
+				<div class="col-md-6">
+					<label for="inputEmail4" class="form-label">案件名</label>
+					<input type="text" th:field="*{title}" class="form-control" id="inputAgendaName">
+				</div>
+				<div class="col-md-6">
+					<label for="inputPassword4" class="form-label">企業名</label>
+					<select name="comId" class="form-control">
+						<th:block th:each="comp : ${comps}">
+							<option th:value="${comp.comId}" th:text="${comp.comName}"
+								th:selected="${agenda.company.comName}"></option>
+						</th:block>
+					</select>
+				</div>
+				<div class="col-md-6">
+					<label for="inputPassword4" class="form-label">説明</label>
+					<input type="text" th:field="*{description}" class="form-control" id="inputDescription">
+				</div>
 
-			<div class="col-md-6">
-				<label for="inputEmail4" class="form-label">担当部員</label>
-				<ul th:each="agendaEntries : ${agenda.agendaEntries}">
-						<li th:text=" ${agendaEntries.user.userName}"></li>
-				</ul>
-				<select name="userId"  class="form-control" id="inputUser" multiple="multiple">
-					<th:block th:each="user : ${users}">
-						<option th:value="${user.userId}" th:text="${user.userName}"></option>
-					</th:block>
-				</select>
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">企業担当者</label>
-					<select name="agentId"  class="form-control" id="inputUser">
-					<th:block th:each="agent : ${agents}">
-						<option th:value="${agent.agentId}" th:text="${agent.agentName}" th:selected="${agendaName}"></option>
-					</th:block>
-				</select>
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">案件開始日</label>
-				<input type="date" th:field="*{startDate}" class="form-control" id="inputDate">
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">案件終了日</label>
-				<input type="date" th:field="*{endDate}" class="form-control" id="inputDate">
-			</div>
-			<div class="col-md-6">
-				<label for="inputPassword4" class="form-label">報告</label>
-				<textarea type="text" th:field="*{report}" class="form-control" id="inputReport" rows="12"></textarea>
-			</div>
-			
-			<p class="d-grid gap-2 d-md-block my-3">
-			<input class="btn btn-primary" type="hidden" th:field = "*{agendaId}">
-			<input class="btn btn-primary" type="submit" value = "変更">
+				<div class="col-md-6">
+					<label for="inputEmail4" class="form-label">担当部員</label>
+					<select name="userId" class="form-control" id="inputUser" multiple="multiple">
+						<th:block th:each="user : ${users}">
+							<th:block th:each="agendaEntries : ${agenda.agendaEntries}">
+								<option th:value="${user.userId}" th:text="${user.userName}" th:selected="${user.userName eq agendaEntries.user.userName}"></option>
+							</th:block>
+						</th:block>
+					</select>
+				</div>
+				<div class="col-md-6">
+					<label for="inputPassword4" class="form-label">企業担当者</label>
+					<select name="agentId" class="form-control" id="inputUser">
+						<th:block th:each="agent : ${agents}">
+							<option th:value="${agent.agentId}" th:text="${agent.agentName}"
+								th:selected="${agendaName}"></option>
+						</th:block>
+					</select>
+				</div>
+				<div class="col-md-6">
+					<label for="inputPassword4" class="form-label">案件開始日</label>
+					<input type="date" th:field="*{startDate}" class="form-control" id="inputDate">
+				</div>
+				<div class="col-md-6">
+					<label for="inputPassword4" class="form-label">案件終了日</label>
+					<input type="date" th:field="*{endDate}" class="form-control" id="inputDate">
+				</div>
+				<div class="col-md-6">
+					<label for="inputPassword4" class="form-label">報告</label>
+					<textarea type="text" th:field="*{report}" class="form-control" id="inputReport"
+						rows="12"></textarea>
+				</div>
+
+				<p class="d-grid gap-2 d-md-block my-3">
+					<input class="btn btn-primary" type="hidden" th:field="*{agendaId}">
+					<input class="btn btn-primary" type="submit" value="変更">
 
 		</div>
-				<form th:action = "@{/agenda/detail}" >
-			<input class="btn btn-primary" type="submit" value = "戻る">
+		<form th:action="@{/agenda/detail}">
+			<input class="btn btn-primary" type="submit" value="戻る">
 		</form>
 		</p>
 

@@ -34,7 +34,7 @@ public class RestScheduleController {
     public List<RestScheduleBean> showSchedule(String data) {
         List<RestScheduleBean> restScheduleBeans = scheduleService.showRestScheduleBeans();
         for (RestScheduleBean restScheduleBean : restScheduleBeans) {
-            log.debug("schedule test : {}", restScheduleBean.getTitle());
+            log.debug("schedule test : {}", restScheduleBean.toString());
         }
         return restScheduleBeans;
     }

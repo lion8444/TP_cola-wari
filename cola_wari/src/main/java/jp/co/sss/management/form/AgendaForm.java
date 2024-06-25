@@ -1,6 +1,7 @@
 package jp.co.sss.management.form;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -57,11 +58,11 @@ public class AgendaForm implements Serializable {
 	/**
 	 * 案件の開始日付(YYYY/MM/DD HH:mm)
 	 */
-	private String startDate;
+	private Date startDate;
 
 	/**
 	 * 案件の終了日付(YYYY/MM/DD HH:mm)
 	 */
-	private String endDate;
+	private Date endDate;
 
 }

@@ -3,8 +3,8 @@ package jp.co.sss.management.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import jp.co.sss.management.entity.Schedule;
 import jp.co.sss.management.entity.ScheduleEntry;
@@ -33,5 +33,6 @@ public interface ScheduleEntryRepository extends JpaRepository<ScheduleEntry, In
     void deleteAllBySchedule(Schedule schedule);
 
     void deleteBySchedule(Schedule schedule);
+
 
 }

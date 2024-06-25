@@ -25,7 +25,7 @@
 			</tr>
 			<tr>
 				<th scope="row">業種</th>
-				<td th:text="*{companyForm.cateName}"></td>
+				<td th:text="*{cateName}"></td>
 			</tr>
 			<tr>
 				<th scope="row">住所</th>
@@ -40,30 +40,30 @@
 				<td th:text="*{description}"></td>
 			</tr>
 		</table>
-		<table class="table" th:object="${agentForm}" th:each="agent status : ${agentForm.agentForms}">
+		<table class="table" th:object="${agentForm}" th:each="agent, status : ${agentForm.agentForms}">
 			<tr>
 				<th scope="row">担当者名</th>
-				<td th:text="*{agentForm.agentForms[__${status.index}__].agentName}"></td>
+				<td th:text="*{agentForms[__${status.index}__].agentName}"></td>
 			</tr>
 			<tr>
 				<th scope="row">部署名</th>
-				<td th:text="*{agentForm.agentForms[__${status.index}__].department}"></td>
+				<td th:text="*{agentForms[__${status.index}__].department}"></td>
 			</tr>
 			<tr>
 				<th scope="row">所属チーム</th>
-				<td th:text="*{agentForm.agentForms[__${status.index}__].team}"></td>
+				<td th:text="*{agentForms[__${status.index}__].team}"></td>
 			</tr>
 			<tr>
 				<th scope="row">役職</th>
-				<td th:text="*{agentForm.agentForms[__${status.index}__].position}"></td>
+				<td th:text="*{agentForms[__${status.index}__].position}"></td>
 			</tr>
 			<tr>
 				<th scope="row">電話番号</th>
-				<td th:text="*{agentForm.agentForms[__${status.index}__].tel}"></td>
+				<td th:text="*{agentForms[__${status.index}__].tel}"></td>
 			</tr>
 			<tr>
 				<th scope="row">メールアドレス</th>
-				<td th:text="*{agentForm.agentForms[__${status.index}__].email}"></td>
+				<td th:text="*{agentForms[__${status.index}__].email}"></td>
 			</tr>
 
 
