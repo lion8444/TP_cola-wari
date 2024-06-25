@@ -62,7 +62,7 @@ public class AgendaUpdateController {
     	User user;
     	Company company = new Company();
     	company.setComId(comFomr.getComId());
-    	Agent agent = agentRepository.findByAgentIdAndCompany(agentForm.getAgentId(), company);
+    	Agent agent = agentRepository.findByAgentIdAndCompanyAndDeleteFlag(agentForm.getAgentId(), company, 0);
     		if(agent == null) {
     			model.addAttribute("message", "該当する企業担当者が存在しません。");
     			return "redirect:/update";

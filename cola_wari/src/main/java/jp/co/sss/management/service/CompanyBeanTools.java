@@ -42,7 +42,7 @@ public class CompanyBeanTools {
 				bean.setCateName(entity.getComCagetory().getCateName());
 			}
 
-			List<Agent> agentList = agentRepository.findByCompany_ComId(entity.getComId());
+			List<Agent> agentList = agentRepository.findByCompanyAndDeleteFlag(entity, 0);
 
 			if (!(agentList.isEmpty())) {
 				bean.setAgentBeans(

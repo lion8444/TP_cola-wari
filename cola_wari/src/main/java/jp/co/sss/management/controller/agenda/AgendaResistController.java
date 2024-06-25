@@ -78,7 +78,7 @@ public class AgendaResistController {
     	User user;
     	Company company = new Company();
     	company.setComId(comId);
-    	Agent agent = agentRepository.findByAgentIdAndCompany(agentId, company);
+    	Agent agent = agentRepository.findByAgentIdAndCompanyAndDeleteFlag(agentId, company, 0);
     		if(agent == null) {
     			model.addAttribute("message", "該当する企業担当者が存在しません。");
     			return "redirect:/agenda/input";
