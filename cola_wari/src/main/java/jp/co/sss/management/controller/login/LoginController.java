@@ -61,17 +61,20 @@ public class LoginController {
 
 		//ユーザIdが一致する案件情報を中間テーブルを通して検索
 		List<Agenda> agendas = agendaEntryRepository.findByUserAgendas(user);
+		agendas = agendas.stream().filter(agenda -> agenda.getStatus() == 0).toList();
+
 		//AgendaBean agendaBean = new AgendaBean();
 		List<AgendaBean> agendaBeans = new ArrayList<>();
 
 		List<Schedule> schedules = scheduleEntryRepository.findByUserSchedules(user);
+		schedules = schedules.stream().filter(schedule -> schedule.getStatus() == 0).toList();
+		
 		List<ScheduleBean> scheduleBeans = new ArrayList<>();
 
 		for (Agenda agenda : agendas) {
-			log.debug("案件データ確認 : {}", agenda.getTitle());
-
 			// 各Agendaごとに新しいAgendaBeanを作成して情報をセットする
 			AgendaBean agendaBean = new AgendaBean();
+			agendaBean.setAgendaId(agenda.getAgendaId());
 			agendaBean.setTitle(agenda.getTitle());
 
 			// AgendaBeanをリストに追加
@@ -79,9 +82,8 @@ public class LoginController {
 		}
 
 		for (Schedule schedule : schedules) {
-			log.debug("スケジュールデータ確認 : {}", schedule.getTitle());
-
 			ScheduleBean scheduleBean = new ScheduleBean();
+			scheduleBean.setScheduleId(schedule.getScheduleId());
 			scheduleBean.setTitle(schedule.getTitle());
 
 			scheduleBeans.add(scheduleBean);
