@@ -17,8 +17,9 @@
 		<!-- Page Heading -->
 		<h1 class="h3 mb-4 text-gray-800">案件詳細</h1>
 
-		<form th:action="@{/agenda/close}">
+		<form th:action="@{/agenda/close}" method="post">
 			<div class="d-grid gap-2 d-md-flex justify-content-md-end m-3">
+				<input type="hidden" name="agendaId" th:value="${agenda.agendaId}">
 				<input class="btn btn-primary me-md-2" type="submit" value="案件終了">
 			</div>
 		</form>
