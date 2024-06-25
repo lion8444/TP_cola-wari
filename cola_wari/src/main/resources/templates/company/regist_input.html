@@ -22,6 +22,10 @@
 				<br />
 			</th:block> -->
 
+			<div th:if="${session.error != null and session.error eq true}">
+				<p style="color: red;">エラーがあります。正しく入力してください。</p>
+			</div>
+
 			<div class="form-group">
 				<label class="form-label">企業名</label>
 				<input type="text" class="form-control" th:field="*{companyForm.comName}" placeholder="企業名" />

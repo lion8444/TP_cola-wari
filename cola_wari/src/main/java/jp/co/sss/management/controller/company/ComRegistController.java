@@ -108,6 +108,7 @@ public class ComRegistController {
 			BindingResult result2) {
 		//エラーがあるか否か
 		boolean error = false;
+		session.setAttribute("error", error);
 		// 入力値にエラーがあった場合、入力画面に戻る
 		if (result1.hasErrors()) {
 			System.out.println("これを実行");
@@ -123,6 +124,7 @@ public class ComRegistController {
 			//変更入力画面　表示処理
 			session.setAttribute("companyForm", companyForm);
 			session.setAttribute("agentForm", agentForm);
+			session.setAttribute("error", error);
 			return "redirect:/company/regist/input";
 		}
 
