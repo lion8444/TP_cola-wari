@@ -69,16 +69,12 @@
 
 		</table>
 
-		<p class="d-grid gap-2 d-md-block my-3">
-		<form th:action="@{/agenda/update}">
-			<input class="btn btn-primary" type="hidden" name="agendaId" th:value="${agenda.agendaId}">
-			<input class="btn btn-primary" type="submit" value="変更">
-		</form>
-
-		<form th:action="@{/agenda/list}">
-			<input class="btn btn-primary" type="submit" value="戻る">
-		</form>
-		</p>
+		<input class="btn btn-primary" type="hidden" name="agendaId" th:value="${agenda.agendaId}">
+		<div class="d-grid gap-2 d-md-block m-3">
+			<button class="btn btn-primary" type="button"
+				th:onclick="|location.href='@{/agenda/update}?agendaId=${agenda.agendaId}'|">変更</button>
+			<button class="btn btn-primary" type="button" onclick="history.back()">戻る</button>
+		</div>
 
 
 

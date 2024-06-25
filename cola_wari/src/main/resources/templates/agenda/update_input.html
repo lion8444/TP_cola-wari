@@ -40,12 +40,11 @@
 
 				<div class="col-md-6">
 					<label for="inputEmail4" class="form-label">担当部員</label>
-					<ul th:each="agendaEntries : ${agenda.agendaEntries}">
-						<li th:text=" ${agendaEntries.user.userName}"></li>
-					</ul>
 					<select name="userId" class="form-control" id="inputUser" multiple="multiple">
 						<th:block th:each="user : ${users}">
-							<option th:value="${user.userId}" th:text="${user.userName}"></option>
+							<th:block th:each="agendaEntries : ${agenda.agendaEntries}">
+								<option th:value="${user.userId}" th:text="${user.userName}" th:selected="${user.userName eq agendaEntries.user.userName}"></option>
+							</th:block>
 						</th:block>
 					</select>
 				</div>

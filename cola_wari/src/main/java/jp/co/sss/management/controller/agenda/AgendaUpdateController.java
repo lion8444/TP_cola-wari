@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +43,7 @@ public class AgendaUpdateController {
 	UserRepository userRepository;
 	
 	@Autowired
-	AgendaEntryRepository agentEntryRepository;
+	AgendaEntryRepository agendaEntryRepository;
     
     @GetMapping("/update")
     public String agendaUpdate(Model model,Integer agendaId) {
@@ -87,7 +88,7 @@ public class AgendaUpdateController {
     	
         return "agenda/update_check";
     }
-    
+    @Transactional
     @PostMapping("/update/complete")
     public String agendaUpdateComplete(Model model, AgendaForm agendaform,Integer comId,
     		@RequestParam("userId") List<Integer> userIds,Integer agentId) {  	
@@ -104,18 +105,21 @@ public class AgendaUpdateController {
     	com.setComId(comId);
     	agenda.setCompany(com);
     	agendaRepository.save(agenda);
-    	    	
+    	
+		agendaEntryRepository.deleteAllByAgenda(agenda);
+
     	Agent agent = new Agent();
     	
     	List<AgendaEntry> agendaEntries = new ArrayList<>();
     	for(Integer userId:userIds) {
     		User user = new User();
     		AgendaEntry agendaEntry = new AgendaEntry();
+
         	agent.setAgentId(agentId);
+
         	agendaEntry.setAgent(agent);
-        	
         	agendaEntry.setAgenda(agenda);
-    		        	
+
     		user.setUserId(userId);
     		agendaEntry.setUser(user);
     		
@@ -123,8 +127,9 @@ public class AgendaUpdateController {
     	}   	
     	
     	for(AgendaEntry agendaE:agendaEntries) {
-    		agentEntryRepository.save(agendaE);
+    		agendaEntryRepository.save(agendaE);
     	}
         return "agenda/update_complete";
     }
+
 }

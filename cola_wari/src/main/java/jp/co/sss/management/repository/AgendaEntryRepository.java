@@ -36,4 +36,6 @@ public interface AgendaEntryRepository extends JpaRepository<AgendaEntry, Intege
 	@Query("select a.agenda from AgendaEntry a where a.user = :user")
 	List<Agenda> findByUserAgendas(User user);
 
+    void deleteAllByAgenda(Agenda agenda);
+
 }
