@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jp.co.sss.management.bean.AgendaBean;
 import jp.co.sss.management.bean.RestScheduleBean;
+import jp.co.sss.management.bean.UserBean;
 import jp.co.sss.management.form.ScheduleForm;
 import jp.co.sss.management.service.agenda.AgendaService;
 import jp.co.sss.management.service.schedule.ScheduleService;
@@ -48,7 +49,13 @@ public class RestScheduleController {
         for (Integer integer : userIdList) {
             log.debug("RestScheduleController.viewAgendas userIdList : {}", integer);
         }
-        List<AgendaBean> agendaBeans = agendaService.showAgendaBeansWithUsers(userService.searchUserBeansByUserId(userIdList));
+        List<UserBean> userBeans = userService.searchUserBeansByUserId(userIdList);
+
+        for (UserBean userBean : userBeans) {
+            log.debug("RestScheduleController userBean check : {}", userBean.toString());
+        }
+
+        List<AgendaBean> agendaBeans = agendaService.showAgendaBeansWithUsers(userBeans);
         if (agendaBeans.isEmpty()) {
             log.debug("RestScheduleController.viewAgendas agendaBean IS Null : {}");
         }else {

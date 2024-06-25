@@ -35,6 +35,7 @@ public class ComShowController {
     @GetMapping("list")
     public String showCompanies(Model model) {
 
+
     	List<CompanyBean> companyBeans = companyBeanTools.copyEntityListToBeanList(companyRepository.findAll());
     	
     	model.addAttribute("companies", companyBeans);

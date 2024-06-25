@@ -3,9 +3,7 @@ package jp.co.sss.management.service.schedule;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,26 +142,6 @@ public class ScheduleServiceImpl implements ScheduleService {
             // Handle parsing exception as needed
         }
         log.debug("ScheduleServiceImpl.insertSchedule Schedule check : {}", schedule.getStartDate());
-
-        // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm
-        // a");
-        // Date tempDate = null;
-        // try {
-        // tempDate = simpleDateFormat.parse(form.getStartDate());
-        // log.debug("ScheduleServiceImpl date check : {}", tempDate.toString());
-        // schedule.setStartDate(new java.sql.Date(tempDate.getTime()));
-        //
-        // tempDate = simpleDateFormat.parse(form.getEndDate());
-        // log.debug("ScheduleServiceImpl date check : {}", tempDate.toString());
-        // schedule.setEndDate(new java.sql.Date(tempDate.getTime()));
-        // } catch (ParseException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-
-        // log.debug("ScheduleServiceImpl.insertSchedule dateformat check :
-        // {}",simpleDateFormat.parse(form.getStartDate()));
-        // schedule.setStartDate();
 
         Agenda agenda = new Agenda();
         if (form.getAgendaId() != null) {

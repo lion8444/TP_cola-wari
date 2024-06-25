@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import jp.co.sss.management.bean.UserBean;
 
+
 @Service
 public interface UserService {
     

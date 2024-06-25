@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import jp.co.sss.management.bean.RestScheduleBean;
 import jp.co.sss.management.bean.ScheduleEntryBean;
-import jp.co.sss.management.entity.User;
 import jp.co.sss.management.form.ScheduleForm;
 
 @Service
