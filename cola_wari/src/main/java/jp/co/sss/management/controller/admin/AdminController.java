@@ -34,15 +34,16 @@ public class AdminController {
 	 */
 	@RequestMapping(path = "/admin", method = { RequestMethod.GET, RequestMethod.POST })
 	public String showAdmin(Model model) {
+		//セッション情報の削除
+		session.removeAttribute("userForm");
+		session.removeAttribute("userBean");
+
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		if (userBean == null || userBean.getAuth() == 0) {
 			// 対象が無い場合、ログイン画面へ
 			return "redirect:/";
 		}
-
-		//セッション情報の削除
-		session.removeAttribute("userForm");
 
 		//ユーザを選んでいなかった場合	
 		Integer select = (Integer) session.getAttribute("select");

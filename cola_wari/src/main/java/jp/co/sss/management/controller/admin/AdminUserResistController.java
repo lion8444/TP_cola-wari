@@ -53,22 +53,17 @@ public class AdminUserResistController {
 			model.addAttribute("org.springframework.validation.BindingResult.userForm", result);
 			session.removeAttribute("result");
 		} else {
-			// 入力フォーム情報を画面表示設定
-			model.addAttribute("userForm", userForm);
-		}
+			//ユーザフォームに情報がない場合、初めての遷移と判断
+			if (userForm == null) {
+				userForm = new UserForm();
+				//初期パスワード追加
+				userForm.setPassword("Passw0rd");
+				// 入力フォーム情報を画面表示設定
+				model.addAttribute("userForm", userForm);
+			} else {
+				model.addAttribute("userForm", userForm);
+			}
 
-		//userFormに情報が無いとき、初めての遷移と判断。
-		if (userForm == null) {
-			userForm = new UserForm();
-			//初期パスワード追加
-			userForm.setPassword("Passw0rd");
-			// 入力フォーム情報を画面表示設定
-			model.addAttribute("userForm", userForm);
-
-			// セッションにユーザー登録情報を設定
-			session.setAttribute("userForm", userForm);
-
-			return "mypage/admin/resist_input";
 		}
 
 		return "mypage/admin/resist_input";
@@ -82,6 +77,8 @@ public class AdminUserResistController {
 	 */
 	@RequestMapping(path = "/admin/employee/input/check_r", method = { RequestMethod.GET, RequestMethod.POST })
 	public String inputResistUser_r(@Valid @ModelAttribute UserForm userForm, BindingResult result) {
+		//セッションスコープに入力された内容を保存
+		session.setAttribute("userForm", userForm);
 
 		// 入力値にエラーがあった場合、入力画面に戻る
 		if (result.hasErrors()) {
@@ -157,6 +154,7 @@ public class AdminUserResistController {
 
 		//登録用のセッションスコープ削除
 		session.removeAttribute("userBean");
+		session.removeAttribute("userForm");
 
 		return "mypage/admin/resist_complete";
 	}
