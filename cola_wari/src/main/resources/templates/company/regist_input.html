@@ -15,6 +15,13 @@
 		<!-- Page Heading -->
 		<h1 class="h3 mb-4 text-gray-800">企業登録</h1>
 		<form th:action="@{/company/regist/input}" method="post">
+			<!-- <th:block th:if="${session.result1 != null and session.result1.hasErrors()}">
+				<ul>
+					<li style="color: red;" th:each="err:${session.result1.detailedErrors()}" th:text="${err.message}"></li>
+				</ul>
+				<br />
+			</th:block> -->
+
 			<div class="form-group">
 				<label class="form-label">企業名</label>
 				<input type="text" class="form-control" th:field="*{companyForm.comName}" placeholder="企業名" />
@@ -82,7 +89,7 @@
 
 
 			<button type="submit" class="btn btn-primary">確認</button>
-			<button type="button" class="btn btn-secondary" onclick="history.back()">戻る</button>
+			<button type="submit" th:formaction="@{/company/list}" class="btn btn-secondary">戻る</button>
 			<hr>
 		</form>
 	</div>
