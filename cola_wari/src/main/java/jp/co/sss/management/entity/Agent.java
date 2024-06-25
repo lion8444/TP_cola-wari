@@ -74,6 +74,9 @@ public class Agent {
 	@Column
 	private String email;
 
+	@Column
+	private int deleteFlag;
+
 	
 	/**
 	 * 担当者と顧客企業情報

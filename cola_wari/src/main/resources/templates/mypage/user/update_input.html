@@ -20,10 +20,9 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-6 d-none d-lg-block"></div>
                     <div class="col-lg-6">
                         <div class="p-5">
-                            <form class="user" th:action="@{/mypage/password/update/complete_r}" method="post" th:object="${passwordForm}">
+                            <form class="user" method="post" th:object="${passwordForm}">
                                 <th:block th:if="${#fields.hasErrors()}">
                                     <ul>
                                         <li style="color: red;" th:each="err:${#fields.detailedErrors()}" th:text="${err.message}"></li>
@@ -40,7 +39,8 @@
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-user" placeholder="新しいパスワード（確認用）" th:field="*{checkPassword}">
                                 </div>
-                                <input type="submit" th:href="@{/}" class="btn btn-primary btn-user btn-block">
+                                <button type="submit" th:formaction="@{/mypage/password/update/complete_r}" class="btn btn-primary">確認</button>
+                                <button type="submit" th:formaction="@{/mypage}" class="btn btn-secondary">戻る</button>
                                 <hr>
                             </form>
                         </div>

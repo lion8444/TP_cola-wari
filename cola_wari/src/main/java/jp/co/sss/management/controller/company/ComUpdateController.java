@@ -3,11 +3,11 @@ package jp.co.sss.management.controller.company;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,19 +35,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/company")
 public class ComUpdateController {
 	/**
-	 * 企業情報　リポジトリ
+	 * 企業情報 リポジトリ
 	 */
 	@Autowired
 	CompanyRepository companyRepository;
 
 	/**
-	 * 担当者情報　リポジトリ
+	 * 担当者情報 リポジトリ
 	 */
 	@Autowired
 	AgentRepository agentRepository;
 
 	/**
-	 * 企業カテゴリ情報　リポジトリ
+	 * 企業カテゴリ情報 リポジトリ
 	 */
 	@Autowired
 	ComCategoryRepository comCategoryRepository;
@@ -70,7 +70,7 @@ public class ComUpdateController {
 		List<ComCategory> categories = comCategoryRepository.findAll();
 
 		Company company = companyRepository.getReferenceById(id);
-		List<Agent> agentList = agentRepository.findByCompany_ComId(id);
+		List<Agent> agentList = agentRepository.findByCompanyAndDeleteFlag(company, 0);
 		List<AgentForm> agentForms = new ArrayList<>();
 
 		for (Agent agent : agentList) {
@@ -104,61 +104,45 @@ public class ComUpdateController {
 	public String registInputCheck(@Valid @ModelAttribute CompanyForm companyForm, @Valid AgentForm agentForm,
 			BindingResult result) {
 
-		// 入力値にエラーがあった場合、入力画面に戻る
-		if (result.hasErrors()) {
-
-			session.setAttribute("result", result);
-
-			//変更入力画面　表示処理
-			return "redirect:/update/input/{id}";
-		}
-
 		log.debug("ComRegistController.registInputCheck CompanyForm : {}, AgentForm : {}", companyForm.toString(),
 				agentForm.toString());
 		companyForm.setCateName(comCategoryRepository.getReferenceById(companyForm.getCateId()).getCateName());
+		List<AgentForm> filteredList = agentForm.getAgentForms().stream().filter(aForm -> aForm.getAgentName() != null)
+				.toList();
+
+		agentForm.setAgentForms(filteredList);
+
+		log.debug("ComRegistController.registInputCheck CompanyForm : {}, AgentForm : {}", companyForm.toString(),
+				agentForm.toString());
 
 		log.debug("companyForm cateName check : {}", companyForm.getCateName());
 		// 入力フォームをセッションに保持
 		session.setAttribute("companyForm", companyForm);
 		session.setAttribute("agentForm", agentForm);
 
-		// 登録確認画面　表示処理
+		// 登録確認画面 表示処理
 		return "redirect:/company/update/check";
 	}
 
 	/**
-	 * 登録確認画面　表示処理
+	 * 登録確認画面 表示処理
 	 *
 	 * @param model Viewとの値受渡し
 	 * @return "admin/item/regist_check" 登録確認画面表示
 	 */
 	@GetMapping("update/check")
 	public String registCheck(Model model) {
-		//セッションから入力フォーム情報取得
+		// セッションから入力フォーム情報取得
 		CompanyForm companyForm = (CompanyForm) session.getAttribute("companyForm");
 		AgentForm agentForm = (AgentForm) session.getAttribute("agentForm");
 
 		log.debug("companyForm cateName check : {}, {}", companyForm.getCateName(), agentForm.toString());
 
-		/**
-		if (companyForm == null) {
-			// セッション情報がない場合、エラー
-			return "redirect:/syserror";
-		}
-		
-		if (agentForm == null) {
-			// セッション情報がない場合、エラー
-			return "redirect:/syserror";
-		}
-		*/
-		//入力フォーム情報をスコープへ設定
+		// 入力フォーム情報をスコープへ設定
 		model.addAttribute("companyForm", companyForm);
 		model.addAttribute("agentForm", agentForm);
 
-		//System.out.println(companyForm.toString());
-		//System.out.println(agentForm.toString());
-
-		//登録確認画面　表示処理
+		// 登録確認画面 表示処理
 		return "company/update_check";
 
 	}
@@ -166,13 +150,12 @@ public class ComUpdateController {
 	/**
 	 * 情報登録処理
 	 *
-	 * @return "redirect:/regist/complete" 登録完了画面　表示処理
+	 * @return "redirect:/regist/complete" 登録完了画面 表示処理
 	 */
-	@Transactional
 	@PostMapping("update/check")
 	public String registComplete() {
 
-		//セッション保持情報から入力値再取得
+		// セッション保持情報から入力値再取得
 		CompanyForm companyForm = (CompanyForm) session.getAttribute("companyForm");
 		AgentForm agentForm = (AgentForm) session.getAttribute("agentForm");
 
@@ -192,44 +175,59 @@ public class ComUpdateController {
 		// 商品情報をDBに保存
 		companyRepository.save(companyEntity);
 
-		agentRepository.deleteAllByCompany(companyEntity);
-
-		List<Agent> temps = agentRepository.findByCompany_ComId(companyEntity.getComId());
-		if (!temps.isEmpty()) {
-			log.debug("DeleteAll ERROR!!!!!!!!!!!!!!!!!!!!!!!");
-		}
-
+		List<Agent> temps = agentRepository.findByCompanyAndDeleteFlag(companyEntity, 0);
+		List<Agent> resultList = new ArrayList<>();
 		for (AgentForm agentForm2 : agentForm.getAgentForms()) {
 			Agent agentEntity = new Agent();
 			BeanUtils.copyProperties(agentForm2, agentEntity);
 			if (agentForm2.getAgentId() != null) {
+				log.debug("AgentId check : {}", agentForm2.getAgentId());
 				agentEntity.setAgentId(agentForm2.getAgentId());
 			}
 			agentEntity.setCompany(companyEntity);
+			resultList.add(agentEntity);
+		}
+		List<Agent> deleteAgents = temps.stream()
+				.filter(e -> !resultList.contains(e))
+				.collect(Collectors.toList());
+
+		deleteAgents(deleteAgents);
+
+		for (Agent agentEntity : resultList) {
+			log.debug("AgentId check : {}", agentEntity.getAgentId());
 			agentRepository.save(agentEntity);
 		}
 
 		session.setAttribute("comId", companyEntity.getComId());
-		//セッション情報の削除
+		// セッション情報の削除
 		session.removeAttribute("companyForm");
 		session.removeAttribute("agentForm");
 
-		//登録完了画面　表示処理
-		//二重送信対策のためリダイレクトを行う
+		// 登録完了画面 表示処理
+		// 二重送信対策のためリダイレクトを行う
 		return "redirect:/company/update/complete";
 	}
 
 	/**
-	 * 登録完了画面　表示処理
+	 * 登録完了画面 表示処理
 	 *
-	 * @return "admin/item/regist_complete" 登録完了画面　表示
+	 * @return "admin/item/regist_complete" 登録完了画面 表示
 	 */
 	@GetMapping("update/complete")
 	public String registCompleteFinish(Model model) {
 		model.addAttribute("comId", (Integer) session.getAttribute("comId"));
 
 		session.removeAttribute("comId");
-		//登録完了画面　表示
+		// 登録完了画面 表示
 		return "company/update_complete";
 	}
+
+
+	private void deleteAgents(List<Agent> deleteAgents) {
+		for (Agent agent : deleteAgents) {
+			agent.setDeleteFlag(1);
+			agentRepository.save(agent);
+		}
+	}
+
 }

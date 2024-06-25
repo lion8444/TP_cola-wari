@@ -15,11 +15,14 @@ import jp.co.sss.management.entity.Company;
  */
 @Repository
 public interface AgentRepository extends JpaRepository<Agent, Integer> {
-	List<Agent> findByCompany_ComId(int comId);
+
+    List<Agent> findByCompanyAndDeleteFlag(Company company, int deleteFlag);
+
+
 
     void deleteAllByCompany(Company companyEntity);
     
-    Agent findByAgentIdAndCompany(Integer agentId, Company company);
+    Agent findByAgentIdAndCompanyAndDeleteFlag(Integer agentId, Company company, int deleteFlag);
 
 
 }

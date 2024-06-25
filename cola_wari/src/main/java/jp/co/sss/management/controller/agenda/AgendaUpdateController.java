@@ -58,19 +58,19 @@ public class AgendaUpdateController {
     }
     
     @PostMapping("/update/check")
-    public String agendaUpdateCheck(Model model,AgendaForm agendaForm,@RequestParam(required = false) List<Integer> userIds,CompanyForm comFomr,AgentForm agentForm) {
+    public String agendaUpdateCheck(Model model,AgendaForm agendaForm,@RequestParam(required = false) List<Integer> userId,CompanyForm comFomr,AgentForm agentForm) {
     	User user;
     	Company company = new Company();
     	company.setComId(comFomr.getComId());
-    	Agent agent = agentRepository.findByAgentIdAndCompany(agentForm.getAgentId(), company);
+    	Agent agent = agentRepository.findByAgentIdAndCompanyAndDeleteFlag(agentForm.getAgentId(), company, 0);
     		if(agent == null) {
     			model.addAttribute("message", "該当する企業担当者が存在しません。");
     			return "redirect:/update";
     		}
     	
     		List<User> userList = new ArrayList<>();
-        	for(Integer userId:userIds) {
-        		user = userRepository.getReferenceById(userId);
+        	for(Integer userid : userId) {
+        		user = userRepository.getReferenceById(userid);
         		userList.add(user);
         	}
         	
@@ -114,9 +114,8 @@ public class AgendaUpdateController {
         	agent.setAgentId(agentId);
         	agendaEntry.setAgent(agent);
         	
-        	agenda = agendaRepository.findByMaxAgendaId();
         	agendaEntry.setAgenda(agenda);
-    		
+    		        	
     		user.setUserId(userId);
     		agendaEntry.setUser(user);
     		

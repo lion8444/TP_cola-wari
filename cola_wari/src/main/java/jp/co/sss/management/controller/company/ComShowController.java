@@ -43,12 +43,12 @@ public class ComShowController {
     }
     
     @GetMapping("detail/{id}")
-    public String showCompanyDetail(@PathVariable int id, Model companyModel, Model agentModel) {
-    	Company companyList = companyRepository.getReferenceById(id);
-    	List<Agent> agentList = agentRepository.findByCompany_ComId(id);
+    public String showCompanyDetail(@PathVariable int id, Model model) {
+    	Company company = companyRepository.getReferenceById(id);
+    	List<Agent> agentList = agentRepository.findByCompanyAndDeleteFlag(company, 0);
     	
-    	companyModel.addAttribute("company", companyList);
-    	agentModel.addAttribute("agent", agentList);
+    	model.addAttribute("company", company);
+    	model.addAttribute("agent", agentList);
     	return "company/company";
     }
 }
