@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -67,7 +66,7 @@ public class ComRegistController {
 	 * @param model Viewとの値受渡し
 	 * @return "company/regist_input" 入力画面　表示
 	 */
-	@GetMapping("regist/input")
+	@GetMapping("/regist/input")
 	public String registInput(Model model) {
 		CompanyForm companyForm = new CompanyForm();
 		AgentForm agentForm = new AgentForm();
@@ -77,6 +76,20 @@ public class ComRegistController {
 		model.addAttribute("companyForm", companyForm);
 		model.addAttribute("agentForm", agentForm);
 		model.addAttribute("categories", categories);
+
+		BindingResult result1 = (BindingResult) session.getAttribute("result1");
+		BindingResult result2 = (BindingResult) session.getAttribute("result2");
+		if (result1 != null) {
+			//セッションにエラー情報がある場合、エラー情報を画面表示設定
+			model.addAttribute("org.springframework.validation.BindingResult.companyForm", result1);
+			companyForm = (CompanyForm) session.getAttribute("companyForm");
+			model.addAttribute("companyForm", companyForm);
+			session.removeAttribute("result1");
+		} else if (result2 != null) {
+			//セッションにエラー情報がある場合、エラー情報を画面表示設定
+			model.addAttribute("org.springframework.validation.BindingResult.agentForm", result2);
+			session.removeAttribute("result2");
+		}
 
 		return "company/regist_input";
 	}
@@ -91,8 +104,30 @@ public class ComRegistController {
 	 * 	入力値エラーなし："redirect:regist/check" 登録確認画面　表示処理
 	 */
 	@PostMapping("/regist/input")
-	public String registInputCheck(@Valid @ModelAttribute CompanyForm companyForm, AgentForm agentForm,
-			BindingResult result, Model model) {
+	public String registInputCheck(@Valid CompanyForm companyForm, BindingResult result1, @Valid AgentForm agentForm,
+			BindingResult result2) {
+		//エラーがあるか否か
+		boolean error = false;
+		session.setAttribute("error", error);
+		// 入力値にエラーがあった場合、入力画面に戻る
+		if (result1.hasErrors()) {
+			System.out.println("これを実行");
+			session.setAttribute("result1", result1);
+			error = true;
+		}
+		if (result2.hasErrors()) {
+			session.setAttribute("result2", result2);
+			error = true;
+		}
+
+		if (error == true) {
+			//変更入力画面　表示処理
+			session.setAttribute("companyForm", companyForm);
+			session.setAttribute("agentForm", agentForm);
+			session.setAttribute("error", error);
+			return "redirect:/company/regist/input";
+		}
+
 		log.debug("ComRegistController.registInputCheck CompanyForm : {}, AgentForm : {}", companyForm.toString(),
 				agentForm.toString());
 
@@ -174,8 +209,8 @@ public class ComRegistController {
 				agentEntity.setAgentId(agentForm2.getAgentId());
 			}
 			agentEntity.setCompany(companyEntity);
-			agentRepository.save(agentEntity);	
-		}	
+			agentRepository.save(agentEntity);
+		}
 
 		//セッション情報の削除
 		session.removeAttribute("companyForm");

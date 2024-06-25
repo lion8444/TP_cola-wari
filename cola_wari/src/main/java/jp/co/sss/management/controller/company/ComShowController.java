@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import jakarta.persistence.EntityManager;
 import jp.co.sss.management.bean.CompanyBean;
@@ -22,19 +23,18 @@ import jp.co.sss.management.service.CompanyBeanTools;
 public class ComShowController {
 	@Autowired
 	CompanyRepository companyRepository;
-	
+
 	@Autowired
 	AgentRepository agentRepository;
-	
+
 	@Autowired
 	CompanyBeanTools companyBeanTools;
 
 	@Autowired
 	EntityManager entityManager;
-	
-    @GetMapping("list")
-    public String showCompanies(Model model) {
 
+	@RequestMapping(path = "list", method = { RequestMethod.GET, RequestMethod.POST })
+	public String showCompanies(Model model) {
 
     	List<CompanyBean> companyBeans = companyBeanTools.copyEntityListToBeanList(companyRepository.findAll());
     	
