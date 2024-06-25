@@ -17,15 +17,7 @@
 		<!-- Page Heading -->
 		<h1 class="h3 mb-4 text-gray-800">案件一覧</h1>
 		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			<nav class="navbar bg-body-tertiary">
-				<div class="container-fluid">
-
-					<form class="d-flex" role="search">
-						<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-						<button class="btn btn-outline-success" type="submit">Search</button>
-					</form>
-				</div>
-			</nav>
+			
 		</div>
 		<th:block th:if="${#lists.isEmpty(agendas)}">
 			<div class="message">
@@ -44,8 +36,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="agenda: ${agendas}">
-					<th scope="row" th:text="${agenda.agendaId}"></th>
+				<tr th:each="agenda, status : ${agendas}">
+					<th scope="row" th:text="${status.count}"></th>
 					<td>
 						<a th:href="@{/agenda/detail/{agendaId}(agendaId=${agenda.agendaId})}"
 							th:text="${agenda.title}"></a>
