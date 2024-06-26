@@ -60,13 +60,11 @@ public class LoginController {
 		//ユーザIdが一致する案件情報を中間テーブルを通して検索
 		List<Agenda> agendas = agendaEntryRepository.findByUserAgendas(user);
 		agendas = agendas.stream().filter(agenda -> agenda.getStatus() == 0).toList();
-
-		//AgendaBean agendaBean = new AgendaBean();
 		List<AgendaBean> agendaBeans = new ArrayList<>();
 
-		List<Schedule> schedules = scheduleEntryRepository.findByUserSchedules(user);
-		schedules = schedules.stream().filter(schedule -> schedule.getStatus() == 0).toList();
 		
+		List<Schedule> schedules = scheduleEntryRepository.findByUserSchedules(user);
+		schedules = schedules.stream().filter(schedule -> schedule.getStatus() == 0).toList();		
 		List<ScheduleBean> scheduleBeans = new ArrayList<>();
 
 		for (Agenda agenda : agendas) {

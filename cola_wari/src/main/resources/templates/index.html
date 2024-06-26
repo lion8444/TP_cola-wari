@@ -94,9 +94,9 @@
         					</li>
     					</ul>
     					
-    					<li th:unless="${not #lists.isEmpty(nowAgendas)}">
+    					<div th:unless="${not #lists.isEmpty(nowAgendas)}">
 							<p th:text="#{msg.top.agenda.none}"></p>
-    					</li>
+                        </div>
     					
     					
     					<!-- リンクの最後に{user_id}も入れる -->
@@ -127,9 +127,9 @@
         					</li>
     					</ul>
     					
-    					<li th:unless="${not #lists.isEmpty(nowTasks)}">
+    					<div th:unless="${not #lists.isEmpty(nowTasks)}">
 							<p th:text="#{msg.top.scheduleTask.none}"></p>
-    					</li>
+                        </div>
     					
     					<!-- もっと見るボタン -->
     					<form th:action="@{/schedule/list}" method="get">
