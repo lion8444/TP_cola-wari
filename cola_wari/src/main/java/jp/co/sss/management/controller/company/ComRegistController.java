@@ -74,17 +74,14 @@ public class ComRegistController {
 		List<ComCategory> categories = comCategoryRepository.findAll();
 
 		BindingResult result1 = (BindingResult) session.getAttribute("result1");
+		BindingResult result2 = (BindingResult) session.getAttribute("result2");
 
 		if (result1 != null) {
 			//セッションにエラー情報がある場合、エラー情報を画面表示設定
 			companyForm = (CompanyForm) session.getAttribute("companyForm");
-		} else {
-			session.removeAttribute("result1");
 		}
 		if (result2 != null) {
 			agentForm = (AgentForm) session.getAttribute("agentForm");
-		} else {
-			session.removeAttribute("result2");
 		}
 
 		model.addAttribute("companyForm", companyForm);
@@ -112,8 +109,11 @@ public class ComRegistController {
 		boolean error = false;
 		// 入力値にエラーがあった場合、入力画面に戻る
 		if (result1.hasErrors()) {
-			System.out.println("これを実行");
 			session.setAttribute("result1", result1);
+			error = true;
+		}
+		if (result2.hasErrors()) {
+			session.setAttribute("result1", result2);
 			error = true;
 		}
 

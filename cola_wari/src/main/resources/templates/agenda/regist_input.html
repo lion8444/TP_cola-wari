@@ -50,7 +50,7 @@
 				<label for="inputEmail4" class="form-label">担当部員</label>
 				<select name="userId" class="form-control" id="inputUser" multiple="multiple" >
 					<th:block th:each="user : ${users}">
-						<option th:each="user : ${users}" th:value="${user.userId}" th:text="${user.userName}"></option>
+						<option th:value="${user.userId}" th:text="${user.userName}"></option>
 					</th:block>
 				</select>
 			</div>

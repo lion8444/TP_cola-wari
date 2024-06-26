@@ -28,9 +28,6 @@ public class RestAgendaController {
     	List<Agent> agents = agentRepository.findByDeleteFlag(0);
         agents = agents.stream().filter(agent -> agent.getCompany().getComId().equals(comId)).toList();
 
-        for (Agent agent2 : agents) {
-            log.debug("RestAgendaController AgentList check : {}", agent2.getAgentId());
-        }
         List<AgentBean> results = agentBeanTools.copyEntityListToBeanList(agents);
 
         return results;
