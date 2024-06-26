@@ -16,34 +16,40 @@
 		<!-- Page Heading -->
 		<h1 class="h3 mb-4 text-gray-800">スゲージュル変更</h1>
 
-		<form th:action="@{/schedule/update}" method="post">
+		<form th:action="@{/schedule/update}" method="post" onsubmit="return updateSchedule()">
 			<input type="hidden" name="scheduleId" th:value="${schedule.scheduleBean.scheduleId}">
 			<div class="col-md-6 form-group">
 				<label class="form-label">スゲージュル名</label>
-				<input type="text" class="form-control" name="title" th:value="${schedule.scheduleBean.title}">
+				<input type="text" id="schedule-title" class="form-control" name="title" th:value="${schedule.scheduleBean.title}">
+				<span class="check_html"></span>
 			</div>
 			<div class="col-md-6 form-group">
 				<label class="form-label">開始日付</label>
-				<input type="text" class="datetimepicker form-control" name="startDate"
+				<input type="text" id="schedule-start" class="datetimepicker form-control" name="startDate"
 					th:value="${schedule.scheduleBean.startDate}" autocomplete='off' />
+				<span class="check_html"></span>
 			</div>
 			<div class="col-md-6 form-group">
 				<label class="form-label">終了日付</label>
-				<input type="text" class="datetimepicker form-control" name="endDate"
+				<input type="text" id="schedule-end" class="datetimepicker form-control" name="endDate"
 					th:value="${schedule.scheduleBean.endDate}" autocomplete='off' />
+				<span class="check_html"></span>
 			</div>
 			<div class="col-md-6 form-group">
 				<label class="form-label">場所</label>
-				<input type="text" class="form-control" name="addr" th:value="${schedule.scheduleBean.addr}">
+				<input type="text" id="schedule-addr" class="form-control" name="addr" th:value="${schedule.scheduleBean.addr}">
+				<span class="check_html"></span>
 			</div>
 			<div class="col-md-6 form-group">
 				<label class="form-label">説明</label>
-				<textarea name="description" class="form-control"
+				<textarea name="description" id="schedule-desc" class="form-control"
 					th:text="${schedule.scheduleBean.description}"></textarea>
+				<span class="check_html"></span>
 			</div>
 			<div class="col-md-6 form-group">
 				<label class="form-label">参加者</label>
-				<div class="form-control" style="overflow-y:auto; height:200px">
+				<span class="check_html"></span>
+				<div class="form-control" id="users-checkbox" style="overflow-y:auto; height:200px">
 					<div th:each="user : ${users}">
 							<input type="checkbox" th:id="${user.userBean.userId}" name="userIdList"
 								th:value="${user.userBean.userId}" th:checked="${user.checked eq 1}"/>
@@ -68,10 +74,11 @@
 					<option th:value="${schedule.scheduleBean.agendaBean.agendaId}"
 						th:text="${schedule.scheduleBean.agendaBean.title}"></option>
 				</select>
+				<span class="check_html"></span>
 			</div>
 
 			<div class="d-grid gap-2 d-md-block m-3">
-				<button class="btn btn-primary" type="submit">変更</button>
+				<button class="btn btn-primary"  type="submit">変更</button>
 				<button class="btn btn-primary" type="button"
 				onclick="history.back()">戻る</button>
 			</div>

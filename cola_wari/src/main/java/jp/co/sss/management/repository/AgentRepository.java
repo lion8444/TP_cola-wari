@@ -25,4 +25,8 @@ public interface AgentRepository extends JpaRepository<Agent, Integer> {
     Agent findByAgentIdAndCompanyAndDeleteFlag(Integer agentId, Company company, int deleteFlag);
 
 
+
+    List<Agent> findByDeleteFlag(int i);
+
+
 }

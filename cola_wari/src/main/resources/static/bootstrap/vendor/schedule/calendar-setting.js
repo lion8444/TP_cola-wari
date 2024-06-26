@@ -1,31 +1,217 @@
 let checkValues = new Array;
-let inputCheck = false;
+
+let titleCheck = false;
+let startCheck = false;
+let endCheck = false;
+let addrCheck = false;
+let descCheck = false;
+
+let titleCheck_update = true;
+let startCheck_update = true;
+let endCheck_update = true;
+let addrCheck_update = true;
+let descCheck_update = true;
+
 jQuery(document).ready(function () {
-	$('#schedule-title').on('keyup', textInputCheck);
-	$('#schedule-start').on('keyup', textInputCheck);
-	$('#schedule-end').on('keyup', textInputCheck);
-	$('#schedule-addr').on('keyup', textInputCheck);
-	$('#schedule-desc').on('keyup', textInputCheck);
-	$('input:checkbox').on('change', checkedTest);
+	checkValues = $('input[type="checkbox"]:checked').map(function () {
+		return $(this).val();
+	}).get();
+	checkedTest(checkValues);
+
+	$('#schedule-title').on('keyup', titleRegexCheck);
+	// $('#schedule-start').on('input', dateTimeRegexCheck);
+	// $('#schedule-end').on('input', endDateTimeRegexCheck);
+	$('#schedule-addr').on('keyup', addrRegexCheck);
+	$('#schedule-desc').on('keyup', descRegexCheck);
+
+	$('input:checkbox').on('change', function () {
+		if ($(this).is(':checked')) {
+			console.log($(this).val());
+			checkValues.push($(this).val());
+		} else {
+			checkValues = checkValues.filter((element) => element !== $(this).val());
+		}
+		checkedTest(checkValues);
+	});
+
 	$('#add-event-submit').on('click', insertScheduleSubmit);
 });
 // $(document).on('change', 'input:checkbox[name=userId]', checkedTest);
 
-function textInputCheck() {
-	if(!$(this).val() == "") {
-		inputCheck = true;
+function titleRegexCheck() {
+	const regex = /^[\u0000-\u007F\u3040-\u309F\u30A0-\u30FF\d\s]{1,30}$/;
+	let content = $(this);
+	if (!regex.test($(this).val())) {
+		titleCheck = false;
+		titleCheck_update = false;
+		content.next(".check_html")
+			.text("英語、日本語、数字、空欄で最大30文字以内に入力してください。")
+			.css({
+				"color": "#FA3E3E",
+				"font-weight": "bold",
+				"font-size": "12px"
+			});
 	} else {
-		inputCheck = false;
+		titleCheck = true;
+		titleCheck_update = true;
+		content.next(".check_html")
+			.text("");
+		return;
+	}
+}
+function dateTimeRegexCheck() {
+	const dateTimeRegex = /^(?:(\d{4})\/(\d{2})\/(\d{2}) (\d{2}):(\d{2}) (午前|午後|am|pm))$/;
+	let content = $('#schedule-start');
+	if (!dateTimeRegex.test($('#schedule-start').val())) {
+		startCheck = false;
+		startCheck_update = false;
+		content.next(".check_html")
+			.text("'2000/01/01 01:30 (am/pm)/(午前/午後)'の形式で入力してください。")
+			.css({
+				"color": "#FA3E3E",
+				"font-weight": "bold",
+				"font-size": "12px"
+			});
+	} else {
+		startCheck = true;
+		startCheck_update = true;
+		content.next(".check_html")
+			.text("");
+		return;
+	} if (startCheck && endCheck) {
+		let startDate = new Date($('#schedule-start').val());
+		let endDate = new Date($('#schedule-end').val());
+		if (endDate < startDate) {
+			startCheck = false;
+			startCheck_update = false;
+			content.next(".check_html")
+				.text("開始日付が終了日付より早いです。")
+				.css({
+					"color": "#FA3E3E",
+					"font-weight": "bold",
+					"font-size": "12px"
+				});
+		} else {
+			startCheck = true;
+			startCheck_update = true;
+			content.next(".check_html")
+				.text("");
+			return;
+		}
 	}
 }
 
-function insertScheduleSubmit() {
-	if (!inputCheck) {
-		alert("全入力欄を正しく入力してください。");
+function endDateTimeRegexCheck() {
+	const dateTimeRegex = /^(?:(\d{4})\/(\d{2})\/(\d{2}) (\d{2}):(\d{2}) (午前|午後|am|pm))$/;
+	let content = $('#schedule-end');
+	if (!dateTimeRegex.test($('#schedule-end').val())) {
+		endCheck = false;
+		endCheck_update = false;
+		content.next(".check_html")
+			.text("'2000/01/01 01:30 (am/pm)/(午前/午後)'の形式で入力してください。")
+			.css({
+				"color": "#FA3E3E",
+				"font-weight": "bold",
+				"font-size": "12px"
+			});
+	} else {
+		endCheck = true;
+		endCheck_update = true;
+		content.next(".check_html")
+			.text("");
+	} if (startCheck && endCheck) {
+		let startDate = new Date($('#schedule-start').val());
+		let endDate = new Date($('#schedule-end').val());
+		if (endDate < startDate) {
+			endCheck = false;
+			endCheck_update = false;
+			content.next(".check_html")
+				.text("終了日付が開始日付より早いです。")
+				.css({
+					"color": "#FA3E3E",
+					"font-weight": "bold",
+					"font-size": "12px"
+				});
+		} else {
+			endCheck = true;
+			endCheck_update = true;
+			content.next(".check_html")
+				.text("");
+			return;
+		}
+	}
+
+
+}
+function addrRegexCheck() {
+	const regex = /^[\u0000-\u007F\u3040-\u309F\u30A0-\u30FF\d\s]{1,100}$/;
+	let content = $(this);
+	if (!regex.test($(this).val())) {
+		addrCheck = false;
+		addrCheck_update = false;
+		content.next(".check_html")
+			.text("英語、日本語、数字、空欄で最大100文字以内に入力してください。")
+			.css({
+				"color": "#FA3E3E",
+				"font-weight": "bold",
+				"font-size": "12px"
+			});
+	} else {
+		addrCheck = true;
+		addrCheck_update = true;
+		content.next(".check_html")
+			.text("");
 		return;
 	}
-	if (checkValues == null) {
+}
+function descRegexCheck() {
+	const regex = /^[\u0000-\u007F\u3040-\u309F\u30A0-\u30FF\d\s]{1,500}$/;
+	let content = $(this);
+	if (!regex.test($(this).val())) {
+		descCheck = false;
+		descCheck_update = false;
+		content.next(".check_html")
+			.text("英語、日本語、数字、空欄で最大500文字以内に入力してください。")
+			.css({
+				"color": "#FA3E3E",
+				"font-weight": "bold",
+				"font-size": "12px"
+			});
+	} else {
+		descCheck = true;
+		descCheck_update = true;
+		content.next(".check_html")
+			.text("");
+		return;
+	}
+}
+
+
+function insertScheduleSubmit() {
+	dateTimeRegexCheck();
+	endDateTimeRegexCheck();
+	if (!titleCheck) {
+		$('#schedule-title').focus();
+		return;
+	} else if (!startCheck) {
+		$('#schedule-start').focus();
+		return;
+	} else if (!endCheck) {
+		$('#schedule-end').focus();
+		return;
+	} else if (!addrCheck) {
+		$('#schedule-addr').focus();
+		return;
+	} else if (!descCheck) {
+		$('#schedule-desc').focus();
+		return;
+	}
+	if (checkValues == null || checkValues.length == 0) {
 		alert("参加者を選択してください");
+		return;
+	}
+	if ($('#agendaSelect').val() == null) {
+		alert("案件を選択してください");
 		return;
 	}
 	$.ajax({
@@ -50,21 +236,13 @@ function insertScheduleSubmit() {
 }
 
 
-function checkedTest() {
+function checkedTest(checkValues) {
 	$('#agendaSelect').empty();
-	if ($(this).is(':checked')) {
-		console.log($(this).val());
-		checkValues.push($(this).val());
-	} else {
-		checkValues = checkValues.filter((element) => element !== $(this).val());
-	}
-	// $('input[name=userId]:checked').each(function() {
 
-	// });
 	console.log(checkValues);
 	if (checkValues == null || checkValues.length == 0) {
 		$('#agendaSelect').append($('<option></option>').attr('value', 0).text('案件無し（個人スケジュール）'));
-	}else {
+	} else {
 		$.ajax({
 			url: "/cola_wari/schedule/agendaList"
 			, type: "post"
@@ -74,12 +252,16 @@ function checkedTest() {
 				if (agendas == null || agendas.length == 0) {
 					console.log("null");
 					$('#agendaSelect').append($('<option></option>').attr('value', 0).text('案件無し（個人スケジュール）'));
+				} else {
+					$('#agendaSelect').empty();
+					$('#agendaSelect').append($('<option></option>').attr('value', 0).text('個人スケジュール'));
+					agendas.forEach(element => {
+						console.log(element)
+						// $option = '<option value=' + element.agendaId  + ' text='+element.title+ '>';
+						$('#agendaSelect').append($('<option></option>').attr('value', element.agendaId).text(element.title));
+					});
 				}
-				agendas.forEach(element => {
-					console.log(element)
-					// $option = '<option value=' + element.agendaId  + ' text='+element.title+ '>';
-					$('#agendaSelect').append($('<option></option>').attr('value', element.agendaId).text(element.title));
-				});
+
 			}
 			, error: () => {
 				alert("error")
@@ -87,6 +269,34 @@ function checkedTest() {
 		});
 	}
 
+}
+function updateSchedule() {
+	dateTimeRegexCheck();
+	endDateTimeRegexCheck();
+	if (!titleCheck_update) {
+		$('#schedule-title').focus();
+		return false;
+	} else if (!startCheck_update) {
+		$('#schedule-start').focus();
+		return false;
+	} else if (!endCheck_update) {
+		$('#schedule-end').focus();
+		return false;
+	} else if (!addrCheck_update) {
+		$('#schedule-addr').focus();
+		return false;
+	} else if (!descCheck_update) {
+		$('#schedule-desc').focus();
+		return false;
+	} else if (checkValues == null) {
+		alert("参加者を選択してください");
+		return false;
+	} else if ($('#agendaSelect').val() == null) {
+		alert("案件を選択してください");
+		return false;
+	} else {
+		return true;
+	}
 }
 
 (function () {

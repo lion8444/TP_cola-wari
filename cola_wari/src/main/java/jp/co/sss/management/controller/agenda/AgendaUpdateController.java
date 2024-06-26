@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jp.co.sss.management.bean.UserBean;
+import jp.co.sss.management.bean.UserCheckedBean;
 import jp.co.sss.management.entity.Agenda;
 import jp.co.sss.management.entity.AgendaEntry;
 import jp.co.sss.management.entity.Agent;
@@ -25,10 +27,17 @@ import jp.co.sss.management.repository.AgendaRepository;
 import jp.co.sss.management.repository.AgentRepository;
 import jp.co.sss.management.repository.CompanyRepository;
 import jp.co.sss.management.repository.UserRepository;
+import jp.co.sss.management.service.UserBeanTools;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @Controller
 @RequestMapping("/agenda")
 public class AgendaUpdateController {
+
+	@Autowired
+	UserBeanTools userBeanTools;
 	
 	@Autowired
 	AgendaRepository agendaRepository;
@@ -49,17 +58,36 @@ public class AgendaUpdateController {
     public String agendaUpdate(Model model,Integer agendaId) {
     	Agenda agenda = agendaRepository.getReferenceById(agendaId);
     	List<AgendaEntry> agendaEntries = agenda.getAgendaEntries();
-    	
+    	List<UserBean> userBeans = userBeanTools.copyEntityListToBeanList(userRepository.findByStatus(0));
+
+		List<UserCheckedBean> userCheckedBeans = new ArrayList<>();
+
+		for (UserBean userBean : userBeans) {
+			UserCheckedBean userCheckedBean = new UserCheckedBean();
+			userCheckedBean.setUserBean(userBean);
+            for (AgendaEntry agendaEntry : agendaEntries) {
+                if (userBean.getUserId().equals(agendaEntry.getUser().getUserId())) {
+                    userCheckedBean.setChecked(1);
+                    break;
+                }
+            }
+			userCheckedBeans.add(userCheckedBean);
+		}
+
+		for (UserCheckedBean userCheckedBean : userCheckedBeans) {
+			log.debug("usercheckedBean check : userId : {}, userName : {}, checked : {}",userCheckedBean.getUserBean().getUserId(), userCheckedBean.getUserBean().getUserName(), userCheckedBean.getChecked());
+		}
+
     	model.addAttribute("agenda", agenda);
     	model.addAttribute("agendaName", agendaEntries.get(0).getAgent().getAgentName());
-    	model.addAttribute("users", userRepository.findAll());
-    	model.addAttribute("agents", agentRepository.findAll());
+    	model.addAttribute("users", userCheckedBeans);
+    	model.addAttribute("agents", agentRepository.findByDeleteFlag(0));
     	model.addAttribute("comps", companyRepository.findAll());
         return "agenda/update_input";
     }
     
     @PostMapping("/update/check")
-    public String agendaUpdateCheck(Model model,AgendaForm agendaForm,@RequestParam(required = false) List<Integer> userId,CompanyForm comFomr,AgentForm agentForm) {
+    public String agendaUpdateCheck(Model model,AgendaForm agendaForm, @RequestParam(required = false) List<Integer> userId,CompanyForm comFomr,AgentForm agentForm) {
     	User user;
     	Company company = new Company();
     	company.setComId(comFomr.getComId());
@@ -132,4 +160,13 @@ public class AgendaUpdateController {
         return "agenda/update_complete";
     }
 
+	@PostMapping("/close")
+	public String getMethodName(Integer agendaId) {
+		Agenda agenda = agendaRepository.getReferenceById(agendaId);
+		agenda.setStatus(1);
+		agendaRepository.save(agenda);
+
+		return "redirect:/agenda/list";
+	}
+	
 }
