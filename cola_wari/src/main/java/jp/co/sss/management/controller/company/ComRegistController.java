@@ -73,23 +73,23 @@ public class ComRegistController {
 
 		List<ComCategory> categories = comCategoryRepository.findAll();
 
-		model.addAttribute("companyForm", companyForm);
-		model.addAttribute("agentForm", agentForm);
-		model.addAttribute("categories", categories);
-
 		BindingResult result1 = (BindingResult) session.getAttribute("result1");
 		BindingResult result2 = (BindingResult) session.getAttribute("result2");
 		if (result1 != null) {
 			//セッションにエラー情報がある場合、エラー情報を画面表示設定
-			model.addAttribute("org.springframework.validation.BindingResult.companyForm", result1);
 			companyForm = (CompanyForm) session.getAttribute("companyForm");
-			model.addAttribute("companyForm", companyForm);
+		} else {
 			session.removeAttribute("result1");
-		} else if (result2 != null) {
-			//セッションにエラー情報がある場合、エラー情報を画面表示設定
-			model.addAttribute("org.springframework.validation.BindingResult.agentForm", result2);
+		}
+		if (result2 != null) {
+			agentForm = (AgentForm) session.getAttribute("agentForm");
+		} else {
 			session.removeAttribute("result2");
 		}
+
+		model.addAttribute("companyForm", companyForm);
+		model.addAttribute("agentForm", agentForm);
+		model.addAttribute("categories", categories);
 
 		return "company/regist_input";
 	}
@@ -106,9 +106,10 @@ public class ComRegistController {
 	@PostMapping("/regist/input")
 	public String registInputCheck(@Valid CompanyForm companyForm, BindingResult result1, @Valid AgentForm agentForm,
 			BindingResult result2) {
+		session.removeAttribute("result1");
+		session.removeAttribute("result2");
 		//エラーがあるか否か
 		boolean error = false;
-		session.setAttribute("error", error);
 		// 入力値にエラーがあった場合、入力画面に戻る
 		if (result1.hasErrors()) {
 			System.out.println("これを実行");
@@ -124,7 +125,6 @@ public class ComRegistController {
 			//変更入力画面　表示処理
 			session.setAttribute("companyForm", companyForm);
 			session.setAttribute("agentForm", agentForm);
-			session.setAttribute("error", error);
 			return "redirect:/company/regist/input";
 		}
 
