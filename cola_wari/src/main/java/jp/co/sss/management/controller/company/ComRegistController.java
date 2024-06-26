@@ -74,6 +74,7 @@ public class ComRegistController {
 		List<ComCategory> categories = comCategoryRepository.findAll();
 
 		BindingResult result1 = (BindingResult) session.getAttribute("result1");
+		BindingResult result2 = (BindingResult) session.getAttribute("result2");
 
 		if (result1 != null) {
 			//セッションにエラー情報がある場合、エラー情報を画面表示設定
