@@ -39,7 +39,7 @@ jQuery(document).ready(function () {
 // $(document).on('change', 'input:checkbox[name=userId]', checkedTest);
 
 function titleRegexCheck() {
-	const regex = /^[\u0000-\u007F\u3040-\u309F\u30A0-\u30FF\d\s]{1,30}$/;
+	const regex = /^[\p{Script=Latin}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}\d\s]{1,30}$/u;
 	let content = $(this);
 	if (!regex.test($(this).val())) {
 		titleCheck = false;
@@ -144,7 +144,7 @@ function endDateTimeRegexCheck() {
 
 }
 function addrRegexCheck() {
-	const regex = /^[\u0000-\u007F\u3040-\u309F\u30A0-\u30FF\d\s]{1,100}$/;
+	const regex = /^[\p{Script=Latin}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}\d\s]{1,100}$/u;
 	let content = $(this);
 	if (!regex.test($(this).val())) {
 		addrCheck = false;
@@ -165,7 +165,7 @@ function addrRegexCheck() {
 	}
 }
 function descRegexCheck() {
-	const regex = /^[\u0000-\u007F\u3040-\u309F\u30A0-\u30FF\d\s]{1,500}$/;
+	const regex = /^[\p{Script=Latin}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}\d\s]{1,500}$/u;
 	let content = $(this);
 	if (!regex.test($(this).val())) {
 		descCheck = false;
