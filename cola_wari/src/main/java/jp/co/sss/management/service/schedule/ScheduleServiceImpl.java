@@ -130,7 +130,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Transactional
     public int insertSchedule(ScheduleForm form) {
         log.debug("ScheduleServiceImpl.insertSchedule ScheduleForm check : {}", form.getStartDate());
-        ScheduleEntry scheduleEntry = new ScheduleEntry();
+
+        
         log.debug("Schedule DescriptionTest : {}", form.getDescription());
         Schedule schedule = scheduleBeanTools.copyFormToEntity(form);
         log.debug("Schedule DescriptionTest : {}", schedule.getDescription());
@@ -158,16 +159,18 @@ public class ScheduleServiceImpl implements ScheduleService {
             scheduleEntryRepository.deleteBySchedule(schedule);
         }
 
-        scheduleEntry.setSchedule(schedule);
+        
 
         for (Integer userId : form.getUserIdList()) {
+            log.debug("userId test : {}", userId);
+            ScheduleEntry scheduleEntry = new ScheduleEntry();
             User user = new User();
             user.setUserId(userId);
 
+            scheduleEntry.setSchedule(schedule);
             scheduleEntry.setUser(user);
-            if (scheduleEntryRepository.save(scheduleEntry) == null) {
-                return 0;
-            }
+            scheduleEntryRepository.save(scheduleEntry);
+            log.debug("save scheduleEntry entryId test : {}", scheduleEntry.getEntryId());
         }
 
         return 1;

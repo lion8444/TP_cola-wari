@@ -50,7 +50,12 @@
             <tr>
                 <th scope="row">案件</th>
                 <td>
-                    <a th:href="@{/agenda/detail/{agendaId}(agendaId=${schedule.scheduleBean.agendaBean.agendaId})}" th:text="${schedule.scheduleBean.agendaBean.title}"></a>
+                    <th:block th:if="${schedule.scheduleBean.agendaBean.agendaId eq 0}">
+                        <span style="color: rgb(62, 62, 62);" th:text="${schedule.scheduleBean.agendaBean.title}"></span>
+                    </th:block>
+                    <th:block th:unless="${schedule.scheduleBean.agendaBean.agendaId eq 0}">
+                        <a th:href="@{/agenda/detail/{agendaId}(agendaId=${schedule.scheduleBean.agendaBean.agendaId})}" th:text="${schedule.scheduleBean.agendaBean.title}"></a>
+                    </th:block>
                 </td>
             </tr>
         </table>
