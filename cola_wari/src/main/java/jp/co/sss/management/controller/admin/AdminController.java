@@ -37,6 +37,7 @@ public class AdminController {
 		//セッション情報の削除
 		session.removeAttribute("userForm");
 		session.removeAttribute("userBean");
+		session.removeAttribute("userUpdateForm");
 
 		//ログインされていない場合と管理者権限を持っていない場合はログイン画面へ
 		UserBean userBean = (UserBean) session.getAttribute("user");
